@@ -1,0 +1,128 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+
+# LANG
+case $TERM in
+    linux) LANG=C ;;
+    *) LANG=ja_JP.UTF-8 ;;
+esac
+export LANG
+
+
+# PATH
+PATH="/usr/bin:/usr/sbin:/bin:/sbin"
+MANPATH="/usr/share/man"
+[ -d /usr/bin/X11 ] && PATH="$PATH:/usr/bin/X11"
+[ -d /usr/games ] && PATH="$PATH:/usr/games"
+[ -d /usr/X11 ] && PATH="$PATH:/usr/X11/bin" && MANPATH="$MANPATH:/usr/X11/man"
+[ -d /usr/local ] && PATH="/usr/local/bin:/usr/local/sbin:$PATH" && MANPATH="/usr/local/share/man:$MANPATH"
+[ -d /opt/local/apache2/bin ] && PATH="/opt/local/apache2/bin:$PATH"
+[ -d /opt ] && PATH="/opt/local/bin:/opt/local/sbin:$PATH" && MANPATH="/opt/local/share/man:$MANPATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d "$HOME/sbin" ] && PATH="$HOME/sbin:$PATH"
+export PATH MANPATH
+
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# 履歴のサイズ。これで半年ぐらい前のやつまで残る？
+HISTSIZE=50000
+HISTFILESIZE=50000
+
+# 履歴ファイルを上書きではなく追加する。
+shopt -s histappend
+
+# "!"をつかって履歴上のコマンドを実行するとき、
+# 実行するまえに必ず展開結果を確認できるようにする。
+shopt -s histverify
+
+# 履歴の置換に失敗したときやり直せるようにする。
+shopt -s histreedit
+
+# 端末の画面サイズを自動認識。
+shopt -s checkwinsize
+
+# "@" のあとにホスト名を補完させない。
+shopt -u hostcomplete
+
+# つねにパス名のテーブルをチェックする。
+shopt -s checkhash
+
+# なにも入力してないときはコマンド名を補完しない。
+shopt -s no_empty_cmd_completion
+
+
+# bash_completion
+if [ -s /opt/local/etc/bash_completion ]; then
+    . /opt/local/etc/bash_completion
+    if [ -s /opt/local/share/doc/git-core/contrib/completion/git-completion.bash ];then
+        . /opt/local/share/doc/git-core/contrib/completion/git-completion.bash
+    fi
+elif [ -s /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+
+# rvm
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+
+# nvm
+if [ -f ~/.nvm/nvm.sh ]; then
+    . ~/.nvm/nvm.sh
+fi
+
+
+# EDITOR
+if [ -x /opt/local/bin/vim ]; then
+    EDITOR=/opt/local/bin/vim; export EDITOR
+elif [ -x /usr/bin/vim ]; then
+    EDITOR=/usr/bin/vim; export EDITOR
+fi
+
+
+# PAGER
+# man とかを見るときはいつも less を使う。
+if [ -x /opt/local/bin/less ]; then
+    PAGER=/opt/local/bin/less; export PAGER
+    #LV="-E'$EDITOR +%d'"; export LV
+elif [ -x /usr/bin/less ]; then
+    PAGER=/usr/bin/less; export PAGER
+fi
+
+# less
+# ステータス行にファイル名と行数、いま何%かを表示するようにする。
+export LESS='-R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
+
+# これを設定しないと日本語がでない less もあるので一応入れておく。
+export JLESSCHARSET=japanese-ujis
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+
+# 細々とした設定。
+#set -o emacs
+set -o ignoreeof
+set -o noclobber
+BLOCKSIZE=k; export BLOCKSIZE
+export HISTTIMEFORMAT="%y/%m/%d %T "
+#export TERM="xterm-color"
+#export TERM="screen-256color"
+#bind '"\033[3~": delete-char'
+bind '"\e[5~": backward-kill-word'
+bind '"\e[6~": kill-word'
+bind '"\033[H": beginning-of-line'
+bind '"\033[F": end-of-line'
+bind '"\C-a": beginning-of-line'
+bind '"\C-e": end-of-line'
+bind '"\C-l": clear-screen'

@@ -1,0 +1,18 @@
+# よく分かってないので後で調べてちゃんと書く。
+set editing-mode emacs
+set convert-meta off
+set meta-flag on
+set input-meta on
+set output-meta on
+set completion-ignore-case off
+set expand-tilde on
+set horizontal-scroll-mode off
+#"\e[3": delete-char
+#"\033[3~": delete-char
+"\e[5~": backward-kill-word
+"\e[6~": kill-word
+"\033[H": beginning-of-line
+"\033[F": end-of-line
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-l": clear-screen

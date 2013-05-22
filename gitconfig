@@ -1,0 +1,58 @@
+[user]
+    name  = Yusuke SUGAMIYA
+    email = yusuke.dnpp@gmail.com
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    grep = auto
+[core]
+    editor = vim
+    pager = less
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+[alias]
+    st = status
+    sh = show
+    ad = add
+    ci = commit -a
+    co = checkout
+    cam = commit -a --amend
+    mg = merge
+    ft = fetch
+    br = branch -v
+    rt = remote -v
+    rd = redmine
+    
+    # logをtree表示
+    l = log --oneline
+    #lgraph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
+    #lall = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+    lg  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lga = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    
+    # diff関連
+    df = diff --ignore-space-change
+    dw = diff --color-words    # 単語単位でいろつけてdiff
+    dc = diff --cached         # addされているものとのdiff
+    ds = diff --staged         # 同上(1.6.1移行)
+    dm = diff master           # masterとのdiff
+    d1 = diff HEAD~            # HEADから1つ前とdiff
+    d2 = diff HEAD~~           # HEADから2つ前とdiff
+    d3 = diff HEAD~~~          # HEADから3つ前とdiff
+    d4 = diff HEAD~~~~         # HEADから4つ前とdiff
+    d5 = diff HEAD~~~~~        # HEADから5つ前とdiff
+    d10 = diff HEAD~~~~~~~~~~  # HEADから10前とdiff
+    
+    # ls
+    ls = ls-files -t
+    ll = ls-files -cdmokts
+
+[difftool "sourcetree"]
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path = 
+
+[mergetool "sourcetree"]
+    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true

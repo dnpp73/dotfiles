@@ -1,0 +1,109 @@
+# encoding
+defutf8 on
+defkanji utf-8
+encoding utf-8 utf-8
+defencoding utf-8
+
+# Keys
+# \233 is "Meta-Ctrl-[", or "Meta-Esc".
+escape \233\233
+#escape ^Tt
+escape ^Aa
+#zombie ^[
+bind l windowlist
+#bind u eval "encoding UTF-8"
+#bind e eval "encoding eucJP"
+#bind s eval "encoding SJIS"
+#bind j eval "encoding jis"
+bind j exec | uim-fep -S
+bind k eval 'exec cat' kill redisplay
+setenv LANG ja_JP.UTF-8
+
+# no zombie ... upper screen termination should propagate to this one.
+# やっぱり使わないのでコメントアウト
+#zombie kr
+
+# No autodetach because a detached stem screen is useless.
+autodetach on
+
+# No startup message because a stem screen should not be invoked manually
+startup_message off
+
+# Protection from attacks
+multiuser off
+idle off
+
+# No login, otherwise /var/run/utemp will be squashed.
+# よくわかんないけどMacだとdefloginなんかねーよって落ちるからコメントアウト
+#deflogin off
+
+# Nuke and pave.
+autonuke on
+
+# No visible bell because a stem screen should not intercept a bell.
+vbell off
+# ^G ( vim C-v - C-g )
+bell_msg "Bell in window %"
+
+# To use hardware status line
+termcapinfo xterm*|kterm*|screen* hs:ts=\E]0;:fs=\007:ds=\E]0;\007
+hardstatus on
+
+# To  use mouse.   XT capability  is screen  specific, not  seen in  the system
+# termcap / terminfo.
+termcapinfo * XT
+
+# To use 256 colors. AB/AF are also screen specific.
+#termcapinfo xterm*|kterm*|screen* Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm
+#defbce on
+
+# To use resize-window
+termcapinfo xterm*|kterm*|screen* is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
+
+# obuflimit and  autonuke can be controlled via  termcap, but we do  not have a
+# way to get those values...
+
+# A stem  screen's output is  another scren,  so it is  way much faster  than a
+# normal terminal such as xterm. 2 pyhisical pages should suffice.
+termcapinfo screen* OL=2048
+termcapinfo xterm* OL=256
+
+# enable mouse scroll
+# でも挙動が気持ち悪いのでコメントアウト
+termcapinfo xterm*|kterm*|screen* ti@:te@
+
+# Tell applications  who this is.   The ``screen-256color'' terminfo is  in the
+# ncurses-term package for debian.
+term screen-256color
+#term xterm-color
+#term screen
+
+# default shell to invoke with ^T-c
+shell $SHELL
+
+# The scroll buffer
+defscrollback 2047
+markkeys h=^B:l=^F:$=^E:^U=^Z:^D=^V
+
+# Messages
+msgwait 3
+msgminwait 2
+
+hardstatus string "%?%h%:%t (screen #%n on %H)%?"
+caption always "%{= wb}%-Lw%30L>%?%F%{=b dR}%:[%? %n%f %t %?%F%{-}%:]%?%+Lw %-034=%{=b wk}[%l] %{=b wb}%y/%m/%d %{=b wm}%c:%s"
+#sorendition "+rb .G"
+
+# 
+altscreen on
+
+# default screens
+
+# default windows
+#screen -t htp 0
+#screen -t Sv 1
+#monitor
+#screen 2
+#select 2
+
+# chdir is useful for invoking scripts there.
+chdir

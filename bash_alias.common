@@ -1,0 +1,59 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+_bash_alias_color_mode='--color=always'
+
+# ls
+alias ll='ls -al'
+alias la='ls -A'
+
+# ファイル操作の確認
+alias rmi='rm -i'
+alias mvi='mv -i'
+alias cpi='cp -i'
+
+# cd
+alias ..='cd ..'
+alias ...='cd -'
+alias ~='cd ~'
+
+# grep
+alias grep="grep $_bash_alias_color_mode"
+alias fgrep="fgrep $_bash_alias_color_mode"
+alias egrep="egrep $_bash_alias_color_mode"
+alias g='grep -in'
+alias G='grep -n'
+alias f='fgrep -in'
+alias F='fgrep -n'
+alias e='egrep -in'
+alias E='egrep -n'
+alias g3='g -A3 -B3'
+alias g5='g -A5 -B5'
+alias g10='g -A10 -B10'
+alias f3='f -A3 -B3'
+alias f5='f -A5 -B5'
+alias f10='f -A10 -B10'
+alias e3='e -A3 -B3'
+alias e5='e -A5 -B5'
+alias e10='e -A10 -B10'
+
+alias j='jobs -l'
+alias 644='chmod 644'
+alias 755='chmod 755'
+alias えit='exit'
+alias quit='exit'
+alias :q='exit'
+
+# python saba
+alias saba='python -m SimpleHTTPServer > /dev/null 2>&1 &'
+alias shimesaba='pkill -f "python -m SimpleHTTPServer"'
+
+# ssh
+alias ssh173='ssh local173 -L 53373:localhost:3306'
+alias sshdnpp73='ssh dnpp73 -L 56668:localhost:56667 -L 53000:localhost:3000 -L 50080:localhost:80 -L 53306:localhost:3306 -L 50081:localhost:50081 -L 55900:localhost:5900 -L 50548:localhost:548'
+#alias sshdnpp73socks='ssh dnpp73socks -L 56668:localhost:56667 -L 53000:localhost:3000 -L 50080:localhost:80 -L 53306:localhost:3306 -L 55900:localhost:5900 -L 50548:localhost:548'
+alias sshsakura='ssh sakura -L 56668:localhost:56667 -L 53000:localhost:3000 -L 50080:localhost:80 -L 53306:localhost:3306 -L 50081:localhost:50081 -L 50082:localhost:50082'
+#alias sshsakurasocks='ssh sakurasocks -L 56668:localhost:56667 -L 53000:localhost:3000 -L 50080:localhost:80 -L 53306:localhost:3306'
+
+# 変数のリセット
+unset _bash_alias_color_mode
