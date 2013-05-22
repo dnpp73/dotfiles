@@ -11,12 +11,16 @@ ORG_DIR="$C_DIR"
 # functions
 function safe_source() {
     if [ -s "$1" ]; then
-        echo "...reading $1"
+        echo "...loading $1"
         . "$1"
     else
-        echo "[WARNING] can not read $1"
+        echo "[WARNING] can not load $1"
     fi
 }
+
+
+# start empty line
+echo ""
 
 
 # common bashrc
@@ -42,3 +46,7 @@ if [ `uname` = "Darwin" ]; then
 elif [ `uname` = "Linux" ]; then
     safe_source "$ORG_DIR/bash_alias.ubuntu"
 fi
+
+
+# end empty line
+echo ""
