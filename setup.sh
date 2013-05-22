@@ -11,9 +11,9 @@ BACKUP_SUFFIX="$NOW""bak"
 #functions
 function  safe_create_symlink() {
     if [ -d "$2" ]; then
-        echo " [$(basename "$0")] $(basename "$2") is dir...?"
-        echo ""
-        return
+        echo " [$(basename "$0")] $(basename "$2") already exists dir."
+        echo " [$(basename "$0")] mv $2 $2_$BACKUP_SUFFIX"
+        mv "$2" "$2_$BACKUP_SUFFIX"
     elif [ -L "$2" ]; then
         echo " [$(basename "$0")] $(basename "$2") already exists symlink."
         exist_link_absolute_dir=$(cd $(dirname $(readlink "$2")) && pwd)
@@ -42,7 +42,7 @@ function  safe_create_symlink() {
 
 # dotfiles
 DOTFILES_DIR="$ORG_DIR"
-DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc")
+DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim")
 
 for filename in ${DOTFILES[@]}; do
     safe_create_symlink "$DOTFILES_DIR/$filename" "$HOME/.$filename"
