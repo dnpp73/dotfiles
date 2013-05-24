@@ -10,11 +10,7 @@ BACKUP_SUFFIX="$NOW""bak"
 
 #functions
 function  safe_create_symlink() {
-    if [ -d "$2" ]; then
-        echo " [$(basename "$0")] $(basename "$2") already exists dir."
-        echo " [$(basename "$0")] mv $2 $2_$BACKUP_SUFFIX"
-        mv "$2" "$2_$BACKUP_SUFFIX"
-    elif [ -L "$2" ]; then
+    if [ -L "$2" ]; then
         echo " [$(basename "$0")] $(basename "$2") already exists symlink."
         exist_link_absolute_dir=$(cd $(dirname $(readlink "$2")) && pwd)
         exist_link_basename=$(basename $(readlink "$2"))
@@ -28,10 +24,16 @@ function  safe_create_symlink() {
             mv "$2" "$2_$BACKUP_SUFFIX"
         fi
 
+    elif [ -d "$2" ]; then
+        echo " [$(basename "$0")] $(basename "$2") already exists dir."
+        echo " [$(basename "$0")] mv $2 $2_$BACKUP_SUFFIX"
+        mv "$2" "$2_$BACKUP_SUFFIX"
+
     elif [ -f "$2" ]; then
         echo " [$(basename "$0")] $(basename "$2") already exists file."
         echo " [$(basename "$0")] mv $2 $2_$BACKUP_SUFFIX"
         mv "$2" "$2_$BACKUP_SUFFIX"
+
     fi
 
     echo " [$(basename "$0")] ln -s $1 $2"
