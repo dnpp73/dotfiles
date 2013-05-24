@@ -42,6 +42,11 @@ function  safe_create_symlink() {
 }
 
 
+# git submodule (for vim bundle)
+echo " [$(basename "$0")] git submodule update --init"
+git submodule update --init
+echo ""
+
 # dotfiles
 DOTFILES_DIR="$ORG_DIR"
 DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim")
