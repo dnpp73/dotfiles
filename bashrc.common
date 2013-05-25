@@ -23,10 +23,14 @@ MANPATH="/usr/share/man"
 [ -d /usr/games ] && PATH="$PATH:/usr/games"
 [ -d /usr/X11 ] && PATH="$PATH:/usr/X11/bin" && MANPATH="$MANPATH:/usr/X11/man"
 [ -d /opt/local/apache2/bin ] && PATH="/opt/local/apache2/bin:$PATH"
-[ -d /opt ] && PATH="/opt/local/bin:/opt/local/sbin:$PATH" && MANPATH="/opt/local/share/man:$MANPATH"
-[ -d /usr/local ] && PATH="/usr/local/bin:/usr/local/sbin:$PATH" && MANPATH="/usr/local/share/man:$MANPATH"
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d /opt/local/sbin ] && PATH="/opt/local/sbin:$PATH"
+[ -d /opt/local/bin ] && PATH="/opt/local/bin:$PATH" && MANPATH="/opt/local/share/man:$MANPATH"
+[ -d /opt/local/share/man ] && MANPATH="/opt/local/share/man:$MANPATH"
+[ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
+[ -d /usr/local/bin ] && PATH="/usr/local/bin:$PATH"
+[ -d /usr/local/share/man ] && MANPATH="/usr/local/share/man:$MANPATH"
 [ -d "$HOME/sbin" ] && PATH="$HOME/sbin:$PATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 export PATH MANPATH
 
 
