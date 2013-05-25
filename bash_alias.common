@@ -37,6 +37,12 @@ alias e3='e -A3 -B3'
 alias e5='e -A5 -B5'
 alias e10='e -A10 -B10'
 
+# diff
+if [ -x /usr/local/bin/colordiff ]; then
+    alias diff='colordiff'
+fi
+
+# util
 alias j='jobs -l'
 alias 600='chmod 600'
 alias 644='chmod 644'
