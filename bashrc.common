@@ -22,11 +22,15 @@ MANPATH="/usr/share/man"
 [ -d /usr/bin/X11 ] && PATH="$PATH:/usr/bin/X11"
 [ -d /usr/games ] && PATH="$PATH:/usr/games"
 [ -d /usr/X11 ] && PATH="$PATH:/usr/X11/bin" && MANPATH="$MANPATH:/usr/X11/man"
-[ -d /usr/local ] && PATH="/usr/local/bin:/usr/local/sbin:$PATH" && MANPATH="/usr/local/share/man:$MANPATH"
 [ -d /opt/local/apache2/bin ] && PATH="/opt/local/apache2/bin:$PATH"
-[ -d /opt ] && PATH="/opt/local/bin:/opt/local/sbin:$PATH" && MANPATH="/opt/local/share/man:$MANPATH"
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d /opt/local/sbin ] && PATH="/opt/local/sbin:$PATH"
+[ -d /opt/local/bin ] && PATH="/opt/local/bin:$PATH" && MANPATH="/opt/local/share/man:$MANPATH"
+[ -d /opt/local/share/man ] && MANPATH="/opt/local/share/man:$MANPATH"
+[ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
+[ -d /usr/local/bin ] && PATH="/usr/local/bin:$PATH"
+[ -d /usr/local/share/man ] && MANPATH="/usr/local/share/man:$MANPATH"
 [ -d "$HOME/sbin" ] && PATH="$HOME/sbin:$PATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 export PATH MANPATH
 
 
@@ -62,7 +66,9 @@ shopt -s no_empty_cmd_completion
 
 
 # bash_completion
-if [ -s /opt/local/etc/bash_completion ]; then
+if [ -s /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion
+elif [ -s /opt/local/etc/bash_completion ]; then
     . /opt/local/etc/bash_completion
     if [ -s /opt/local/share/doc/git-core/contrib/completion/git-completion.bash ];then
         . /opt/local/share/doc/git-core/contrib/completion/git-completion.bash
@@ -83,7 +89,9 @@ fi
 
 
 # EDITOR
-if [ -x /opt/local/bin/vim ]; then
+if [ -x /usr/local/bin/vim ]; then
+    EDITOR=/usr/local/bin/vim; export EDITOR
+elif [ -x /opt/local/bin/vim ]; then
     EDITOR=/opt/local/bin/vim; export EDITOR
 elif [ -x /usr/bin/vim ]; then
     EDITOR=/usr/bin/vim; export EDITOR
@@ -92,7 +100,9 @@ fi
 
 # PAGER
 # man とかを見るときはいつも less を使う。
-if [ -x /opt/local/bin/less ]; then
+if [ -x /usr/local/bin/less ]; then
+    PAGER=/usr/local/bin/less; export PAGER
+elif [ -x /opt/local/bin/less ]; then
     PAGER=/opt/local/bin/less; export PAGER
     #LV="-E'$EDITOR +%d'"; export LV
 elif [ -x /usr/bin/less ]; then

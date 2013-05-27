@@ -6,7 +6,7 @@ _bash_alias_color_mode='--color=always'
 # GNU coreutils
 # ls dir vdir が例外で --color=always を入れてる。
 # rm が例外でゴミ箱に入る感じ。
-if [ -x /opt/local/bin/gyes ]; then
+if [ -x /opt/local/bin/gyes ] || [ -x /usr/local/bin/gyes ]; then
     alias base64=gbase64
     alias basename=gbasename
     alias cat=gcat
@@ -107,6 +107,9 @@ if [ -x /opt/local/bin/gyes ]; then
     alias whoami=gwhoami
     alias yes=gyes
 else
+    #alias ls="ls -F $_bash_alias_color_mode"
+    #alias dir="dir $_bash_alias_color_mode"
+    #alias vdir="vdir $_bash_alias_color_mode"
     alias ls='ls -FG'
 fi
 
