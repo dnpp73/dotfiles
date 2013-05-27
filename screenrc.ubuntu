@@ -99,6 +99,9 @@ hardstatus string "%?%h%:%t (screen #%n on %H)%?"
 caption always "%{= wb}%-Lw%30L>%?%F%{=b dR}%:[%? %n%f %t %?%F%{-}%:]%?%+Lw %-034=%{=b wk}[%l] %{=b wb}%y/%m/%d %{=b wm}%c:%s"
 #sorendition "+rb .G"
 
+# 
+altscreen on
+
 # default screens
 
 # default windows

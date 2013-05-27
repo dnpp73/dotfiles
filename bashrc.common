@@ -79,13 +79,13 @@ fi
 
 
 # rvm
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 
 # nvm
-if [ -f ~/.nvm/nvm.sh ]; then
-    . ~/.nvm/nvm.sh
-fi
+#if [ -f ~/.nvm/nvm.sh ]; then
+#    . ~/.nvm/nvm.sh
+#fi
 
 
 # EDITOR
