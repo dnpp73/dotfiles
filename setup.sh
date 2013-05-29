@@ -49,7 +49,7 @@ echo ""
 
 # dotfiles
 DOTFILES_DIR="$ORG_DIR"
-DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim")
+DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc")
 
 for filename in ${DOTFILES[@]}; do
     safe_create_symlink "$DOTFILES_DIR/$filename" "$HOME/.$filename"
