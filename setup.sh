@@ -42,14 +42,35 @@ function  safe_create_symlink() {
 }
 
 
+
 # git submodule (for vim bundle)
+echo " [$(basename "$0")] --- install vim bundles ---"
+
 echo " [$(basename "$0")] git submodule update --init"
-git submodule update --init
+cd $ORG_DIR && git submodule update --init
 echo ""
 
+
+
+# oh-my-zsh
+echo " [$(basename "$0")] --- install oh-my-zsh ---"
+
+if [ ! -d "$HOME/.oh-my-zsh/.git" ]; then
+    echo " [$(basename "$0")] git clone git://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh"
+    cd $HOME && git clone "git://github.com/robbyrussell/oh-my-zsh.git" "$HOME/.oh-my-zsh"
+else
+    echo " [$(basename "$0")] already exists oh-my-zsh"
+fi
+
+echo ""
+
+
+
 # dotfiles
+echo " [$(basename "$0")] --- install my dotfiles ---"
+
 DOTFILES_DIR="$ORG_DIR"
-DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc")
+DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc")
 
 for filename in ${DOTFILES[@]}; do
     safe_create_symlink "$DOTFILES_DIR/$filename" "$HOME/.$filename"
