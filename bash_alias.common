@@ -4,7 +4,8 @@
 _bash_alias_color_mode='--color=always'
 
 # ls
-alias ll='ls -al'
+alias ll='ls -l'
+alias lla='ls -Al'
 alias la='ls -A'
 
 # ファイル操作の確認
