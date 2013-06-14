@@ -216,8 +216,8 @@ if has('gui_macvim')
     "set guifont=Monaco:h14
     set guifont=Menlo:h13
     " ラインとカラム"
-    "set lines=9999 columns=120
-    set lines=9999 columns=9999
+    "大きさ的なの
+    set lines=50 columns=130
     " ツールバーっぽいの非表示"
     set guioptions-=T
     " ウィンドウの右側にスクロールバーを表示しない" 
