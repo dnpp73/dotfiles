@@ -1,5 +1,8 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# homebrew で入れた curl-ca-bundle
+[ -r /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt ] && export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+
 # PS1 を黄色に
 PS1='\[\033[40m\]\[\033[1;33m\]\u@\h \[\033[1;37m\]\w \[\033[1;36m\]\d  \t \[\033[1;37m\]\s \V \[\033[0m\]\n\! \$ '
