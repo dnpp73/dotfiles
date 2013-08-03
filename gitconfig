@@ -12,6 +12,8 @@
     pager = less
     autocrlf = input
     excludesfile = ~/.gitignore_global
+[push]
+    default = simple
 [alias]
     st = status
     sh = show
