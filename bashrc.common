@@ -76,11 +76,6 @@ if [ -d "$HOME/.rbenv" ]; then
     eval "$(rbenv init -)"
 fi
 
-# nvm
-#if [ -f ~/.nvm/nvm.sh ]; then
-#    . ~/.nvm/nvm.sh
-#fi
-
 
 # EDITOR
 if [ -x /usr/local/bin/vim ]; then
