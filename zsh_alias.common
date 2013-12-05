@@ -1,0 +1,70 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+_zsh_alias_color_mode='--color=always'
+
+# ls
+alias ll='ls -l'
+alias lla='ls -Al'
+alias la='ls -A'
+
+# ファイル操作の確認
+alias rmi='rm -i'
+alias mvi='mv -i'
+alias cpi='cp -i'
+
+# cd
+alias ..='cd ..'
+alias ...='cd -'
+alias ~='cd ~'
+
+# grep
+alias grep="grep $_zsh_alias_color_mode"
+alias fgrep="fgrep $_zsh_alias_color_mode"
+alias egrep="egrep $_zsh_alias_color_mode"
+alias g='grep -in'
+alias G='grep -n'
+alias f='fgrep -in'
+alias F='fgrep -n'
+alias e='egrep -in'
+alias E='egrep -n'
+alias g3='g -A3 -B3'
+alias g5='g -A5 -B5'
+alias g10='g -A10 -B10'
+alias f3='f -A3 -B3'
+alias f5='f -A5 -B5'
+alias f10='f -A10 -B10'
+alias e3='e -A3 -B3'
+alias e5='e -A5 -B5'
+alias e10='e -A10 -B10'
+
+# diff
+if [ -x /usr/local/bin/colordiff ] || [ -x /usr/bin/colordiff ]; then
+    alias diff='colordiff'
+fi
+
+# util
+alias j='jobs -l'
+alias 600='chmod 600'
+alias 644='chmod 644'
+alias 700='chmod 700'
+alias 755='chmod 755'
+alias えit='exit'
+alias quit='exit'
+alias :q='exit'
+
+# python saba
+alias saba='python -m SimpleHTTPServer > /dev/null 2>&1 &'
+alias shimesaba='pkill -f "python -m SimpleHTTPServer"'
+
+# ssh
+alias sshdnpp73='ssh dnpp73 -L 53306:localhost:3306 -g -L 55900:localhost:5900 -g -L 50548:localhost:548 -g -L 45633:localhost:45633 -g -L 50081:localhost:50081 -g -L 50082:localhost:50082'
+alias sshdnpp73airvideo='ssh dnpp73 -N -f -g -L 45633:localhost:45633'
+alias sshpernod='ssh pernod-sakura -L 53306:localhost:3306'
+alias sshcapricieuse='ssh capricieuse-sakura -L 56668:localhost:56667 -L 53306:localhost:3306 -g -L 51548:localhost:548'
+
+# tsrm
+alias tsrm='tmux'
+
+# 変数のリセット
+unset _zsh_alias_color_mode

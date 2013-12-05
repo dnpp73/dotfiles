@@ -1,3 +1,8 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# ------------ この先 oh-my-zsh ------------
+
 ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="original"

@@ -1,0 +1,11 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+_zsh_alias_color_mode='--color=always'
+
+alias ls="ls -F $_zsh_alias_color_mode"
+alias dir="dir $_zsh_alias_color_mode"
+alias vdir="vdir $_zsh_alias_color_mode"
+
+# 変数のリセット
+unset _zsh_alias_color_mode
