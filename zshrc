@@ -1,7 +1,71 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# ------------ この先 oh-my-zsh ------------
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+
+# LANG
+case $TERM in
+    linux) LANG=C ;;
+    *) LANG=ja_JP.UTF-8 ;;
+esac
+export LANG
+
+
+# PATH
+PATH="/usr/bin:/usr/sbin:/bin:/sbin"
+MANPATH="/usr/share/man"
+[ -d /usr/bin/X11 ] && PATH="$PATH:/usr/bin/X11"
+[ -d /usr/games ] && PATH="$PATH:/usr/games"
+[ -d /usr/X11 ] && PATH="$PATH:/usr/X11/bin" && MANPATH="$MANPATH:/usr/X11/man"
+[ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
+[ -d /usr/local/bin ] && PATH="/usr/local/bin:$PATH"
+[ -d /usr/local/opt/ruby/bin ] && PATH="/usr/local/opt/ruby/bin:$PATH"
+[ -d /usr/local/share/man ] && MANPATH="/usr/local/share/man:$MANPATH"
+[ -d "$HOME/sbin" ] && PATH="$HOME/sbin:$PATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+export PATH MANPATH
+
+
+# EDITOR
+if [ -x /usr/local/bin/vim ]; then
+    EDITOR=/usr/local/bin/vim; export EDITOR
+elif [ -x /usr/bin/vim ]; then
+    EDITOR=/usr/bin/vim; export EDITOR
+fi
+
+
+# PAGER
+# man とかを見るときはいつも less を使う。
+if [ -x /usr/local/bin/less ]; then
+    PAGER=/usr/local/bin/less; export PAGER
+elif [ -x /usr/bin/less ]; then
+    PAGER=/usr/bin/less; export PAGER
+fi
+
+# less
+# ステータス行にファイル名と行数、いま何%かを表示するようにする。
+export LESS='-R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
+
+# これを設定しないと日本語がでない less もあるので一応入れておく。
+export JLESSCHARSET=japanese-ujis
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+
+# rbenv
+if [ -d "$HOME/.rbenv" ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
+
+
+# ------------ ここから oh-my-zsh ------------
 
 ZSH=$HOME/.oh-my-zsh
 
@@ -19,11 +83,11 @@ plugins=(autojump brew git git-extras osx ruby bundler gem rbenv screen pod rsyn
 
 source $ZSH/oh-my-zsh.sh
 
-# ------------ この先は oh-my-zsh じゃなくて多分 homebrew が書いた ------------
+# ------------ ここから homebrew が勝手に追記した分 ------------
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-# ------------ この先は oh-my-zsh じゃなくて自前で書いた ------------
+# ------------ ここから自前の alias ------------
 
 function safe_source() {
     if [ -s "$1" ]; then
