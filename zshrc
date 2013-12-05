@@ -24,7 +24,7 @@ MANPATH="/usr/share/man"
 [ -d /usr/X11 ] && PATH="$PATH:/usr/X11/bin" && MANPATH="$MANPATH:/usr/X11/man"
 [ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
 [ -d /usr/local/bin ] && PATH="/usr/local/bin:$PATH"
-[ -d /usr/local/opt/ruby/bin ] && PATH="/usr/local/opt/ruby/bin:$PATH"
+# [ -d /usr/local/opt/ruby/bin ] && PATH="/usr/local/opt/ruby/bin:$PATH"
 [ -d /usr/local/share/man ] && MANPATH="/usr/local/share/man:$MANPATH"
 [ -d "$HOME/sbin" ] && PATH="$HOME/sbin:$PATH"
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
@@ -60,7 +60,7 @@ export JLESSCHARSET=japanese-ujis
 
 # rbenv
 if [ -d "$HOME/.rbenv" ]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
+    # export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
 fi
 
