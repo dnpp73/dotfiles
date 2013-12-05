@@ -76,6 +76,10 @@ if [ -d "$HOME/.rbenv" ]; then
     eval "$(rbenv init -)"
 fi
 
+# completion-ruby
+if [ -s "$HOME/etc/completion-ruby/completion-ruby-all" ]; then
+    . "$HOME/etc/completion-ruby/completion-ruby-all"
+fi
 
 # EDITOR
 if [ -x /usr/local/bin/vim ]; then
