@@ -11,6 +11,20 @@ function prompt_char {
     fi
 }
 
+function machine_name {
+    if [ `uname` = "Darwin" ]; then
+        machine_color="yellow"
+    elif [ `uname` = "Linux" ]; then
+        machine_color="green"
+    fi
+
+    echo "\
+%{$terminfo[bold]$fg[$machine_color]%}%n%{$reset_color%}\
+%{$fg[$machine_color]%}@%{$reset_color%}\
+%{$terminfo[bold]$fg[$machine_color]%}$(box_name)%{$reset_color%}\
+"
+}
+
 function rbenv_version {
   rbenv version 2>/dev/null | awk '{print $1}'
 }
@@ -27,9 +41,7 @@ ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}(%{$fg[green]%}o"
 
 # Prompt format
 PROMPT="\
-%{$terminfo[bold]$fg[yellow]%}%n%{$reset_color%}\
-%{$fg[yellow]%}@%{$reset_color%}\
-%{$terminfo[bold]$fg[yellow]%}$(box_name)%{$reset_color%}\
+$(machine_name)\
  \
 %{$terminfo[bold]$fg[white]%}${current_dir}%{$reset_color%}\
  \
