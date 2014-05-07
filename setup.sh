@@ -8,6 +8,7 @@ ORG_DIR="$C_DIR"
 NOW=$(date '+%Y%m%d%H%M%S')
 BACKUP_SUFFIX="$NOW""bak"
 
+
 #functions
 function  safe_create_symlink() {
     if [ -L "$2" ]; then
@@ -84,3 +85,9 @@ if [ `uname` = "Darwin" ]; then
 elif [ `uname` = "Linux" ]; then
     safe_create_symlink "$DOTFILES_DIR/screenrc.ubuntu" "$HOME/.screenrc"
 fi
+
+
+
+# ssh authorized_keys
+echo " [$(basename "$0")] --- install ssh authorized_keys ---"
+safe_create_symlink "$ORG_DIR/ssh/authorized_keys" "$HOME/.ssh/authorized_keys"
