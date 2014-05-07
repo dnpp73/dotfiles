@@ -90,4 +90,8 @@ fi
 
 # ssh authorized_keys
 echo " [$(basename "$0")] --- install ssh authorized_keys ---"
+if [ ! -d "$HOME/.ssh" ]; then
+    echo " [$(basename "$0")] mkdir $HOME/.ssh"
+    mkdir "$HOME/.ssh"
+fi
 safe_create_symlink "$ORG_DIR/ssh/authorized_keys" "$HOME/.ssh/authorized_keys"
