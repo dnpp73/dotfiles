@@ -62,6 +62,9 @@ else
     echo " [$(basename "$0")] already exists oh-my-zsh"
 fi
 
+DOTFILES_DIR="$ORG_DIR"
+safe_create_symlink "$DOTFILES_DIR/oh-my-zsh/themes" "$HOME/.oh-my-zsh/custom/themes"
+
 echo ""
 
 
@@ -69,7 +72,6 @@ echo ""
 # dotfiles
 echo " [$(basename "$0")] --- install my dotfiles ---"
 
-DOTFILES_DIR="$ORG_DIR"
 DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc")
 
 for filename in ${DOTFILES[@]}; do
