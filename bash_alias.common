@@ -4,9 +4,9 @@
 _bash_alias_color_mode='--color=always'
 
 # ls
-alias ll='ls -l'
-alias lla='ls -Al'
-alias la='ls -A'
+alias l='ls -Alh'
+#alias ll='ls -lh'
+#alias la='ls -A'
 
 # ファイル操作の確認
 #alias rmi='rm -i'
