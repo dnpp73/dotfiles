@@ -72,17 +72,13 @@ termcapinfo screen* OL=2048
 termcapinfo xterm* OL=256
 
 # enable mouse scroll
-# でも挙動が気持ち悪いのでコメントアウト
-#termcapinfo xterm* ti@:te@
-
-# Dsiable scroll buffer, should be implemented in upper screens.
-defscrollback 0
+termcapinfo xterm*|kterm*|screen* ti@:te@
 
 # Tell applications  who this is.   The ``screen-256color'' terminfo is  in the
 # ncurses-term package for debian.
-#term screen-256color
+term screen-256color
 #term xterm-color
-term screen
+#term screen
 
 # default shell to invoke with ^T-c
 shell $SHELL
@@ -105,16 +101,11 @@ altscreen on
 # default screens
 
 # default windows
-screen -t htp 0
-screen -t Sv 1
-monitor
-screen -t wcht 2
-screen -t dc 3
-monitor
-screen -t bx 4
-monitor
-screen 5
-#select 5
+#screen -t htp 0
+#screen -t Sv 1
+#monitor
+#screen 2
+#select 2
 
 # chdir is useful for invoking scripts there.
 chdir

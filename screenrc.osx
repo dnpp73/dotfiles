@@ -73,7 +73,6 @@ termcapinfo screen* OL=2048
 termcapinfo xterm* OL=256
 
 # enable mouse scroll
-# でも挙動が気持ち悪いのでコメントアウト
 termcapinfo xterm*|kterm*|screen* ti@:te@
 
 # Tell applications  who this is.   The ``screen-256color'' terminfo is  in the
