@@ -81,7 +81,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv rails pod python vagrant xcode sublime symfony2)
+plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv rails pod python vagrant xcode sublime symfony2 knife)
 
 source $ZSH/oh-my-zsh.sh
 
