@@ -60,8 +60,12 @@ alias shimesaba='pkill -f "python -m SimpleHTTPServer"'
 # ssh
 alias sshdnpp73='ssh dnpp73 -L 53306:localhost:3306 -g -L 55900:localhost:5900 -g -L 50548:localhost:548 -g -L 45633:localhost:45633 -g -L 50081:localhost:50081 -g -L 50082:localhost:50082'
 alias sshdnpp73airvideo='ssh dnpp73 -N -f -g -L 45633:localhost:45633'
-alias sshpernod='ssh pernod-sakura -L 53306:localhost:3306'
+# alias sshpernod='ssh pernod-sakura -L 53306:localhost:3306'
 alias sshcapricieuse='ssh capricieuse-sakura -L 56668:localhost:56667 -L 53306:localhost:3306 -g -L 51548:localhost:548'
+
+# screen
+alias sls='screen -ls'
+alias s='screen -R'
 
 # tsrm
 #alias tsrm='tmux'
