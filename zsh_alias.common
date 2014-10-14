@@ -65,7 +65,7 @@ alias sshcapricieuse='ssh capricieuse-sakura -L 56668:localhost:56667 -L 53306:l
 
 # screen
 alias sls='screen -ls'
-alias s='screen -R'
+alias s='screen -dR'
 
 # tsrm
 #alias tsrm='tmux'
