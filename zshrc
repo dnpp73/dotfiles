@@ -112,6 +112,11 @@ C_DIR=$(cd $(dirname "$ZSHRC_PATH") && pwd)
 ORG_DIR="$C_DIR"
 [ -L "$ZSHRC_PATH" ] && ORG_DIR=$(cd $(dirname $(readlink "$ZSHRC_PATH")) && pwd)
 
+# ssh-add
+if [ -s "${HOME}/.ssh/id_rsa_beatrobo" ]; then
+    ssh-add "${HOME}/.ssh/id_rsa_beatrobo" > /dev/null 2>&1
+fi
+
 # start empty line
 echo ""
 

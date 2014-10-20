@@ -133,3 +133,8 @@ bind '"\033[F": end-of-line'
 bind '"\C-a": beginning-of-line'
 bind '"\C-e": end-of-line'
 bind '"\C-l": clear-screen'
+
+# ssh-add
+if [ -s "${HOME}/.ssh/id_rsa_beatrobo" ]; then
+    ssh-add "${HOME}/.ssh/id_rsa_beatrobo" > /dev/null 2>&1
+fi
