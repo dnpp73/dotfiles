@@ -73,7 +73,7 @@ echo ""
 # dotfiles
 echo " [$(basename "$0")] --- install my dotfiles ---"
 
-DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc")
+DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc" "gemrc")
 
 for filename in ${DOTFILES[@]}; do
     safe_create_symlink "$DOTFILES_DIR/$filename" "$HOME/.$filename"
