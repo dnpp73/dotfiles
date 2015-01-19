@@ -73,28 +73,6 @@ if [ -n "$rbenv_root" ]; then
 fi
 
 
-# ------------ ここから oh-my-zsh ------------
-
-ZSH=$HOME/.oh-my-zsh
-
-ZSH_THEME="original"
-
-# CASE_SENSITIVE="true"
-DISABLE_AUTO_TITLE="true"
-DISABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
-
-# Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv rails pod python vagrant xcode sublime symfony2 knife go)
-
-source $ZSH/oh-my-zsh.sh
-
-# ------------ ここから homebrew が勝手に追記した分 ------------
-
-fpath=(/usr/local/share/zsh-completions $fpath)
-
 # ------------ ここから自前の alias ------------
 
 function safe_source() {
@@ -121,14 +99,38 @@ fi
 echo ""
 
 # common zsh_alias
-safe_source "$ORG_DIR/zsh_alias.common"
+safe_source "${ORG_DIR}/zsh_alias.common"
 
 # Mac or Ubuntu zsh_alias
 if [ `uname` = "Darwin" ]; then
-    safe_source "$ORG_DIR/zsh_alias.osx"
+    safe_source "${ORG_DIR}/zsh_alias.osx"
 elif [ `uname` = "Linux" ]; then
-    safe_source "$ORG_DIR/zsh_alias.ubuntu"
+    safe_source "${ORG_DIR}/zsh_alias.ubuntu"
 fi
 
 # end empty line
 echo ""
+
+
+# ------------ ここから oh-my-zsh ------------
+
+ZSH=$HOME/.oh-my-zsh
+
+ZSH_THEME="original"
+
+# CASE_SENSITIVE="true"
+DISABLE_AUTO_TITLE="true"
+DISABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv rails pod python vagrant xcode sublime symfony2 knife go)
+
+source $ZSH/oh-my-zsh.sh
+
+# ------------ ここから homebrew が勝手に追記した分 ------------
+
+fpath=(/usr/local/share/zsh-completions $fpath)
+
