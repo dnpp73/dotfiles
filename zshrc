@@ -68,6 +68,8 @@ elif [ -s "/usr/local/rbenv" ]; then
   export RBENV_ROOT="$rbenv_root"
 fi
 if [ -n "$rbenv_root" ]; then
+  echo ""
+  echo "...loading rbenv"
   export PATH="${rbenv_root}/bin:$PATH"
   eval "$(rbenv init -)"
 fi
@@ -108,9 +110,6 @@ elif [ `uname` = "Linux" ]; then
     safe_source "${ORG_DIR}/zsh_alias.ubuntu"
 fi
 
-# end empty line
-echo ""
-
 
 # ------------ ここから oh-my-zsh ------------
 
@@ -128,9 +127,14 @@ COMPLETION_WAITING_DOTS="true"
 
 plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv rails pod python vagrant xcode sublime symfony2 knife go)
 
+echo ""
+echo "...loading oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
 
 # ------------ ここから homebrew が勝手に追記した分 ------------
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
+
+# end empty line
+echo ""
