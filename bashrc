@@ -70,6 +70,14 @@ fi
 unset AGENT_SOCK_FILE
 
 
+# とりあえず
+if [ -s "${HOME}/.bashrc_local" ]; then
+    echo ""
+    echo "...loading ${HOME}/.bashrc_local"
+    . "${HOME}/.bashrc_local"
+fi
+
+
 # added by travis gem
 [ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
 

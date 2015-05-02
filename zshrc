@@ -158,6 +158,14 @@ fi
 unset AGENT_SOCK_FILE
 
 
+# とりあえず
+if [ -s "${HOME}/.zshrc_local" ]; then
+    echo ""
+    echo "...loading ${HOME}/.zshrc_local"
+    . "${HOME}/.zshrc_local"
+fi
+
+
 # added by travis gem
 [ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
 
