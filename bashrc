@@ -59,6 +59,17 @@ done
 unset KEY_FILES
 
 
+# screen 先でも困らないようにするやつ
+AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@`hostname`"
+if test $SSH_AUTH_SOCK ; then
+  if [ $SSH_AUTH_SOCK != $AGENT_SOCK_FILE ] ; then
+    ln -sf $SSH_AUTH_SOCK $AGENT_SOCK_FILE
+    export SSH_AUTH_SOCK=$AGENT_SOCK_FILE
+  fi
+fi
+unset AGENT_SOCK_FILE
+
+
 # added by travis gem
 [ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
 
