@@ -48,5 +48,20 @@ elif [ `uname` = "Linux" ]; then
 fi
 
 
+unset -f safe_source
+
+
+# ssh-add
+KEY_FILES=("id_rsa_beatrobo" "id_rsa")
+for key in ${KEY_FILES[@]}; do
+    ssh-add "${HOME}/.ssh/${key}" > /dev/null 2>&1
+done
+unset KEY_FILES
+
+
+# added by travis gem
+[ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
+
+
 # end empty line
 echo ""

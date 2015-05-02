@@ -75,8 +75,35 @@ if [ -n "$rbenv_root" ]; then
 fi
 
 
-# ------------ ここから自前の alias ------------
+# ------------ ここから oh-my-zsh ------------
+ZSH=$HOME/.oh-my-zsh
 
+ZSH_THEME="original"
+
+# CASE_SENSITIVE="true"
+DISABLE_AUTO_TITLE="true"
+DISABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+if [ `uname` = "Darwin" ]; then
+    plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv pod python vagrant xcode sublime go)
+elif [ `uname` = "Linux" ]; then
+    plugins=(autojump screen rsync sudo git git-extras ruby bundler gem rake rbenv python go)
+fi
+
+echo ""
+echo "...loading oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
+
+
+# ------------ ここから homebrew が勝手に追記した分 ------------
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+
+# ------------ ここから自前の alias ------------
 function safe_source() {
     if [ -s "$1" ]; then
         echo "...loading $1"
@@ -92,11 +119,6 @@ C_DIR=$(cd $(dirname "$ZSHRC_PATH") && pwd)
 ORG_DIR="$C_DIR"
 [ -L "$ZSHRC_PATH" ] && ORG_DIR=$(cd $(dirname $(readlink "$ZSHRC_PATH")) && pwd)
 
-# ssh-add
-if [ -s "${HOME}/.ssh/id_rsa_beatrobo" ]; then
-    ssh-add "${HOME}/.ssh/id_rsa_beatrobo" > /dev/null 2>&1
-fi
-
 # start empty line
 echo ""
 
@@ -111,29 +133,22 @@ elif [ `uname` = "Linux" ]; then
 fi
 
 
-# ------------ ここから oh-my-zsh ------------
+unset -f safe_source
 
-ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="original"
+# ------------ 細々 ------------
 
-# CASE_SENSITIVE="true"
-DISABLE_AUTO_TITLE="true"
-DISABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
 
-# Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# ssh-add
+KEY_FILES=("id_rsa_beatrobo" "id_rsa")
+for key in ${KEY_FILES[@]}; do
+    ssh-add "${HOME}/.ssh/${key}" > /dev/null 2>&1
+done
+unset KEY_FILES
 
-plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv rails pod python vagrant xcode sublime symfony2 knife go)
 
-echo ""
-echo "...loading oh-my-zsh"
-source $ZSH/oh-my-zsh.sh
-
-# ------------ ここから homebrew が勝手に追記した分 ------------
-
-fpath=(/usr/local/share/zsh-completions $fpath)
+# added by travis gem
+[ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
 
 
 # end empty line
