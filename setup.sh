@@ -73,7 +73,7 @@ echo ""
 # dotfiles
 echo " [$(basename "$0")] --- install my dotfiles ---"
 
-DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc" "gemrc")
+DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc" "gemrc" "env_ssh_auth_sock")
 
 for filename in ${DOTFILES[@]}; do
     safe_create_symlink "$DOTFILES_DIR/$filename" "$HOME/.$filename"
@@ -88,10 +88,10 @@ fi
 
 
 
-# ssh authorized_keys
-echo " [$(basename "$0")] --- install ssh authorized_keys ---"
-if [ ! -d "$HOME/.ssh" ]; then
-    echo " [$(basename "$0")] mkdir $HOME/.ssh"
-    mkdir "$HOME/.ssh"
-fi
-safe_create_symlink "$ORG_DIR/ssh/authorized_keys" "$HOME/.ssh/authorized_keys"
+# # ssh authorized_keys
+# echo " [$(basename "$0")] --- install ssh authorized_keys ---"
+# if [ ! -d "$HOME/.ssh" ]; then
+#     echo " [$(basename "$0")] mkdir $HOME/.ssh"
+#     mkdir "$HOME/.ssh"
+# fi
+# safe_create_symlink "$ORG_DIR/ssh/authorized_keys" "$HOME/.ssh/authorized_keys"

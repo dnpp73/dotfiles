@@ -140,29 +140,9 @@ unset -f safe_source
 
 
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
-AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@`hostname`"
-SSH_AGENT_FILE="$HOME/.ssh-agent-info"
-KEY_FILES=("id_rsa_beatrobo" "id_rsa")
-# if test $SSH_AUTH_SOCK ; then
-#   if [ $SSH_AUTH_SOCK != $AGENT_SOCK_FILE ] ; then
-#     ln -sf $SSH_AUTH_SOCK $AGENT_SOCK_FILE
-#     export SSH_AUTH_SOCK=$AGENT_SOCK_FILE
-#   fi
-# else
-#   test -f $SSH_AGENT_FILE && source $SSH_AGENT_FILE > /dev/null 2>&1
-#   if ! ssh-add -l > /dev/null 2>&1 ; then
-#     test -f $SSH_AGENT_FILE && rm -rf $SSH_AGENT_FILE
-#     ssh-agent > $SSH_AGENT_FILE
-#     source $SSH_AGENT_FILE > /dev/null 2>&1
-#     for key in ${KEY_FILES[@]}; do
-#         ssh-add "${HOME}/.ssh/${key}" > /dev/null 2>&1
-#     done
-#     ln -sf $SSH_AUTH_SOCK $AGENT_SOCK_FILE
-#     export SSH_AUTH_SOCK=$AGENT_SOCK_FILE
-#   fi
-# fi
-unset AGENT_SOCK_FILE SSH_AGENT_FILE KEY_FILES
-
+if [ -s "${HOME}/.env_ssh_auth_sock" ]; then
+    . "${HOME}/.env_ssh_auth_sock"
+fi
 
 # とりあえず
 if [ -s "${HOME}/.zshrc_local" ]; then

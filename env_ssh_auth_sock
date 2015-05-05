@@ -1,0 +1,36 @@
+AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@`hostname`"
+SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-`date|md5sum|cut -d ' ' -f1`"
+KEY_FILES=("id_rsa_beatrobo" "id_rsa")
+
+printenv SSH_AUTH_SOCK > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    # 環境変数 SSH_AUTH_SOCK がある場合
+    if [ $SSH_AUTH_SOCK != $AGENT_SOCK_FILE ]; then
+        # 毎回変わるタイプのソケットだったらシンボリックリンクを張ってそっちに向ける。
+        ln -sf $SSH_AUTH_SOCK $AGENT_SOCK_FILE
+        export SSH_AUTH_SOCK=$AGENT_SOCK_FILE
+    fi
+else
+    # 環境変数 SSH_AUTH_SOCK が無い場合
+
+    # SSH_AUTH_SOCK は無いが ssh-agent が動いている場合はとりあえず殺す
+    pgrep ssh-agent > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        pkill ssh-agent > /dev/null 2>&1
+    fi
+
+    # ssh-agent を起動して /tmp 以下にとりあえず情報を保持して source で読み込む
+    ssh-agent > $SSH_AGENT_FILE
+    source $SSH_AGENT_FILE > /dev/null 2>&1
+
+    # 鍵を足して
+    for key in ${KEY_FILES[@]}; do
+        ssh-add "${HOME}/.ssh/${key}" > /dev/null 2>&1
+    done
+
+    # シンボリックリンクにして終わり
+    ln -sf $SSH_AUTH_SOCK $AGENT_SOCK_FILE
+    export SSH_AUTH_SOCK=$AGENT_SOCK_FILE
+fi
+
+unset AGENT_SOCK_FILE SSH_AGENT_FILE KEY_FILES

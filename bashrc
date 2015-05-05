@@ -51,23 +51,10 @@ fi
 unset -f safe_source
 
 
-# ssh-add
-KEY_FILES=("id_rsa_beatrobo" "id_rsa")
-for key in ${KEY_FILES[@]}; do
-    ssh-add "${HOME}/.ssh/${key}" > /dev/null 2>&1
-done
-unset KEY_FILES
-
-
-# screen 先でも困らないようにするやつ
-AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@`hostname`"
-if test $SSH_AUTH_SOCK ; then
-  if [ $SSH_AUTH_SOCK != $AGENT_SOCK_FILE ] ; then
-    ln -sf $SSH_AUTH_SOCK $AGENT_SOCK_FILE
-    export SSH_AUTH_SOCK=$AGENT_SOCK_FILE
-  fi
+# ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
+if [ -s "${HOME}/.env_ssh_auth_sock" ]; then
+    . "${HOME}/.env_ssh_auth_sock"
 fi
-unset AGENT_SOCK_FILE
 
 
 # とりあえず
