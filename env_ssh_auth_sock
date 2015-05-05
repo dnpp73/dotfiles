@@ -1,3 +1,6 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@`hostname`"
 SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-`date|md5sum|cut -d ' ' -f1`"
 KEY_FILES=("id_rsa_beatrobo" "id_rsa")
