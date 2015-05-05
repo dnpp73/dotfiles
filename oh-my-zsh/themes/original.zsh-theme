@@ -1,13 +1,13 @@
 # Machine name.
-box_name() {
+function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname
 }
 
-prev_command_exit_flag() {
+function prev_command_exit_flag {
     echo -n "%(?.%{$fg[green]%}✔.%{$fg[red]%}✘)%{$reset_color%}"
 }
 
-prompt_char() {
+function prompt_char {
     if [ $UID -eq 0 ]; then
         echo -n "%{$terminfo[bold]$fg[red]%}#%{$reset_color%}";
     else
@@ -15,7 +15,7 @@ prompt_char() {
     fi
 }
 
-machine_name() {
+function machine_name {
     if [ `uname` = "Darwin" ]; then
         machine_color="yellow"
     elif [ `uname` = "Linux" ]; then
@@ -29,7 +29,7 @@ machine_name() {
 "
 }
 
-rbenv_version() {
+function rbenv_version {
   rbenv version 2>/dev/null | awk '{print $1}'
 }
 
@@ -45,7 +45,7 @@ ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}(%{$fg[green]%}o"
 
 
 # Prompt format
-build_prompt() {
+function build_prompt {
     echo -n "\
 $(machine_name)\
  \
