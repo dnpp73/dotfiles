@@ -63,6 +63,10 @@ alias sshdnpp73airvideo='ssh dnpp73 -N -f -g -L 45633:localhost:45633'
 alias sshpernod='ssh pernod-sakura -L 53306:localhost:3306'
 alias sshcapricieuse='ssh capricieuse-sakura -L 56668:localhost:56667 -L 53306:localhost:3306 -g -L 51548:localhost:548'
 
+# screen
+alias sls='screen -ls'
+alias s='screen -dR'
+
 # tsrm
 #alias tsrm='tmux'
 
