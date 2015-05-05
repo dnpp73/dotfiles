@@ -1,31 +1,35 @@
 # Machine name.
-function box_name {
+box_name() {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname
 }
 
-function prompt_char {
+prev_command_exit_flag() {
+    echo -n "%(?.%{$fg[green]%}✔.%{$fg[red]%}✘)%{$reset_color%}"
+}
+
+prompt_char() {
     if [ $UID -eq 0 ]; then
-        echo "%{$terminfo[bold]$fg[red]%}#%{$reset_color%}";
+        echo -n "%{$terminfo[bold]$fg[red]%}#%{$reset_color%}";
     else
-        echo "%{$terminfo[bold]$fg[magenta]%}$%{$reset_color%}";
+        echo -n "%{$terminfo[bold]$fg[magenta]%}$%{$reset_color%}";
     fi
 }
 
-function machine_name {
+machine_name() {
     if [ `uname` = "Darwin" ]; then
         machine_color="yellow"
     elif [ `uname` = "Linux" ]; then
         machine_color="green"
     fi
 
-    echo "\
+    echo -n "\
 %{$terminfo[bold]$fg[$machine_color]%}%n%{$reset_color%}\
 %{$fg[$machine_color]%}@%{$reset_color%}\
 %{$terminfo[bold]$fg[$machine_color]%}$(box_name)%{$reset_color%}\
 "
 }
 
-function rbenv_version {
+rbenv_version() {
   rbenv version 2>/dev/null | awk '{print $1}'
 }
 
@@ -39,23 +43,26 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})]"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$reset_color%}(%{$fg[red]%}x"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}(%{$fg[green]%}o"
 
+
 # Prompt format
-PROMPT="\
+build_prompt() {
+    echo -n "\
 $(machine_name)\
  \
 %{$terminfo[bold]$fg[white]%}${current_dir}%{$reset_color%}\
  \
 %{$reset_color$fg[cyan]%}%D %*\
 \
-%{$reset_color%} -zsh \
-$ZSH_VERSION\
+%{$reset_color%} -zsh $ZSH_VERSION\
 \
 ${git_info} \
 \
-%{$fg[white]%}[rbenv:\
-%{$fg[blue]%}$(rbenv_version)\
-%{$fg[white]%}] \
+%{$fg[white]%}[rbenv:%{$fg[blue]%}$(rbenv_version)%{$fg[white]%}] \
 \
 
 %h \
+$(prev_command_exit_flag) \
 $(prompt_char) "
+}
+
+PROMPT=$(build_prompt)
