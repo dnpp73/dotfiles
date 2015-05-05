@@ -89,9 +89,9 @@ COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 if [ `uname` = "Darwin" ]; then
-    plugins=(osx terminalapp autojump screen rsync sudo brew git git-extras ruby bundler gem rake rbenv pod python vagrant xcode sublime go)
+    plugins=(osx terminalapp autojump screen sudo brew git git-extras ruby bundler gem rake rbenv pod vagrant)
 elif [ `uname` = "Linux" ]; then
-    plugins=(autojump screen rsync sudo git git-extras ruby bundler gem rake rbenv python go)
+    plugins=(autojump screen sudo git git-extras ruby bundler gem rake rbenv)
 fi
 
 echo ""

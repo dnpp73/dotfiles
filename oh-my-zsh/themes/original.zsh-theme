@@ -40,13 +40,12 @@ local current_dir='${PWD/#$HOME/~}'
 local git_info='$(git_prompt_info)'
 ZSH_THEME_GIT_PROMPT_PREFIX=" %{$reset_color%}[git:%{$fg[magenta]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})]"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$reset_color%}(%{$fg[red]%}x"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}(%{$fg[green]%}o"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$reset_color%}(%{$fg[red]%}✘"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}(%{$fg[green]%}✔"
 
 
 # Prompt format
-function build_prompt {
-    echo -n "\
+PROMPT="\
 $(machine_name)\
  \
 %{$terminfo[bold]$fg[white]%}${current_dir}%{$reset_color%}\
@@ -63,6 +62,3 @@ ${git_info} \
 %h \
 $(prev_command_exit_flag) \
 $(prompt_char) "
-}
-
-PROMPT=$(build_prompt)
