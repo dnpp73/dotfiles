@@ -3,8 +3,8 @@
 ## Installation
 
 ```sh
-git clone git://github.com/dnpp73/dotfiles.git
-cd dotfiles
+git clone git@github.com:dnpp73/dotfiles.git ~/environments/dotfiles
+cd ~/environments/dotfiles
 ./setup.sh
 ```
 
