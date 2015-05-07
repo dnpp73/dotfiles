@@ -3,7 +3,7 @@
 
 AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@`hostname`"
 SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-`date|md5sum|cut -d ' ' -f1`"
-KEY_FILES=("id_rsa_beatrobo" "id_rsa")
+KEY_FILES=("id_rsa" "id_rsa_aws" "id_rsa_IB" "id_rsa_beatrobo")
 
 printenv SSH_AUTH_SOCK > /dev/null 2>&1
 if [ $? -eq 0 ]; then
