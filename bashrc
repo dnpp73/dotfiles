@@ -51,6 +51,26 @@ fi
 unset -f safe_source
 
 
+# Mac /etc/sshd_config check
+if [ `uname` = "Darwin" ]; then
+    COLOR_GREEN_BOLD='\033[1;32m'
+    COLOR_RED_BOLD='\033[1;31m'
+    COLOR_OFF='\033[0m'
+
+    echo ""
+    echo -n "...checking sshd_config: "
+
+    diff /etc/sshd_config /etc/sshd_config.etc.osx > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo -e ${COLOR_GREEN_BOLD}"[OK]"${COLOR_OFF}
+    else
+        echo -e ${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF} Check /etc/sshd_config
+    fi
+
+    unset COLOR_GREEN_BOLD COLOR_RED_BOLD COLOR_OFF
+fi
+
+
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
 if [ -s "${HOME}/.env_ssh_auth_sock" ]; then
     . "${HOME}/.env_ssh_auth_sock"
