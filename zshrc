@@ -146,13 +146,21 @@ if [ `uname` = "Darwin" ]; then
     COLOR_OFF='\033[0m'
 
     echo ""
-    echo -n "...checking sshd_config: "
+    echo -n "...checking /etc/sshd_config : "
 
     diff /etc/sshd_config /etc/sshd_config.etc.osx > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo -e ${COLOR_GREEN_BOLD}"[OK]"${COLOR_OFF}
     else
         echo -e ${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF} Check /etc/sshd_config
+    fi
+
+    echo -n "...checking /etc/services    : "
+    egrep 'ssh\s+22' /etc/services > /dev/null 2>&1 
+    if [ $? -ne 0 ]; then
+        echo -e ${COLOR_GREEN_BOLD}"[OK]"${COLOR_OFF}
+    else
+        echo -e ${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF} Check /etc/services
     fi
 
     unset COLOR_GREEN_BOLD COLOR_RED_BOLD COLOR_OFF
