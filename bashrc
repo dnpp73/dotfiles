@@ -120,7 +120,7 @@ fi
 
 # Mac /etc/sshd_config check
 if [ `uname` = "Darwin" ]; then
-    safe_source "$ORG_DIR/check_osx_sshd_config"
+    source "$ORG_DIR/check_osx_sshd_config"
 fi
 
 
