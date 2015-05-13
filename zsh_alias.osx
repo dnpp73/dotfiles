@@ -1,5 +1,6 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
+[ `uname` != "Darwin" ] && return
 
 _zsh_alias_color_mode='--color=always'
 

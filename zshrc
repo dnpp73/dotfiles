@@ -9,7 +9,7 @@ esac
 
 
 # LANG
-case $TERM in
+case "$TERM" in
     linux) LANG=C ;;
     *) LANG=ja_JP.UTF-8 ;;
 esac
@@ -24,7 +24,6 @@ MANPATH="/usr/share/man"
 [ -d /usr/X11 ] && PATH="$PATH:/usr/X11/bin" && MANPATH="$MANPATH:/usr/X11/man"
 [ -d /usr/local/sbin ] && PATH="/usr/local/sbin:$PATH"
 [ -d /usr/local/bin ] && PATH="/usr/local/bin:$PATH"
-#[ -d /usr/local/opt/ruby/bin ] && PATH="/usr/local/opt/ruby/bin:$PATH"
 [ -d /usr/local/share/man ] && MANPATH="/usr/local/share/man:$MANPATH"
 [ -d /usr/local/opt/coreutils/libexec/gnubin ] && PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 [ -d /usr/local/opt/coreutils/libexec/gnuman ] && MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -35,18 +34,22 @@ export PATH MANPATH
 
 # EDITOR
 if [ -x /usr/local/bin/vim ]; then
-    EDITOR=/usr/local/bin/vim; export EDITOR
+    EDITOR=/usr/local/bin/vim
+    export EDITOR
 elif [ -x /usr/bin/vim ]; then
-    EDITOR=/usr/bin/vim; export EDITOR
+    EDITOR=/usr/bin/vim
+    export EDITOR
 fi
 
 
 # PAGER
 # man とかを見るときはいつも less を使う。
 if [ -x /usr/local/bin/less ]; then
-    PAGER=/usr/local/bin/less; export PAGER
+    PAGER=/usr/local/bin/less
+    export PAGER
 elif [ -x /usr/bin/less ]; then
-    PAGER=/usr/bin/less; export PAGER
+    PAGER=/usr/bin/less
+    export PAGER
 fi
 
 # less
@@ -65,12 +68,12 @@ if [ -s "${HOME}/.rbenv/bin" ]; then
   rbenv_root="${HOME}/.rbenv"
 elif [ -s "/usr/local/rbenv" ]; then
   rbenv_root="/usr/local/rbenv"
-  export RBENV_ROOT="$rbenv_root"
 fi
 if [ -n "$rbenv_root" ]; then
   echo ""
   echo "...loading rbenv"
   export PATH="${rbenv_root}/bin:$PATH"
+  export RBENV_ROOT="$rbenv_root"
   eval "$(rbenv init -)"
 fi
 
@@ -133,51 +136,28 @@ elif [ `uname` = "Linux" ]; then
 fi
 
 
-unset -f safe_source
-
-
 # ------------ 細々 ------------
+
+
+# ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
+if [ -s "${ORG_DIR}/env_ssh_auth_sock" ]; then
+    safe_source "${ORG_DIR}/env_ssh_auth_sock"
+fi
+
+
+# 最後に local があれば
+if [ -s "${HOME}/.zshrc_local" ]; then
+    safe_source "${HOME}/.zshrc_local"
+fi
 
 
 # Mac /etc/sshd_config check
 if [ `uname` = "Darwin" ]; then
-    COLOR_GREEN_BOLD='\033[1;32m'
-    COLOR_RED_BOLD='\033[1;31m'
-    COLOR_OFF='\033[0m'
-
-    echo ""
-    echo -n "...checking /etc/sshd_config : "
-
-    diff /etc/sshd_config /etc/sshd_config.etc.osx > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo -e ${COLOR_GREEN_BOLD}"[OK]"${COLOR_OFF}
-    else
-        echo -e ${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF} Check /etc/sshd_config
-    fi
-
-    echo -n "...checking /etc/services    : "
-    egrep 'ssh\s+22' /etc/services > /dev/null 2>&1 
-    if [ $? -ne 0 ]; then
-        echo -e ${COLOR_GREEN_BOLD}"[OK]"${COLOR_OFF}
-    else
-        echo -e ${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF} Check /etc/services
-    fi
-
-    unset COLOR_GREEN_BOLD COLOR_RED_BOLD COLOR_OFF
+    safe_source "$ORG_DIR/check_osx_sshd_config"
 fi
 
 
-# ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
-if [ -s "${HOME}/.env_ssh_auth_sock" ]; then
-    . "${HOME}/.env_ssh_auth_sock"
-fi
-
-# とりあえず
-if [ -s "${HOME}/.zshrc_local" ]; then
-    echo ""
-    echo "...loading ${HOME}/.zshrc_local"
-    . "${HOME}/.zshrc_local"
-fi
+unset -f safe_source
 
 
 # added by travis gem
