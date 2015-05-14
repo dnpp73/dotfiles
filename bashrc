@@ -101,14 +101,14 @@ fi
 # alias
 unalias -a
 
-# common bash_alias
-safe_source "$ORG_DIR/bash_alias.common"
+# common alias
+safe_source "$ORG_DIR/common_sh_alias"
 
-# Mac or Ubuntu bash_alias
+# Mac or Ubuntu alias
 if [ `uname` = "Darwin" ]; then
-    safe_source "$ORG_DIR/bash_alias.osx"
+    safe_source "$ORG_DIR/common_sh_alias_osx"
 elif [ `uname` = "Linux" ]; then
-    safe_source "$ORG_DIR/bash_alias.ubuntu"
+    safe_source "$ORG_DIR/common_sh_alias_ubuntu"
 fi
 
 

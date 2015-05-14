@@ -57,15 +57,15 @@ echo ""
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 
-# common zsh_alias
-safe_source "${ORG_DIR}/zsh_alias.common"
+# common alias
+safe_source "${ORG_DIR}/common_sh_alias"
 
 
-# Mac or Ubuntu zsh_alias
+# Mac or Ubuntu alias
 if [ `uname` = "Darwin" ]; then
-    safe_source "${ORG_DIR}/zsh_alias.osx"
+    safe_source "${ORG_DIR}/common_sh_alias_osx"
 elif [ `uname` = "Linux" ]; then
-    safe_source "${ORG_DIR}/zsh_alias.ubuntu"
+    safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
 fi
 
 
