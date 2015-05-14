@@ -5,7 +5,7 @@ if [ ! -z `which git` ]; then
     echo " [$(basename "$0")] readonly install start."
 else
     echo " [$(basename "$0")] need git command. please install first."
-    exit
+    exit 1
 fi
 
 
