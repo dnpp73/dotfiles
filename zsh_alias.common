@@ -1,7 +1,7 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-_zsh_alias_color_mode='--color=always'
+alias_color='--color=always'
 
 # ls
 alias l='ls -Alh'
@@ -19,9 +19,9 @@ alias ...='cd -'
 #alias ~='cd ~'
 
 # grep
-alias grep="grep $_zsh_alias_color_mode"
-alias fgrep="fgrep $_zsh_alias_color_mode"
-alias egrep="egrep $_zsh_alias_color_mode"
+alias grep="grep $alias_color"
+alias fgrep="fgrep $alias_color"
+alias egrep="egrep $alias_color"
 alias g='grep -in'
 alias G='grep -n'
 alias f='fgrep -in'
@@ -70,4 +70,4 @@ alias s='screen -dR'
 #alias tsrm='tmux'
 
 # 変数のリセット
-unset _zsh_alias_color_mode
+unset alias_color

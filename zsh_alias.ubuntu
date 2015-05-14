@@ -2,11 +2,11 @@
 [ -z "$PS1" ] && return
 [ `uname` != "Linux" ] && return
 
-_zsh_alias_color_mode='--color=always'
+alias_color='--color=always'
 
-alias ls="ls -F $_zsh_alias_color_mode"
-alias dir="dir $_zsh_alias_color_mode"
-alias vdir="vdir $_zsh_alias_color_mode"
+alias ls="ls -F $alias_color"
+alias dir="dir $alias_color"
+alias vdir="vdir $alias_color"
 
 # 変数のリセット
-unset _zsh_alias_color_mode
+unset alias_color

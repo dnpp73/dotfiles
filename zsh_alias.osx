@@ -2,20 +2,20 @@
 [ -z "$PS1" ] && return
 [ `uname` != "Darwin" ] && return
 
-_zsh_alias_color_mode='--color=always'
+alias_color='--color=always'
 
 # GNU coreutils
 # ls dir vdir が例外で --color=always を入れてる。
 # rm が例外でゴミ箱に入る感じ。
 if [ -x /usr/local/opt/coreutils/libexec/gnubin/yes ]; then
-    alias dir="dir $_zsh_alias_color_mode"
-    alias ls="ls -F $_zsh_alias_color_mode"
+    alias dir="dir $alias_color"
+    alias ls="ls -F $alias_color"
     #alias rm='mv -f --backup=numbered --target-directory ~/.Trash'
-    alias vdir="vdir $_zsh_alias_color_mode"
+    alias vdir="vdir $alias_color"
 else
-    #alias ls="ls -F $_zsh_alias_color_mode"
-    #alias dir="dir $_zsh_alias_color_mode"
-    #alias vdir="vdir $_zsh_alias_color_mode"
+    #alias ls="ls -F $alias_color"
+    #alias dir="dir $alias_color"
+    #alias vdir="vdir $alias_color"
     alias ls='ls -FG'
 fi
 
@@ -26,4 +26,4 @@ alias gvim='open -a MacVim'
 alias macvim='open -a MacVim'
 
 # 変数のリセット
-unset _zsh_alias_color_mode
+unset alias_color
