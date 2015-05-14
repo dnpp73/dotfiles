@@ -1,6 +1,5 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
-[ `uname` != "Linux" ] && return
 
 # PS1
 export PROMPT_COMMAND=__prompt_command
@@ -21,7 +20,18 @@ function __prompt_command() {
     local COLOR_MAGENTA='\[\033[0;35m\]'
     local COLOR_OFF='\[\033[0m\]'
 
-    PS1="${COLOR_GREEN_BOLD}\u${COLOR_GREEN}@${COLOR_GREEN_BOLD}\h ${COLOR_WHITE_BOLD}\w ${COLOR_CYAN}\d  \t ${COLOR_WHITE}\s \V ${COLOR_OFF}\n"
+    PS1=""
+
+    if [ `uname` = "Darwin" ]; then
+        PS1+="${COLOR_YELLOW_BOLD}\u${COLOR_YELLOW}@${COLOR_YELLOW_BOLD}\h"
+    elif [ `uname` = "Linux" ]; then
+        PS1+="${COLOR_GREEN_BOLD}\u${COLOR_GREEN}@${COLOR_GREEN_BOLD}\h"
+    else
+        PS1+="${COLOR_MAGENTA_BOLD}\u${COLOR_MAGENTA}@${COLOR_MAGENTA_BOLD}\h"
+    fi
+
+    PS1+=" ${COLOR_WHITE_BOLD}\w ${COLOR_CYAN}\d  \t ${COLOR_WHITE}\s \V ${COLOR_OFF}\n"
+
     PS1+="\! "
 
     if [ "$EXIT" -ne 0 ]; then

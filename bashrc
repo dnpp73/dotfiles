@@ -90,12 +90,14 @@ elif [ -s /etc/bash_completion ]; then
 fi
 
 
-# Mac or Ubuntu bashrc
 if [ `uname` = "Darwin" ]; then
-    safe_source "$ORG_DIR/bashrc.osx"
-elif [ `uname` = "Linux" ]; then
-    safe_source "$ORG_DIR/bashrc.ubuntu"
+    # homebrew で入れた curl-ca-bundle
+    [ -r /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt ] && export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
 fi
+
+
+# Mac or Ubuntu PS1
+safe_source "$ORG_DIR/bash_prompt"
 
 
 # alias
