@@ -78,9 +78,15 @@ bind '"\C-l": clear-screen'
 
 # bash_completion
 if [ -s /usr/local/etc/bash_completion ]; then
-    . /usr/local/etc/bash_completion
+    echo ""
+    echo "...loading bash_completion"
+    source /usr/local/etc/bash_completion
+    echo ""
 elif [ -s /etc/bash_completion ]; then
-    . /etc/bash_completion
+    echo ""
+    echo "...loading bash_completion"
+    source /etc/bash_completion
+    echo ""
 fi
 
 
