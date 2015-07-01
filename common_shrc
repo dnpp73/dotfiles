@@ -68,13 +68,24 @@ if [ -s "${HOME}/.rbenv/bin" ]; then
     rbenv_root="${HOME}/.rbenv"
 elif [ -s "/usr/local/rbenv" ]; then
     rbenv_root="/usr/local/rbenv"
+elif [ -s "/usr/local/opt/rbenv" ]; then
+    rbenv_root="/usr/local/opt/rbenv"
 fi
 if [ -n "$rbenv_root" ]; then
-    echo ""
-    echo "...loading rbenv"
+    echo "......loading rbenv"
     export PATH="${rbenv_root}/bin:$PATH"
     export RBENV_ROOT="$rbenv_root"
     eval "$(rbenv init -)"
+fi
+
+
+# pyenv
+if which pyenv > /dev/null; then
+    echo "......loading pyenv"
+    eval "$(pyenv init -)";
+    if which pyenv-virtualenv-init > /dev/null; then
+        eval "$(pyenv virtualenv-init -)";
+    fi
 fi
 
 
@@ -82,6 +93,7 @@ fi
 if [ `uname` = "Darwin" ]; then
     which boot2docker > /dev/null 2>&1
     if [ $? -eq 0 ]; then
+        echo "......loading boot2docker"
         eval $(boot2docker shellinit 2>/dev/null)
     fi
 fi
