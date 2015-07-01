@@ -42,9 +42,9 @@ COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 if [ `uname` = "Darwin" ]; then
-    plugins=(osx terminalapp autojump screen sudo brew git git-extras ruby bundler gem rake rbenv pod vagrant docker)
+    plugins=(osx terminalapp autojump screen sudo brew git git-extras ruby bundler gem rake rbenv pod vagrant docker pyenv virtualenv pip)
 elif [ `uname` = "Linux" ]; then
-    plugins=(autojump screen sudo git git-extras ruby bundler gem rake rbenv)
+    plugins=(ubuntu autojump screen sudo git git-extras ruby bundler gem rake rbenv pyenv virtualenv pip)
 fi
 
 echo ""

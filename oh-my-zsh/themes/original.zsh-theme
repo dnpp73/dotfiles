@@ -30,7 +30,11 @@ function machine_name {
 }
 
 function rbenv_version {
-  rbenv version 2>/dev/null | awk '{print $1}'
+    rbenv version 2>/dev/null | awk '{print $1}'
+}
+
+function pyenv_version {
+    pyenv version 2>/dev/null | awk '{print $1}'
 }
 
 # Directory info.
@@ -56,7 +60,7 @@ $(machine_name)\
 \
 ${git_info} \
 \
-%{$fg[white]%}[rbenv:%{$fg[blue]%}$(rbenv_version)%{$fg[white]%}] \
+%{$fg[white]%}[rbenv:%{$fg[blue]%}$(rbenv_version)%{$fg[white]%}, pyenv:%{$fg[blue]%}$(pyenv_version)%{$fg[white]%}] \
 \
 
 %h \
