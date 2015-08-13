@@ -74,7 +74,6 @@ fi
 if [ -n "$rbenv_root" ]; then
     if which rbenv > /dev/null 2>&1; then
         echo "......loading rbenv"
-        export PATH="${rbenv_root}/bin:$PATH"
         export RBENV_ROOT="$rbenv_root"
         eval "$(rbenv init -)"
     fi
@@ -101,9 +100,9 @@ fi
 
 # Docker
 if [ `uname` = "Darwin" ]; then
-    which boot2docker > /dev/null 2>&1
+    which docker-machine > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-        echo "......loading boot2docker"
-        eval $(boot2docker shellinit 2>/dev/null)
+        echo "......loading docker-machine"
+        eval $(docker-machine env local)
     fi
 fi
