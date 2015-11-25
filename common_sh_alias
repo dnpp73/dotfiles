@@ -58,9 +58,8 @@ alias saba='python -m SimpleHTTPServer > /dev/null 2>&1 &'
 alias shimesaba='pkill -f "python -m SimpleHTTPServer"'
 
 # ssh
-alias sshmmn61='ssh mmn61 -L 53306:localhost:3306 -g -L 55900:localhost:5900 -g -L 50548:localhost:548'
-alias sshmmn61airvideo='ssh mmn61 -N -f -g -L 45633:localhost:45633'
-alias sshcapricieuse='ssh capricieuse -L 56668:localhost:56667 -L 53306:localhost:3306 -g -L 51548:localhost:548'
+alias sshmmn61='ssh mmn61-afp50548-vnc55900-airvideo45633'
+alias sshmbp111='ssh mbp111-local-over-mmn61-afp51548-vnc55901'
 
 # screen
 alias sls='screen -ls'
