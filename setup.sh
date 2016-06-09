@@ -77,9 +77,8 @@ if [ `uname` = "Darwin" ]; then
     else
         echo " [$(basename "$0")] already exists iTerm2 Shell Integration for zsh"
     fi
+    echo ""
 fi
-
-echo ""
 
 
 
