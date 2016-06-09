@@ -81,6 +81,13 @@ if [ -s "${HOME}/.zshrc_local" ]; then
 fi
 
 
+# Mac iTerm2 Shell Integration
+if [ `uname` = "Darwin" ]; then
+    echo ""
+    safe_source "${HOME}/.iterm2_shell_integration.zsh"
+fi
+
+
 # Mac /etc/sshd_config check
 if [ `uname` = "Darwin" ]; then
     source "$ORG_DIR/check_osx_sshd_config"

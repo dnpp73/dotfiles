@@ -66,6 +66,19 @@ fi
 DOTFILES_DIR="$ORG_DIR"
 safe_create_symlink "$DOTFILES_DIR/oh-my-zsh/themes" "$HOME/.oh-my-zsh/custom/themes"
 
+
+
+# iTerm2 Shell Integration
+if [ `uname` = "Darwin" ]; then
+    echo " [$(basename "$0")] --- install iTerm2 Shell Integration for zsh ---"
+    if [ ! -f "$HOME/.iterm2_shell_integration.zsh" ]; then
+        echo " [$(basename "$0")] curl -L https://iterm2.com/misc/zsh_startup.in > $HOME/.iterm2_shell_integration.zsh"
+        curl -L "https://iterm2.com/misc/zsh_startup.in" > "$HOME/.iterm2_shell_integration.zsh"
+    else
+        echo " [$(basename "$0")] already exists iTerm2 Shell Integration for zsh"
+    fi
+fi
+
 echo ""
 
 
@@ -73,7 +86,7 @@ echo ""
 # dotfiles
 echo " [$(basename "$0")] --- install my dotfiles ---"
 
-DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc" "gemrc")
+DOTFILES=("bash_profile" "bashrc" "gitconfig" "gitignore_global" "inputrc" "vimrc" "vim" "gvimrc" "zshrc" "gemrc" "tmux.conf")
 
 for filename in ${DOTFILES[@]}; do
     safe_create_symlink "$DOTFILES_DIR/$filename" "$HOME/.$filename"
