@@ -97,13 +97,3 @@ if [ `uname` = "Darwin" ]; then
 elif [ `uname` = "Linux" ]; then
     safe_create_symlink "$DOTFILES_DIR/screenrc.ubuntu" "$HOME/.screenrc"
 fi
-
-
-
-# # ssh authorized_keys
-# echo " [$(basename "$0")] --- install ssh authorized_keys ---"
-# if [ ! -d "$HOME/.ssh" ]; then
-#     echo " [$(basename "$0")] mkdir $HOME/.ssh"
-#     mkdir "$HOME/.ssh"
-# fi
-# safe_create_symlink "$ORG_DIR/ssh/authorized_keys" "$HOME/.ssh/authorized_keys"

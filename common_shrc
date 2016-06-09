@@ -97,12 +97,3 @@ if [ `uname` = "Darwin" ]; then
         export NODEBREW_ROOT=/usr/local/var/nodebrew
     fi
 fi
-
-# Docker
-# if [ `uname` = "Darwin" ]; then
-#     which docker-machine > /dev/null 2>&1
-#     if [ $? -eq 0 ]; then
-#         echo "......loading docker-machine"
-#         eval $(docker-machine env default)
-#     fi
-# fi
