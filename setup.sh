@@ -72,7 +72,7 @@ safe_create_symlink "$DOTFILES_DIR/oh-my-zsh/themes" "$HOME/.oh-my-zsh/custom/th
 if [ `uname` = "Darwin" ]; then
     echo " [$(basename "$0")] --- install iTerm2 Shell Integration for zsh ---"
     if [ ! -f "$HOME/.iterm2_shell_integration.zsh" ]; then
-        echo " [$(basename "$0")] curl -L https://iterm2.com/misc/zsh_startup.in > $HOME/.iterm2_shell_integration.zsh"
+        echo " [$(basename "$0")] curl -fsSL https://iterm2.com/misc/zsh_startup.in > $HOME/.iterm2_shell_integration.zsh"
         curl -L "https://iterm2.com/misc/zsh_startup.in" > "$HOME/.iterm2_shell_integration.zsh"
     else
         echo " [$(basename "$0")] already exists iTerm2 Shell Integration for zsh"
