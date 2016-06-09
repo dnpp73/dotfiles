@@ -27,6 +27,36 @@ echo ""
 safe_source "${ORG_DIR}/common_shrc"
 
 
+echo ""
+
+
+# rbenv
+if [ -s "${HOME}/.rbenv/bin" ]; then
+    rbenv_root="${HOME}/.rbenv"
+elif [ -s "/usr/local/rbenv" ]; then
+    rbenv_root="/usr/local/rbenv"
+elif [ -s "/usr/local/opt/rbenv" ]; then
+    rbenv_root="/usr/local/opt/rbenv"
+fi
+if [ -n "$rbenv_root" ]; then
+    if which rbenv > /dev/null 2>&1; then
+        echo "...loading rbenv"
+        export RBENV_ROOT="$rbenv_root"
+        eval "$(rbenv init -)"
+    fi
+fi
+
+
+# pyenv
+if which pyenv > /dev/null 2>&1; then
+    echo "...loading pyenv"
+    eval "$(pyenv init -)";
+    if which pyenv-virtualenv-init > /dev/null; then
+        eval "$(pyenv virtualenv-init -)";
+    fi
+fi
+
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
