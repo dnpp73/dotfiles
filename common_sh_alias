@@ -65,8 +65,5 @@ alias sshmbp111='ssh mbp111-local-over-mmn61-afp51548-vnc55901'
 alias sls='screen -ls'
 alias s='screen -dR'
 
-# tsrm
-#alias tsrm='tmux'
-
 # 変数のリセット
 unset alias_color

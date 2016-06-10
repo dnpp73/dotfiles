@@ -19,6 +19,9 @@ else
     alias ls='ls -FG'
 fi
 
+# tmux
+alias t=tmuxx
+
 # Mac
 alias ct='open -a CotEditor'
 #alias mi='open -a mi'
