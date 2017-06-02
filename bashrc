@@ -156,17 +156,21 @@ if [ -s "${HOME}/.bashrc_local" ]; then
 fi
 
 
-# Mac /etc/sshd_config check
-if [ `uname` = "Darwin" ]; then
-    source "$ORG_DIR/check_osx_sshd_config"
+# Google Cloud SDK
+if [ -d "${HOME}/google-cloud-sdk" ]; then
+    echo ""
+    safe_source "${HOME}/google-cloud-sdk/path.bash.inc"
+    safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
 fi
 
 
 unset -f safe_source
 
 
-# added by travis gem
-[ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
+# Mac /etc/sshd_config check
+if [ `uname` = "Darwin" ]; then
+    source "$ORG_DIR/check_osx_sshd_config"
+fi
 
 
 # end empty line
