@@ -60,7 +60,7 @@ alias shimesaba='pkill -f "python -m SimpleHTTPServer"'
 # ssh
 alias sshmmn61='ssh mmn61-afp50548-vnc55900-airvideo45633'
 alias sshmbp111='ssh mbp111-local-over-mmn61-afp51548-vnc55901'
-alias sshraspberrypi='ssh raspberrypi-local-over-mmn61'
+alias sshraspberrypi='ssh raspberrypi-local-over-mmn61-vnc55902'
 
 # screen
 alias sls='screen -ls'
