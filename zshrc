@@ -107,7 +107,7 @@ fi
 
 
 # alias
-unalias -a
+unalias -m '*'
 
 
 # common alias
