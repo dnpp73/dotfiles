@@ -28,6 +28,36 @@ echo ""
 safe_source "${ORG_DIR}/common_shrc"
 
 
+echo ""
+
+
+# rbenv
+if [ -s "${HOME}/.rbenv/bin" ]; then
+    rbenv_root="${HOME}/.rbenv"
+elif [ -s "/usr/local/rbenv" ]; then
+    rbenv_root="/usr/local/rbenv"
+elif [ -s "/usr/local/opt/rbenv" ]; then
+    rbenv_root="/usr/local/opt/rbenv"
+fi
+if [ -n "$rbenv_root" ]; then
+    if which rbenv > /dev/null 2>&1; then
+        echo "...loading rbenv"
+        export RBENV_ROOT="$rbenv_root"
+        eval "$(rbenv init -)"
+    fi
+fi
+
+
+# pyenv
+if which pyenv > /dev/null 2>&1; then
+    echo "...loading pyenv"
+    eval "$(pyenv init -)";
+    if which pyenv-virtualenv-init > /dev/null; then
+        eval "$(pyenv virtualenv-init -)";
+    fi
+fi
+
+
 # oh-my-zsh
 ZSH=$HOME/.oh-my-zsh
 
@@ -42,9 +72,11 @@ COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 if [ `uname` = "Darwin" ]; then
-    plugins=(osx terminalapp autojump screen sudo brew git git-extras ruby bundler gem rake rbenv pod vagrant docker docker-compose pyenv virtualenv pip)
+    # plugins=(osx terminalapp autojump screen sudo brew git git-extras ruby bundler gem rake rbenv pod vagrant docker docker-compose pyenv virtualenv pip)
+    plugins=(osx brew bundler gem docker)
 elif [ `uname` = "Linux" ]; then
-    plugins=(ubuntu autojump screen sudo git git-extras ruby bundler gem rake rbenv pyenv virtualenv pip)
+    # plugins=(ubuntu autojump screen sudo git git-extras ruby bundler gem rake rbenv pyenv virtualenv pip)
+    plugins=(ubuntu docker)
 fi
 
 echo ""
@@ -55,6 +87,18 @@ echo ""
 
 # homebrew が勝手に追記したやつ
 fpath=(/usr/local/share/zsh-completions $fpath)
+
+
+# Google Cloud SDK
+if [ -d "${HOME}/google-cloud-sdk" ]; then
+    safe_source "${HOME}/google-cloud-sdk/path.zsh.inc"
+    safe_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
+    echo ""
+fi
+
+
+# alias
+unalias -a
 
 
 # common alias
@@ -85,14 +129,6 @@ fi
 if [ `uname` = "Darwin" ]; then
     echo ""
     safe_source "${HOME}/.iterm2_shell_integration.zsh"
-fi
-
-
-# Google Cloud SDK
-if [ -d "${HOME}/google-cloud-sdk" ]; then
-    echo ""
-    safe_source "${HOME}/google-cloud-sdk/path.zsh.inc"
-    safe_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
 fi
 
 

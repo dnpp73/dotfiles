@@ -126,6 +126,14 @@ if [ `uname` = "Darwin" ]; then
 fi
 
 
+# Google Cloud SDK
+if [ -d "${HOME}/google-cloud-sdk" ]; then
+    safe_source "${HOME}/google-cloud-sdk/path.bash.inc"
+    safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
+    echo ""
+fi
+
+
 # Mac or Ubuntu PS1
 safe_source "$ORG_DIR/bash_prompt"
 
@@ -153,14 +161,6 @@ fi
 # 最後に local があれば
 if [ -s "${HOME}/.bashrc_local" ]; then
     safe_source "${HOME}/.bashrc_local"
-fi
-
-
-# Google Cloud SDK
-if [ -d "${HOME}/google-cloud-sdk" ]; then
-    echo ""
-    safe_source "${HOME}/google-cloud-sdk/path.bash.inc"
-    safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
 fi
 
 
