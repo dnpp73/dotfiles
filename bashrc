@@ -2,32 +2,43 @@
 [ -z "$PS1" ] && return
 
 
-# よく使うログ出し source 関数
-function safe_source() {
-    if [ -s "$1" ]; then
-        echo "...loading $1"
-        . "$1"
-    else
-        echo "[WARNING] can not load $1"
-    fi
-}
-
-
 # constants
 C_DIR=$(cd $(dirname "$BASH_SOURCE") && pwd)
 ORG_DIR="$C_DIR"
 [ -L "$BASH_SOURCE" ] && ORG_DIR=$(cd $(dirname $(readlink "$BASH_SOURCE")) && pwd)
+COLOR_GREEN_BOLD='\033[1;32m'
+COLOR_RED_BOLD='\033[1;31m'
+COLOR_OFF='\033[0m'
 
 
-# start empty line
-echo ""
+# よく使うログ出し source 関数
+function safe_source() {
+    if [ -s "$1" ]; then
+        if [ "$2" != "" ]; then
+            echo -n "$2 "
+        fi
+        . "$1"
+    else
+        echo -e "\n"${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF}" can not load $1"
+    fi
+}
+
+
+# loading start line
+echo -n "...loading "
 
 
 # common
-safe_source "${ORG_DIR}/common_shrc"
+safe_source "${ORG_DIR}/common_shrc" "shrc"
 
 
-echo ""
+# nodebrew
+if [ `uname` = "Darwin" ]; then
+    if which nodebrew > /dev/null 2>&1; then
+        echo -n "nodebrew "
+        export NODEBREW_ROOT=/usr/local/var/nodebrew
+    fi
+fi
 
 
 # rbenv
@@ -40,7 +51,7 @@ elif [ -s "/usr/local/opt/rbenv" ]; then
 fi
 if [ -n "$rbenv_root" ]; then
     if which rbenv > /dev/null 2>&1; then
-        echo "...loading rbenv"
+        echo -n "rbenv "
         export RBENV_ROOT="$rbenv_root"
         eval "$(rbenv init -)"
     fi
@@ -49,9 +60,10 @@ fi
 
 # pyenv
 if which pyenv > /dev/null 2>&1; then
-    echo "...loading pyenv"
+    echo -n "pyenv "
     eval "$(pyenv init -)";
     if which pyenv-virtualenv-init > /dev/null; then
+        echo -n "virtualenv "
         eval "$(pyenv virtualenv-init -)";
     fi
 fi
@@ -108,15 +120,11 @@ bind '"\C-l": clear-screen'
 
 # bash_completion
 if [ -s /usr/local/etc/bash_completion ]; then
-    echo ""
-    echo "...loading bash_completion"
+    echo -n "bash_completion "
     source /usr/local/etc/bash_completion
-    echo ""
 elif [ -s /etc/bash_completion ]; then
-    echo ""
-    echo "...loading bash_completion"
+    echo -n "bash_completion "
     source /etc/bash_completion
-    echo ""
 fi
 
 
@@ -128,21 +136,20 @@ fi
 
 # Google Cloud SDK
 if [ -d "${HOME}/google-cloud-sdk" ]; then
-    safe_source "${HOME}/google-cloud-sdk/path.bash.inc"
+    safe_source "${HOME}/google-cloud-sdk/path.bash.inc" "google-cloud-sdk"
     safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
-    echo ""
 fi
 
 
 # Mac or Ubuntu PS1
-safe_source "$ORG_DIR/bash_prompt"
+safe_source "$ORG_DIR/bash_prompt" "bash_prompt"
 
 
 # alias
 unalias -a
 
 # common alias
-safe_source "$ORG_DIR/common_sh_alias"
+safe_source "$ORG_DIR/common_sh_alias" "alias"
 
 # Mac or Ubuntu alias
 if [ `uname` = "Darwin" ]; then
@@ -154,16 +161,21 @@ fi
 
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
 if [ -s "${ORG_DIR}/env_ssh_auth_sock" ]; then
-    safe_source "${ORG_DIR}/env_ssh_auth_sock"
+    safe_source "${ORG_DIR}/env_ssh_auth_sock" "ssh_sock"
 fi
 
 
 # 最後に local があれば
 if [ -s "${HOME}/.bashrc_local" ]; then
-    safe_source "${HOME}/.bashrc_local"
+    safe_source "${HOME}/.bashrc_local" "bashrc_local"
 fi
 
 
+# loading end line
+echo ""
+
+
+unset COLOR_GREEN_BOLD COLOR_RED_BOLD COLOR_OFF
 unset -f safe_source
 
 
@@ -171,7 +183,3 @@ unset -f safe_source
 if [ `uname` = "Darwin" ]; then
     source "$ORG_DIR/check_osx_sshd_config"
 fi
-
-
-# end empty line
-echo ""
