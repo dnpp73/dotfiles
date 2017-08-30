@@ -11,15 +11,12 @@ COLOR_RED_BOLD='\033[1;31m'
 COLOR_OFF='\033[0m'
 
 
-# よく使うログ出し source 関数
 function safe_source() {
     if [ -s "$1" ]; then
         if [ "$2" != "" ]; then
             echo -n "$2 "
         fi
         . "$1"
-    else
-        echo -e "\n"${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF}" can not load $1"
     fi
 }
 
@@ -135,10 +132,8 @@ fi
 
 
 # Google Cloud SDK
-if [ -d "${HOME}/google-cloud-sdk" ]; then
-    safe_source "${HOME}/google-cloud-sdk/path.bash.inc" "google-cloud-sdk"
-    safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
-fi
+safe_source "${HOME}/google-cloud-sdk/path.bash.inc" "google-cloud-sdk"
+safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
 
 
 # Mac or Ubuntu PS1
@@ -160,15 +155,11 @@ fi
 
 
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
-if [ -s "${ORG_DIR}/env_ssh_auth_sock" ]; then
-    safe_source "${ORG_DIR}/env_ssh_auth_sock" "ssh_sock"
-fi
+safe_source "${ORG_DIR}/env_ssh_auth_sock" "ssh_sock"
 
 
 # 最後に local があれば
-if [ -s "${HOME}/.bashrc_local" ]; then
-    safe_source "${HOME}/.bashrc_local" "bashrc_local"
-fi
+safe_source "${HOME}/.bashrc_local" "bashrc_local"
 
 
 # loading end line

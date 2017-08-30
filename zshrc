@@ -12,15 +12,12 @@ COLOR_RED_BOLD='\033[1;31m'
 COLOR_OFF='\033[0m'
 
 
-# よく使うログ出し source 関数
 function safe_source() {
     if [ -s "$1" ]; then
         if [ "$2" != "" ]; then
             echo -n "$2 "
         fi
         . "$1"
-    else
-        echo -e "\n"${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF}" can not load $1"
     fi
 }
 
@@ -78,7 +75,8 @@ ZSH_THEME="original"
 # CASE_SENSITIVE="true"
 DISABLE_AUTO_TITLE="true"
 DISABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
+DISABLE_AUTO_UPDATE="true"
+COMPLETION_WAITING_DOTS="false"
 
 # Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -100,10 +98,8 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 
 
 # Google Cloud SDK
-if [ -d "${HOME}/google-cloud-sdk" ]; then
-    safe_source "${HOME}/google-cloud-sdk/path.zsh.inc" "google-cloud-sdk"
-    safe_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
-fi
+safe_source "${HOME}/google-cloud-sdk/path.zsh.inc" "google-cloud-sdk"
+safe_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
 
 
 # alias
@@ -123,9 +119,7 @@ fi
 
 
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
-if [ -s "${ORG_DIR}/env_ssh_auth_sock" ]; then
-    safe_source "${ORG_DIR}/env_ssh_auth_sock" "ssh_sock"
-fi
+safe_source "${ORG_DIR}/env_ssh_auth_sock" "ssh_sock"
 
 
 # Mac iTerm2 Shell Integration
@@ -135,9 +129,7 @@ fi
 
 
 # 最後に local があれば
-if [ -s "${HOME}/.zshrc_local" ]; then
-    safe_source "${HOME}/.zshrc_local" "zshrc_local"
-fi
+safe_source "${HOME}/.zshrc_local" "zshrc_local"
 
 
 # loading end line
