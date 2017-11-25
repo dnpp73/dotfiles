@@ -80,6 +80,9 @@ fi
 # less
 # ステータス行にファイル名と行数、いま何%かを表示するようにする。
 export LESS='-R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
+if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
+    export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+fi
 
 # これを設定しないと日本語がでない less もあるので一応入れておく。
 export JLESSCHARSET=japanese-ujis
