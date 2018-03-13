@@ -134,34 +134,48 @@ if has("autocmd")
 
     " バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin ファイルを開くと発動します）
     " http://d.hatena.ne.jp/rdera/20081022/1224682665
-    augroup BinaryXXD
+    "augroup BinaryXXD
+    "    autocmd!
+    "    autocmd BufReadPre *.bin let &binary =1
+    "
+    "    autocmd BufReadPost  * if &binary
+    "    autocmd BufReadPost  *     silent %!xxd -g 1
+    "    autocmd BufReadPost  *     set ft=xxd
+    "    autocmd BufReadPost  * endif
+    "
+    "    autocmd BufWritePre  * if &binary
+    "    autocmd BufWritePre  *     %!xxd -r
+    "    autocmd BufWritePre  * endif
+    "
+    "    autocmd BufWritePost * if &binary
+    "    autocmd BufWritePost *     silent %!xxd -g 1
+    "    autocmd BufWritePost *     set nomod
+    "    autocmd BufWritePost * endif
+    "augroup END
+
+    augroup BinaryVinarise
         autocmd!
         autocmd BufReadPre *.bin let &binary =1
 
         autocmd BufReadPost  * if &binary
-        autocmd BufReadPost  *     silent %!xxd -g 1
-        autocmd BufReadPost  *     set ft=xxd
+        autocmd BufReadPost  *     Vinarise
         autocmd BufReadPost  * endif
 
-        autocmd BufWritePre  * if &binary
-        autocmd BufWritePre  *     %!xxd -r
-        autocmd BufWritePre  * endif
-
-        autocmd BufWritePost * if &binary
-        autocmd BufWritePost *     silent %!xxd -g 1
-        autocmd BufWritePost *     set nomod
-        autocmd BufWritePost * endif
+        "autocmd BufWritePost * if &binary
+        "autocmd BufWritePost *     Vinarise
+        "autocmd BufWritePost * endif
     augroup END
 endif
 
 function! Scouter(file, ...)
-  let pat = '^\s*$\|^\s*"'
-  let lines = readfile(a:file)
-  if !a:0 || !a:1
-    let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
-  endif
-  return len(filter(lines,'v:val !~ pat'))
+    let pat = '^\s*$\|^\s*"'
+    let lines = readfile(a:file)
+    if !a:0 || !a:1
+        let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
+    endif
+    return len(filter(lines,'v:val !~ pat'))
 endfunction
+
 command! -bar -bang -nargs=? -complete=file Scouter
 \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 command! -bar -bang -nargs=? -complete=file GScouter
