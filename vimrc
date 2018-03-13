@@ -126,11 +126,11 @@ set fileencodings=utf-8,euc-jp,cp932,iso-2022-jp,ucs-2le,ucs-2,ucs-bom
 if has("autocmd")
     " ファイルタイプ別インデント、プラグインを有効にする
     filetype plugin indent on
+
     " カーソル位置を記憶する
-    autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal g`\"" |
-        \ endif
+    autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    autocmd BufReadPost *     exe "normal g`\""
+    autocmd BufReadPost * endif
 
     " バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin ファイルを開くと発動します）
     " http://d.hatena.ne.jp/rdera/20081022/1224682665
@@ -200,19 +200,6 @@ let g:neocomplcache_enable_underbar_completion = 1
 " Enterで選択できないように
 let g:neocomplcache_enable_auto_select = 0
 
-"----------------------------------------------------
-" zencoding.vim
-"----------------------------------------------------
-let g:user_zen_settings = {
-\    'indentation':'  ',
-\    'lang':'ja'
-\   }
-
-"----------------------------------------------------
-" rails.vim
-"----------------------------------------------------
-let g:rails_level = 4
-let g:rails_devalut_database = 'mysql'
 
 "----------------------------------------------------
 " NERD_comments.vim
