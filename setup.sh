@@ -42,6 +42,36 @@ function  safe_create_symlink() {
     echo ""
 }
 
+function safe_cp() {
+    if [ -L "$2" ]; then
+        echo " [$(basename "$0")] $(basename "$2") already exists symlink."
+        echo " [$(basename "$0")] mv $2 $2_$BACKUP_SUFFIX"
+        mv "$2" "$2_$BACKUP_SUFFIX"
+
+    elif [ -d "$2" ]; then
+        echo " [$(basename "$0")] $(basename "$2") already exists dir."
+        echo " [$(basename "$0")] mv $2 $2_$BACKUP_SUFFIX"
+        mv "$2" "$2_$BACKUP_SUFFIX"
+
+    elif [ -f "$2" ]; then
+        echo " [$(basename "$0")] $(basename "$2") already exists file."
+        diff "$1" "$2" >/dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echo " [$(basename "$0")] $(basename "$2") is same file."
+            echo ""
+            return
+        else
+            echo " [$(basename "$0")] mv $2 $2_$BACKUP_SUFFIX"
+            mv "$2" "$2_$BACKUP_SUFFIX"
+        fi
+
+    fi
+
+    echo " [$(basename "$0")] cp $1 $2"
+    cp "$1" "$2"
+    echo ""
+}
+
 
 
 # git submodule (for vim bundle)
@@ -64,7 +94,7 @@ else
 fi
 
 DOTFILES_DIR="$ORG_DIR"
-safe_create_symlink "$DOTFILES_DIR/oh-my-zsh/themes" "$HOME/.oh-my-zsh/custom/themes"
+safe_cp "$DOTFILES_DIR/oh-my-zsh/themes/original.zsh-theme" "$HOME/.oh-my-zsh/custom/themes/original.zsh-theme"
 
 
 
