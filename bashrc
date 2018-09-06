@@ -56,12 +56,22 @@ fi
 
 
 # pyenv
-if which pyenv > /dev/null 2>&1; then
-    echo -n "pyenv "
-    eval "$(pyenv init -)";
-    if which pyenv-virtualenv-init > /dev/null; then
-        echo -n "virtualenv "
-        eval "$(pyenv virtualenv-init -)";
+if [ -s "${HOME}/.pyenv/bin" ]; then
+    pyenv_root="${HOME}/.pyenv"
+elif [ -s "/usr/local/pyenv" ]; then
+    pyenv_root="/usr/local/pyenv"
+elif [ -s "/usr/local/opt/pyenv" ]; then
+    pyenv_root="/usr/local/opt/pyenv"
+fi
+if [ -n "$pyenv_root" ]; then
+    if which pyenv > /dev/null 2>&1; then
+        echo -n "pyenv "
+        export PYENV_ROOT="$pyenv_root"
+        eval "$(pyenv init -)";
+        if which pyenv-virtualenv-init > /dev/null; then
+            echo -n "virtualenv "
+            eval "$(pyenv virtualenv-init -)";
+        fi
     fi
 fi
 
