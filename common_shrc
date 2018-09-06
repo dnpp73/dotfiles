@@ -47,6 +47,7 @@ PATHS=(
     "/usr/local/bin"
     "/usr/local/go/bin"
     "/usr/local/opt/coreutils/libexec/gnubin"
+    "$HOME/.pyenv/bin"
     "$HOME/.rbenv/bin"
     "$HOME/sbin"
     "$HOME/bin"
