@@ -9,21 +9,21 @@ esac
 
 
 # LANG
-# case "$TERM" in
-#     linux)
-#         LANGUAGE='C.UTF-8:C:POSIX'
-#         LC_ALL='C'
-#         LC_CTYPE='C'
-#         LANG='C'
-#         ;;
-#     *)
+case "$TERM" in
+    linux)
+        LANGUAGE='C.UTF-8:C:POSIX'
+        # LC_ALL='C'
+        # LC_CTYPE='C'
+        # LANG='C'
+        ;;
+    *)
         LANGUAGE='ja_JP.UTF-8:en_US.utf8:C.UTF-8:C:POSIX'
         # LC_ALL='ja_JP.UTF-8'
         # LC_CTYPE='ja_JP.UTF-8'
         # LANG='ja_JP.UTF-8'
-        # ;;
-# esac
-export LANGUAGE
+        ;;
+esac
+export LANGUAGE # LC_ALL LC_CTYPE LANG
 
 
 # MANPATH
