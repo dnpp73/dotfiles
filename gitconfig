@@ -43,7 +43,7 @@
     # lall   = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
     lg     = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     lga    = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    
+
     # diff関連
     df  = diff --ignore-space-change
     dw  = diff --color-words    # 単語単位でいろつけてdiff
@@ -56,18 +56,24 @@
     d4  = diff HEAD~~~~         # HEADから4つ前とdiff
     d5  = diff HEAD~~~~~        # HEADから5つ前とdiff
     d10 = diff HEAD~~~~~~~~~~  # HEADから10前とdiff
-    
+
     # ls
     ls = ls-files -t
     ll = ls-files -cdmokts
 
 [difftool "sourcetree"]
     cmd  = opendiff \"$LOCAL\" \"$REMOTE\"
-    path = 
+    path =
 
 [mergetool "sourcetree"]
     cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
     trustExitCode = true
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 
 [include]
     path = ~/.gitconfig_local
