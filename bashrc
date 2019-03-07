@@ -29,6 +29,13 @@ echo -n "...loading "
 safe_source "${ORG_DIR}/common_shrc" "shrc"
 
 
+# direnv
+if which direnv > /dev/null 2>&1; then
+    echo -n "direnv "
+    eval "$(direnv hook bash)"
+fi
+
+
 # nodebrew
 if [ `uname` = "Darwin" ]; then
     if which nodebrew > /dev/null 2>&1; then

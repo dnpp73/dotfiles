@@ -23,3 +23,9 @@ UserInterface.xcuserstate
 # Mac Windows
 .DS_Store
 Tumbs.db
+
+# dotenv
+.env
+
+# direnv
+.envrc
