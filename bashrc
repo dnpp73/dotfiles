@@ -36,11 +36,19 @@ if which direnv > /dev/null 2>&1; then
 fi
 
 
-# nodebrew
-if [ `uname` = "Darwin" ]; then
-    if which nodebrew > /dev/null 2>&1; then
-        echo -n "nodebrew "
-        export NODEBREW_ROOT=/usr/local/var/nodebrew
+# ndenv
+if [ -s "${HOME}/.ndenv/bin" ]; then
+    ndenv_root="${HOME}/.ndenv"
+elif [ -s "/usr/local/ndenv" ]; then
+    ndenv_root="/usr/local/ndenv"
+elif [ -s "/usr/local/opt/ndenv" ]; then
+    ndenv_root="/usr/local/opt/ndenv"
+fi
+if [ -n "$ndenv_root" ]; then
+    if which ndenv > /dev/null 2>&1; then
+        echo -n "ndenv "
+        export NDENV_ROOT="$ndenv_root"
+        eval "$(ndenv init -)"
     fi
 fi
 

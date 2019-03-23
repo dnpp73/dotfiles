@@ -37,11 +37,19 @@ if which direnv > /dev/null 2>&1; then
 fi
 
 
-# nodebrew
-if [ `uname` = "Darwin" ]; then
-    if which nodebrew > /dev/null 2>&1; then
-        echo -n "nodebrew "
-        export NODEBREW_ROOT=/usr/local/var/nodebrew
+# ndenv
+if [ -s "${HOME}/.ndenv/bin" ]; then
+    ndenv_root="${HOME}/.ndenv"
+elif [ -s "/usr/local/ndenv" ]; then
+    ndenv_root="/usr/local/ndenv"
+elif [ -s "/usr/local/opt/ndenv" ]; then
+    ndenv_root="/usr/local/opt/ndenv"
+fi
+if [ -n "$ndenv_root" ]; then
+    if which ndenv > /dev/null 2>&1; then
+        echo -n "ndenv "
+        export NDENV_ROOT="$ndenv_root"
+        eval "$(ndenv init -)"
     fi
 fi
 
@@ -98,10 +106,10 @@ COMPLETION_WAITING_DOTS="false"
 
 if [ `uname` = "Darwin" ]; then
     # plugins=(osx terminalapp autojump screen sudo brew git git-extras ruby bundler gem rake rbenv pod vagrant docker docker-compose pyenv virtualenv pip)
-    plugins=(osx brew docker bundler gem pip node npm aws)
+    plugins=(osx brew bundler gem pip node npm aws)
 elif [ `uname` = "Linux" ]; then
     # plugins=(ubuntu autojump screen sudo git git-extras ruby bundler gem rake rbenv pyenv virtualenv pip)
-    plugins=(ubuntu docker)
+    plugins=(ubuntu)
 fi
 
 echo -n "oh-my-zsh "
