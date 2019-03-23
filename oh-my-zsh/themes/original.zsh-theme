@@ -30,12 +30,19 @@ function machine_name {
 }
 
 function rbenv_version {
-    rbenv version 2>/dev/null | awk '{print $1}'
+    rbenv version 2>/dev/null | cut -d ' ' -f1
 }
+local rbenv_info='$(rbenv_version)'
 
 function pyenv_version {
-    pyenv version 2>/dev/null | awk '{print $1}'
+    pyenv version 2>/dev/null | cut -d ' ' -f1
 }
+local pyenv_info='$(pyenv_version)'
+
+function nodenv_version {
+    nodenv version 2>/dev/null | cut -d ' ' -f1
+}
+local nodenv_info='$(nodenv_version)'
 
 # Directory info.
 local current_dir='${PWD/#$HOME/~}'
@@ -60,7 +67,14 @@ $(machine_name)\
 \
 ${git_info} \
 \
-%{$fg[white]%}[rbenv:%{$fg[blue]%}$(rbenv_version)%{$fg[white]%}, pyenv:%{$fg[blue]%}$(pyenv_version)%{$fg[white]%}] \
+%{$fg[white]%}[\
+rbenv:\
+%{$fg[blue]%}${rbenv_info}%{$fg[white]%}, \
+pyenv:\
+%{$fg[blue]%}${pyenv_info}%{$fg[white]%}, \
+nodenv:\
+%{$fg[blue]%}${nodenv_info}%{$fg[white]%}\
+] \
 \
 
 %h \
