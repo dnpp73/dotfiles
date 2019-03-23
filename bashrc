@@ -36,19 +36,19 @@ if which direnv > /dev/null 2>&1; then
 fi
 
 
-# ndenv
-if [ -s "${HOME}/.ndenv/bin" ]; then
-    ndenv_root="${HOME}/.ndenv"
-elif [ -s "/usr/local/ndenv" ]; then
-    ndenv_root="/usr/local/ndenv"
-elif [ -s "/usr/local/opt/ndenv" ]; then
-    ndenv_root="/usr/local/opt/ndenv"
+# nodenv
+if [ -s "${HOME}/.nodenv/bin" ]; then
+    nodenv_root="${HOME}/.nodenv"
+elif [ -s "/usr/local/nodenv" ]; then
+    nodenv_root="/usr/local/nodenv"
+elif [ -s "/usr/local/opt/nodenv" ]; then
+    nodenv_root="/usr/local/opt/nodenv"
 fi
-if [ -n "$ndenv_root" ]; then
-    if which ndenv > /dev/null 2>&1; then
-        echo -n "ndenv "
-        export NDENV_ROOT="$ndenv_root"
-        eval "$(ndenv init -)"
+if [ -n "$nodenv_root" ]; then
+    if which nodenv > /dev/null 2>&1; then
+        echo -n "nodenv "
+        export NODENV_ROOT="$nodenv_root"
+        eval "$(nodenv init -)"
     fi
 fi
 
