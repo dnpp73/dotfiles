@@ -30,17 +30,35 @@ function machine_name {
 }
 
 function rbenv_version {
-    rbenv version 2>/dev/null | cut -d ' ' -f1
+    RBENV_RESULT=$(rbenv version 2>/dev/null)
+    RBENV_VERSION=$(echo $RBENV_RESULT | cut -d ' ' -f1)
+    if echo $RBENV_RESULT | grep $RBENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$RBENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$RBENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
 }
 local rbenv_info='$(rbenv_version)'
 
 function pyenv_version {
-    pyenv version 2>/dev/null | cut -d ' ' -f1
+    PYENV_RESULT=$(pyenv version 2>/dev/null)
+    PYENV_VERSION=$(echo $PYENV_RESULT | cut -d ' ' -f1)
+    if echo $PYENV_RESULT | grep $PYENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$PYENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$PYENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
 }
 local pyenv_info='$(pyenv_version)'
 
 function nodenv_version {
-    nodenv version 2>/dev/null | cut -d ' ' -f1
+    NODENV_RESULT=$(nodenv version 2>/dev/null)
+    NODENV_VERSION=$(echo $NODENV_RESULT | cut -d ' ' -f1)
+    if echo $NODENV_RESULT | grep $NODENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$NODENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$NODENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
 }
 local nodenv_info='$(nodenv_version)'
 
@@ -69,11 +87,11 @@ ${git_info} \
 \
 %{$fg[white]%}[\
 rbenv:\
-%{$fg[blue]%}${rbenv_info}%{$fg[white]%}, \
+${rbenv_info}, \
 pyenv:\
-%{$fg[blue]%}${pyenv_info}%{$fg[white]%}, \
+${pyenv_info}, \
 nodenv:\
-%{$fg[blue]%}${nodenv_info}%{$fg[white]%}\
+${nodenv_info}\
 ] \
 \
 
