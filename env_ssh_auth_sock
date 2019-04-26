@@ -3,7 +3,6 @@
 
 AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@`hostname`"
 SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-`date|md5sum|cut -d ' ' -f1`"
-KEY_FILES=("id_rsa" "id_rsa_aws" "id_rsa_IB" "id_rsa_beatrobo" "id_rsa_aws" "id_rsa_gcp")
 
 printenv SSH_AUTH_SOCK > /dev/null 2>&1
 if [ $? -eq 0 ]; then
@@ -30,12 +29,18 @@ else
     fi
 fi
 
+KEY_FILES=("id_rsa" "id_rsa_aws" "id_rsa_IB" "id_rsa_beatrobo" "id_rsa_aws" "id_rsa_gcp")
+
 # 鍵を足して終わり
-pgrep ssh-agent > /dev/null 2>&1
-if [ $? -eq 0 ]; then
+if pgrep ssh-agent > /dev/null 2>&1; then
     for key in ${KEY_FILES[@]}; do
-        if [ -f "${HOME}/.ssh/${key}" ]; then
-            ssh-add "${HOME}/.ssh/${key}" > /dev/null 2>&1
+        KEY_FULL_PATH="${HOME}/.ssh/${key}"
+        if [ -f "${KEY_FULL_PATH}" ]; then
+            if [ `uname` = "Darwin" ]; then
+                ssh-add -K "${KEY_FULL_PATH}" > /dev/null 2>&1
+            else
+                ssh-add "${KEY_FULL_PATH}" > /dev/null 2>&1
+            fi
         fi
     done
 fi
