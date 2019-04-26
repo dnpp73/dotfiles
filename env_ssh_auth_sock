@@ -29,7 +29,7 @@ else
     fi
 fi
 
-KEY_FILES=("id_rsa" "id_rsa_aws" "id_rsa_IB" "id_rsa_beatrobo" "id_rsa_aws" "id_rsa_gcp")
+KEY_FILES=('id_rsa' 'id_ecdsa' 'id_ed25519' 'id_rsa_aws' 'id_rsa_gcp')
 
 # 鍵を足して終わり
 if pgrep ssh-agent > /dev/null 2>&1; then
