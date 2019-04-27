@@ -45,7 +45,8 @@ fi
 
 # ccat
 if which ccat > /dev/null 2>&1; then
-    alias cat='ccat'
+    alias ccat='ccat -G Keyword="*glay*" -G Decimal="glay" -G Plaintext="glay"'
+    # alias cat='ccat'
 fi
 
 # util
