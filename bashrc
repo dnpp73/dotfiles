@@ -177,8 +177,10 @@ elif [ `uname` = "Linux" ]; then
 fi
 
 
-# ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ
-safe_source "${ORG_DIR}/env_ssh_auth_sock" "ssh_sock"
+# ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ。 ssh 接続先では読まないようにする。
+if [ -z "$SSH_CONNECTION" -a -z "$SSH_CLIENT" -a -z "$SSH_TTY" ]; then
+    safe_source "${ORG_DIR}/env_ssh_auth_sock" "ssh_sock"
+fi
 
 
 # 最後に local があれば
