@@ -55,11 +55,25 @@
     d3  = diff HEAD~~~          # HEADから3つ前とdiff
     d4  = diff HEAD~~~~         # HEADから4つ前とdiff
     d5  = diff HEAD~~~~~        # HEADから5つ前とdiff
-    d10 = diff HEAD~~~~~~~~~~  # HEADから10前とdiff
+    d10 = diff HEAD~~~~~~~~~~   # HEADから10前とdiff
 
     # ls
     ls = ls-files -t
     ll = ls-files -cdmokts
+
+    # grep (-I でバイナリを除く)
+    g = grep --ignore-case --line-number -I
+    G = grep --line-number -I
+    # fgrep
+    f = grep --fixed-strings --ignore-case --line-number -I
+    F = grep --fixed-strings --line-number -I
+    # egrep
+    e = grep --extended-regexp --ignore-case --line-number -I
+    E = grep --extended-regexp --line-number -I
+
+    # 便利
+    alias = !git config --get-regexp '^alias\\.' | sed 's/alias\\.\\([^ ]*\\) \\(.*\\)/\\1\\\t => \\2/' | sort
+    refresh= !git fetch origin && git remote prune origin
 
 [difftool "sourcetree"]
     cmd  = opendiff \"$LOCAL\" \"$REMOTE\"
