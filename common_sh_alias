@@ -14,14 +14,20 @@ alias l='ls -Alh'
 #alias cpi='cp -i'
 
 # cd
-alias ..='cd ..'
-alias ...='cd -'
+#alias ..='cd ..'
+#alias ...='cd -'
 #alias ~='cd ~'
 
 # grep
-alias grep="grep $alias_color"
-alias fgrep="fgrep $alias_color"
-alias egrep="egrep $alias_color"
+if [ -x /usr/local/bin/ggrep ]; then
+    alias grep="ggrep $alias_color"
+    alias fgrep="gfgrep $alias_color"
+    alias egrep="gegrep $alias_color"
+else
+    alias grep="grep $alias_color"
+    alias fgrep="fgrep $alias_color"
+    alias egrep="egrep $alias_color"
+fi
 alias g='grep -in'
 alias G='grep -n'
 alias f='fgrep -in'
