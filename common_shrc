@@ -34,6 +34,10 @@ MANPATHS=(
     "/usr/share/man"
     "/usr/local/share/man"
     "/usr/local/opt/coreutils/libexec/gnuman"
+    "/usr/local/opt/findutils/libexec/gnuman"
+    "/usr/local/opt/gnu-sed/libexec/gnuman"
+    "/usr/local/opt/gnu-tar/libexec/gnuman"
+    "/usr/local/opt/grep/libexec/gnuman"
 )
 for m in ${MANPATHS[@]}; do
     [ -d "$m" ] && MANPATH="$m:$MANPATH"
@@ -57,6 +61,10 @@ PATHS=(
     "/usr/local/bin"
     "/usr/local/go/bin"
     "/usr/local/opt/coreutils/libexec/gnubin"
+    "/usr/local/opt/findutils/libexec/gnubin"
+    "/usr/local/opt/gnu-sed/libexec/gnubin"
+    "/usr/local/opt/gnu-tar/libexec/gnubin"
+    "/usr/local/opt/grep/libexec/gnubin"
     "$HOME/.nodenv/bin"
     "$HOME/.pyenv/bin"
     "$HOME/.rbenv/bin"
