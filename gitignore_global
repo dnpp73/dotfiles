@@ -20,6 +20,9 @@ UserInterface.xcuserstate
 *~
 *.swp
 
+# VSCode
+.vscode/
+
 # Mac Windows
 .DS_Store
 Tumbs.db
