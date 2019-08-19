@@ -73,9 +73,10 @@ PATHS=(
     "/usr/local/opt/gnu-tar/libexec/gnubin"
     "/usr/local/opt/grep/libexec/gnubin"
     "$HOME/go/bin" # $GOPATH/bin だと GOPATH が無かったときに /bin になるため。
-    "$HOME/.nodenv/bin"
-    "$HOME/.pyenv/bin"
-    "$HOME/.rbenv/bin"
+    # "$HOME/.goenv/bin"
+    # "$HOME/.nodenv/bin"
+    # "$HOME/.pyenv/bin"
+    # "$HOME/.rbenv/bin"
     "$HOME/sbin"
     "$HOME/bin"
 )

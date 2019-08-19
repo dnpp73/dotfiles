@@ -36,6 +36,23 @@ if which direnv > /dev/null 2>&1; then
 fi
 
 
+# goenv
+if [ -s "${HOME}/.goenv/bin" ]; then
+    goenv_root="${HOME}/.goenv"
+elif [ -s "/usr/local/goenv" ]; then
+    goenv_root="/usr/local/goenv"
+elif [ -s "/usr/local/opt/goenv" ]; then
+    goenv_root="/usr/local/opt/goenv"
+fi
+if [ -n "$goenv_root" ]; then
+    if which goenv > /dev/null 2>&1; then
+        echo -n "goenv "
+        export GOENV_ROOT="$goenv_root"
+        eval "$(goenv init -)"
+    fi
+fi
+
+
 # nodenv
 if [ -s "${HOME}/.nodenv/bin" ]; then
     nodenv_root="${HOME}/.nodenv"

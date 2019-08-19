@@ -62,6 +62,17 @@ function nodenv_version {
 }
 local nodenv_info='$(nodenv_version)'
 
+function goenv_version {
+    GOENV_RESULT=$(goenv version 2>/dev/null)
+    GOENV_VERSION=$(echo $GOENV_RESULT | cut -d ' ' -f1)
+    if echo $GOENV_RESULT | grep $GOENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$GOENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$GOENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
+}
+local goenv_info='$(goenv_version)'
+
 # Directory info.
 local current_dir='${PWD/#$HOME/~}'
 
@@ -91,7 +102,9 @@ ${rbenv_info}, \
 pyenv:\
 ${pyenv_info}, \
 nodenv:\
-${nodenv_info}\
+${nodenv_info}, \
+goenv:\
+${goenv_info}\
 ] \
 \
 
