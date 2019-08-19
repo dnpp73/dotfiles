@@ -26,6 +26,13 @@ esac
 export LANGUAGE # LC_ALL LC_CTYPE LANG
 
 
+# GOPATH
+if [ -d "${HOME}/go" ]; then
+    GOPATH="${HOME}/go"
+    export GOPATH
+fi
+
+
 # MANPATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
 MANPATH=""
@@ -65,6 +72,7 @@ PATHS=(
     "/usr/local/opt/gnu-sed/libexec/gnubin"
     "/usr/local/opt/gnu-tar/libexec/gnubin"
     "/usr/local/opt/grep/libexec/gnubin"
+    "$HOME/go/bin" # $GOPATH/bin だと GOPATH が無かったときに /bin になるため。
     "$HOME/.nodenv/bin"
     "$HOME/.pyenv/bin"
     "$HOME/.rbenv/bin"
