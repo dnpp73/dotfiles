@@ -46,21 +46,23 @@
     lga    = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
     # diff関連
-    df  = diff --ignore-space-change
-    dw  = diff --color-words    # 単語単位でいろつけてdiff
-    dc  = diff --cached         # addされているものとのdiff
-    ds  = diff --staged         # 同上(1.6.1移行)
-    dm  = diff master           # masterとのdiff
-    d1  = diff HEAD~            # HEADから1つ前とdiff
-    d2  = diff HEAD~~           # HEADから2つ前とdiff
-    d3  = diff HEAD~~~          # HEADから3つ前とdiff
-    d4  = diff HEAD~~~~         # HEADから4つ前とdiff
-    d5  = diff HEAD~~~~~        # HEADから5つ前とdiff
-    d10 = diff HEAD~~~~~~~~~~   # HEADから10前とdiff
+    df   = diff --diff-algorithm=histogram --ignore-space-change --ignore-blank-lines
+    dfw  = df --color-words    # 単語単位でいろつけてdiff
+    dfc  = df --cached         # addされているものとのdiff
+    dfs  = df --staged         # 同上(1.6.1移行)
+    dfm  = df master           # masterとのdiff
+    # d1  = diff HEAD~            # HEADから1つ前とdiff
+    # d2  = diff HEAD~~           # HEADから2つ前とdiff
+    # d3  = diff HEAD~~~          # HEADから3つ前とdiff
+    # d4  = diff HEAD~~~~         # HEADから4つ前とdiff
+    # d5  = diff HEAD~~~~~        # HEADから5つ前とdiff
+    # d10 = diff HEAD~~~~~~~~~~   # HEADから10前とdiff
 
     # ls
-    ls = ls-files -t
-    ll = ls-files -cdmokts
+    # ls = ls-files -t
+    # ll = ls-files -cdmokts
+    ls = ls-tree --name-only HEAD
+    ll = ls-tree --full-name HEAD
 
     # grep (-I でバイナリを除く)
     g = grep --ignore-case --line-number -I
@@ -75,6 +77,10 @@
     # 便利
     alias = !git config --get-regexp '^alias\\.' | sed 's/alias\\.\\([^ ]*\\) \\(.*\\)/\\1\\\t => \\2/' | sort
     refresh= !git fetch origin && git remote prune origin
+
+# [diff]
+#     # git diff --diff-algorithm={patience|minimal|histogram|myers}
+#     algorithm = histogram
 
 [difftool "sourcetree"]
     cmd  = opendiff \"$LOCAL\" \"$REMOTE\"
