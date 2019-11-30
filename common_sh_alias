@@ -59,7 +59,7 @@ alias :q='exit'
 
 # python saba
 alias saba='python -m SimpleHTTPServer > /dev/null 2>&1 &'
-alias shimesaba='pkill -f "python -m SimpleHTTPServer"'
+alias shimesaba='pkill -f "[pP]ython -m SimpleHTTPServer"'
 
 # ssh
 alias sshmmn61='ssh mmn61-afp50548-vnc55900-airvideo45633'
