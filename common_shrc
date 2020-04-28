@@ -79,6 +79,7 @@ PATHS=(
     "/usr/local/opt/gnu-sed/libexec/gnubin"
     "/usr/local/opt/gnu-tar/libexec/gnubin"
     "/usr/local/opt/grep/libexec/gnubin"
+    "$HOME/Library/Android/sdk/platform-tools"
     "$HOME/go/bin" # $GOPATH/bin だと GOPATH が無かったときに /bin になるため。
     # "$HOME/.goenv/bin"
     # "$HOME/.nodenv/bin"
