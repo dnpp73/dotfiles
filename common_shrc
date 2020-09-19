@@ -72,7 +72,7 @@ PATHS=(
     "/usr/local/opt/mysql@5.7/bin"
     "/usr/local/opt/bison/bin"
     "/usr/local/opt/gettext/bin"
-    "/usr/local/opt/binutils/bin"
+    # "/usr/local/opt/binutils/bin" # /usr/bin 以下のものを優先的に使いたいことの方が多かった…。 rbenv でビルドが毎回コケる。
     "/usr/local/opt/openssl/bin"
     "/usr/local/opt/coreutils/libexec/gnubin"
     "/usr/local/opt/findutils/libexec/gnubin"
@@ -131,3 +131,10 @@ export JLESSCHARSET=japanese-ujis
 
 # AWS
 export AWS_DEFAULT_PROFILE='dnpp-org'
+
+
+# rbenv で openssl を自前で持たないようにさせたい。
+# openssl ビルド時に binutils が BSD であることが前提のコードが入っているため
+# `export PATH=$(printenv PATH | tr ':' '\n' | grep -v binutils | tr '\n' ':' | sed -e 's/:$//')`
+# などして逃げる必要が出てきてしまう。
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@1.1"
