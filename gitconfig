@@ -27,6 +27,9 @@
 [push]
     default = simple
 
+[pull]
+    ff = only
+
 [alias]
     st  = status --branch --short
     ad  = add --all
