@@ -1,12 +1,12 @@
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-[ `uname` != "Linux" ] && return
+[ -z "${PS1}" ] && return
+[ $(uname) != 'Linux' ] && return
 
 alias_color='--color=always'
 
-alias ls="ls -F $alias_color"
-alias dir="dir $alias_color"
-alias vdir="vdir $alias_color"
+alias ls="ls -F ${alias_color}"
+alias dir="dir ${alias_color}"
+alias vdir="vdir ${alias_color}"
 
 # 変数のリセット
 unset alias_color

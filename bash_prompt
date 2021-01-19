@@ -1,5 +1,5 @@
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[ -z "${PS1}" ] && return
 
 # PS1
 export PROMPT_COMMAND=__prompt_command
@@ -22,9 +22,9 @@ function __prompt_command() {
 
     PS1=""
 
-    if [ `uname` = "Darwin" ]; then
+    if [ $(uname) = 'Darwin' ]; then
         PS1+="${COLOR_YELLOW_BOLD}\u${COLOR_YELLOW}@${COLOR_YELLOW_BOLD}\h"
-    elif [ `uname` = "Linux" ]; then
+    elif [ $(uname) = 'Linux' ]; then
         PS1+="${COLOR_GREEN_BOLD}\u${COLOR_GREEN}@${COLOR_GREEN_BOLD}\h"
     else
         PS1+="${COLOR_MAGENTA_BOLD}\u${COLOR_MAGENTA}@${COLOR_MAGENTA_BOLD}\h"
@@ -34,13 +34,13 @@ function __prompt_command() {
 
     PS1+="\! "
 
-    if [ "$EXIT" -ne 0 ]; then
+    if [ "${EXIT}" -ne 0 ]; then
         PS1+="${COLOR_RED_BOLD}✘${COLOR_OFF} "
     else
         PS1+="${COLOR_GREEN_BOLD}✔${COLOR_OFF} "
     fi
 
-    if [ "$UID" -eq 0 ]; then
+    if [ "${UID}" -eq 0 ]; then
         PS1+="${COLOR_RED_BOLD}#${COLOR_OFF} "
     else
         PS1+="${COLOR_MAGENTA_BOLD}\$${COLOR_OFF} "

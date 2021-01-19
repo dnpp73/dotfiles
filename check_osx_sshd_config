@@ -1,19 +1,19 @@
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-[ `uname` != "Darwin" ] && return
+[ -z "${PS1}" ] && return
+[ $(uname) != "Darwin" ] && return
 
 COLOR_GREEN_BOLD='\033[1;32m'
 COLOR_RED_BOLD='\033[1;31m'
 COLOR_OFF='\033[0m'
 
-diff /etc/ssh/sshd_config /etc/ssh/sshd_config.etc.osx > /dev/null 2>&1
+diff '/etc/ssh/sshd_config' '/etc/ssh/sshd_config.etc.osx' > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    echo -e ${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF} Check /etc/ssh/sshd_config
+    echo -e "${COLOR_RED_BOLD}[WARNING]${COLOR_OFF} Check /etc/ssh/sshd_config"
 fi
 
-egrep 'ssh\s+22' /etc/services > /dev/null 2>&1 
+egrep 'ssh\s+22' '/etc/services' > /dev/null 2>&1
 if [ $? -eq 0 ]; then
-    echo -e ${COLOR_RED_BOLD}"[WARNING]"${COLOR_OFF} Check /etc/services
+    echo -e "${COLOR_RED_BOLD}[WARNING]${COLOR_OFF} Check /etc/services"
 fi
 
 unset COLOR_GREEN_BOLD COLOR_RED_BOLD COLOR_OFF

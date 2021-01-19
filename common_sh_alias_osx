@@ -1,32 +1,32 @@
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-[ `uname` != "Darwin" ] && return
+[ -z "${PS1}" ] && return
+[ $(uname) != 'Darwin' ] && return
 
 alias_color='--color=always'
 
 # GNU coreutils
 # ls dir vdir が例外で --color=always を入れてる。
 # rm が例外でゴミ箱に入る感じ。
-if [ -x /usr/local/opt/coreutils/libexec/gnubin/yes ]; then
-    alias dir="dir $alias_color"
-    alias ls="ls -F $alias_color"
+if which yes | grep gnubin > /dev/null 2>&1; then
+    alias dir="dir ${alias_color}"
+    alias ls="ls -F ${alias_color}"
     #alias rm='mv -f --backup=numbered --target-directory ~/.Trash'
-    alias vdir="vdir $alias_color"
+    alias vdir="vdir ${alias_color}"
 else
-    #alias ls="ls -F $alias_color"
-    #alias dir="dir $alias_color"
-    #alias vdir="vdir $alias_color"
+    #alias ls="ls -F ${alias_color}"
+    #alias dir="dir ${alias_color}"
+    #alias vdir="vdir ${alias_color}"
     alias ls='ls -FG'
 fi
 
 # tmux
-alias t=tmuxx
+#alias t=tmuxx
 
 # Mac
-alias ct='open -a CotEditor'
+#alias ct='open -a CotEditor'
 #alias mi='open -a mi'
-alias gvim='open -a MacVim'
-alias macvim='open -a MacVim'
+#alias gvim='open -a MacVim'
+#alias macvim='open -a MacVim'
 
 # 変数のリセット
 unset alias_color

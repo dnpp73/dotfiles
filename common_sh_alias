@@ -1,5 +1,5 @@
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[ -z "${PS1}" ] && return
 
 alias_color='--color=always'
 
@@ -19,12 +19,12 @@ alias l='ls -Alh'
 #alias ~='cd ~'
 
 # grep
-alias g="grep $alias_color -in"
-alias G="grep $alias_color -n"
-alias f="fgrep $alias_color -in"
-alias F="fgrep $alias_color -n"
-alias e="egrep $alias_color -in"
-alias E="egrep $alias_color -n"
+alias g="grep ${alias_color} -in"
+alias G="grep ${alias_color} -n"
+alias f="fgrep ${alias_color} -in"
+alias F="fgrep ${alias_color} -n"
+alias e="egrep ${alias_color} -in"
+alias E="egrep ${alias_color} -n"
 #alias g3='g -A3 -B3'
 #alias g5='g -A5 -B5'
 #alias g10='g -A10 -B10'
@@ -36,14 +36,14 @@ alias E="egrep $alias_color -n"
 #alias e10='e -A10 -B10'
 
 # diff
-if [ -x /usr/local/bin/colordiff ] || [ -x /usr/bin/colordiff ]; then
+if which colordiff > /dev/null 2>&1; then
     alias diff='colordiff'
 fi
 
 # ccat
 if which ccat > /dev/null 2>&1; then
     alias ccat='ccat -G Keyword="*glay*" -G Decimal="glay" -G Plaintext="glay"'
-    # alias cat='ccat'
+    #alias cat='ccat'
 fi
 
 # util
@@ -63,8 +63,8 @@ alias shimesaba='pkill -f "[pP]ython -m SimpleHTTPServer"'
 
 # ssh
 alias sshmmn61='ssh mmn61-afp50548-vnc55900-airvideo45633'
-alias sshmbp111='ssh mbp111-local-over-mmn61-afp51548-vnc55901'
-alias sshraspberrypi='ssh raspberrypi-local-over-mmn61-vnc55902'
+#alias sshmbp111='ssh mbp111-local-over-mmn61-afp51548-vnc55901'
+#alias sshraspberrypi='ssh raspberrypi-local-over-mmn61-vnc55902'
 
 # screen
 alias sls='screen -ls'

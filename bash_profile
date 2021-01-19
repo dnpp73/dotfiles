@@ -1,5 +1,5 @@
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[ -z "${PS1}" ] && return
 
 
-[ -s "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+[ -s "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
