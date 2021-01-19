@@ -5,11 +5,11 @@
 [github]
     user = dnpp73
 
-#[url "ssh://git@github.com:22/"]
-#    insteadOf = git@github.com:
-#    insteadOf = http://github.com/
-#    insteadOf = https://github.com/
-#    insteadOf = git://github.com/
+[url "ssh://git@github.com:22/"]
+   insteadOf = git@github.com:
+   insteadOf = http://github.com/
+   insteadOf = https://github.com/
+   insteadOf = git://github.com/
 
 [color]
     diff        = auto
