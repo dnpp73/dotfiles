@@ -1,15 +1,15 @@
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[ -z "${PS1}" ] && return
 
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
+case "${TERM}" in
     xterm-color) color_prompt=yes;;
 esac
 
 
 # LANG
-case "$TERM" in
+case "${TERM}" in
     linux)
         LANGUAGE='C.UTF-8:C:POSIX'
         # LC_ALL='C'
@@ -35,98 +35,222 @@ fi
 
 # MANPATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
-MANPATH=""
+MANPATH=''
 MANPATHS=(
-    "/usr/X11/man"
-    "/usr/share/man"
-    "/usr/local/share/man"
-    "/usr/local/opt/coreutils/libexec/gnuman"
-    "/usr/local/opt/findutils/libexec/gnuman"
-    "/usr/local/opt/gnu-sed/libexec/gnuman"
-    "/usr/local/opt/gnu-tar/libexec/gnuman"
-    "/usr/local/opt/grep/libexec/gnuman"
+    # homebrew Intel
+    '/usr/X11/man'
+    '/usr/share/man'
+    '/usr/local/share/man'
+    '/usr/local/opt/coreutils/libexec/gnuman'
+    '/usr/local/opt/findutils/libexec/gnuman'
+    '/usr/local/opt/gnu-sed/libexec/gnuman'
+    '/usr/local/opt/gnu-tar/libexec/gnuman'
+    '/usr/local/opt/grep/libexec/gnuman'
+
+    # homebrew Apple M1
+    '/opt/homebrew/share/man'
+    '/opt/homebrew/opt/coreutils/libexec/gnuman'
+    '/opt/homebrew/opt/findutils/libexec/gnuman'
+    '/opt/homebrew/opt/gnu-sed/libexec/gnuman'
+    '/opt/homebrew/opt/gnu-tar/libexec/gnuman'
+    '/opt/homebrew/opt/grep/libexec/gnuman'
 )
 for m in ${MANPATHS[@]}; do
-    [ -d "$m" ] && MANPATH="$m:$MANPATH"
+    [ -d "${m}" ] && MANPATH="${m}:${MANPATH}"
 done
-MANPATH=$(echo $MANPATH | sed -e 's/:$//')
+MANPATH=$(echo "${MANPATH}" | sed -e 's/:$//')
 export MANPATH
 
 
-#PATH
+# PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
-PATH=""
+PATH=''
 PATHS=(
-    "/usr/games"
-    "/usr/bin/X11"
-    "/usr/X11/bin"
-    "/sbin"
-    "/bin"
-    "/usr/sbin"
-    "/usr/bin"
-    "/usr/local/sbin"
-    "/usr/local/bin"
-    "/usr/local/go/bin"
-    "/usr/local/opt/sqlite/bin"
-    "/usr/local/opt/mysql-client/bin"
-    "/usr/local/opt/mysql@5.7/bin"
-    "/usr/local/opt/bison/bin"
-    "/usr/local/opt/gettext/bin"
-    # "/usr/local/opt/binutils/bin" # /usr/bin 以下のものを優先的に使いたいことの方が多かった…。 rbenv でビルドが毎回コケる。
-    "/usr/local/opt/openssl/bin"
-    "/usr/local/opt/coreutils/libexec/gnubin"
-    "/usr/local/opt/findutils/libexec/gnubin"
-    "/usr/local/opt/gnu-sed/libexec/gnubin"
-    "/usr/local/opt/gnu-tar/libexec/gnubin"
-    "/usr/local/opt/grep/libexec/gnubin"
-    "$HOME/Library/Android/sdk/platform-tools"
-    "$HOME/go/bin" # $GOPATH/bin だと GOPATH が無かったときに /bin になるため。
-    # "$HOME/.goenv/bin"
-    # "$HOME/.nodenv/bin"
-    # "$HOME/.pyenv/bin"
-    # "$HOME/.rbenv/bin"
-    "$HOME/sbin"
-    "$HOME/bin"
+    '/usr/games'
+    '/usr/bin/X11'
+    '/usr/X11/bin'
+    '/sbin'
+    '/bin'
+    '/usr/sbin'
+    '/usr/bin'
+
+    # homebrew Intel
+    '/usr/local/opt/ncurses/bin'
+    '/usr/local/opt/tcl-tk/bin'
+    '/usr/local/opt/sqlite/bin'
+    '/usr/local/opt/mysql-client/bin'
+    '/usr/local/opt/mysql@5.7/bin'
+    '/usr/local/opt/bison/bin'
+    '/usr/local/opt/gettext/bin'
+    '/usr/local/opt/icu4c/bin'
+    '/usr/local/opt/icu4c/sbin'
+    '/usr/local/opt/gnu-getopt/bin'
+    '/usr/local/opt/openssl/bin'
+    '/usr/local/opt/openssl@1.1/bin'
+    # '/usr/local/opt/binutils/bin' # /usr/bin 以下のものを優先的に使いたいことの方が多かった…。 rbenv でビルドが毎回コケる。
+    '/usr/local/opt/findutils/libexec/gnubin'
+    '/usr/local/opt/coreutils/libexec/gnubin'
+    '/usr/local/opt/gnu-sed/libexec/gnubin'
+    '/usr/local/opt/gnu-tar/libexec/gnubin'
+    '/usr/local/opt/grep/libexec/gnubin'
+    '/usr/local/sbin'
+    '/usr/local/bin'
+    '/usr/local/go/bin'
+
+    # homebrew Apple M1
+    '/opt/homebrew/opt/ncurses/bin'
+    '/opt/homebrew/opt/tcl-tk/bin'
+    '/opt/homebrew/opt/sqlite/bin'
+    '/opt/homebrew/opt/mysql-client/bin'
+    '/opt/homebrew/opt/mysql@5.7/bin'
+    '/opt/homebrew/opt/bison/bin'
+    '/opt/homebrew/opt/gettext/bin'
+    '/opt/homebrew/opt/icu4c/bin'
+    '/opt/homebrew/opt/icu4c/sbin'
+    '/opt/homebrew/opt/gnu-getopt/bin'
+    '/opt/homebrew/opt/openssl/bin'
+    '/opt/homebrew/opt/openssl@1.1/bin'
+    # '/opt/homebrew/opt/binutils/bin' # /usr/bin 以下のものを優先的に使いたいことの方が多かった…。 rbenv でビルドが毎回コケる。
+    '/opt/homebrew/opt/findutils/libexec/gnubin'
+    '/opt/homebrew/opt/coreutils/libexec/gnubin'
+    '/opt/homebrew/opt/gnu-sed/libexec/gnubin'
+    '/opt/homebrew/opt/gnu-tar/libexec/gnubin'
+    '/opt/homebrew/opt/grep/libexec/gnubin'
+    '/opt/homebrew/sbin'
+    '/opt/homebrew/bin'
+
+    "${HOME}/Library/Android/sdk/platform-tools"
+    "${HOME}/go/bin" # $GOPATH/bin だと GOPATH が無かったときに /bin になるため。
+    # "${HOME}/.goenv/bin"
+    # "${HOME}/.nodenv/bin"
+    # "${HOME}/.pyenv/bin"
+    # "${HOME}/.rbenv/bin"
+    "${HOME}/sbin"
+    "${HOME}/bin"
 )
 for p in ${PATHS[@]}; do
-    [ -d "$p" ] && PATH="$p:$PATH"
+    [ -d "${p}" ] && PATH="${p}:${PATH}"
 done
-PATH=$(echo $PATH | sed -e 's/:$//')
+PATH=$(echo "${PATH}" | sed -e 's/:$//')
 export PATH
 
 
+# LDFLAGS
+# 上の方が優先度が低い。ディレクトリがあれば追加していく。
+LDFLAGS=''
+LDFLAGS_LIST=(
+    # homebrew Intel
+    '/usr/local/opt/readline/lib'
+    '/usr/local/opt/libffi/lib'
+    '/usr/local/opt/openssl@1.1/lib'
+    '/usr/local/opt/mysql@5.7/lib'
+    '/usr/local/opt/sqlite/lib'
+    '/usr/local/opt/icu4c/lib'
+    '/usr/local/opt/ncurses/lib'
+    '/usr/local/opt/tcl-tk/lib'
+    '/usr/local/opt/binutils/lib'
+
+    # homebrew Apple M1
+    '/opt/homebrew/opt/readline/lib'
+    '/opt/homebrew/opt/libffi/lib'
+    '/opt/homebrew/opt/openssl@1.1/lib'
+    '/opt/homebrew/opt/mysql@5.7/lib'
+    '/opt/homebrew/opt/sqlite/lib'
+    '/opt/homebrew/opt/icu4c/lib'
+    '/opt/homebrew/opt/ncurses/lib'
+    '/opt/homebrew/opt/tcl-tk/lib'
+    '/opt/homebrew/opt/binutils/lib'
+)
+for l in ${LDFLAGS_LIST[@]}; do
+    [ -d "${l}" ] && LDFLAGS="-L${l} ${LDFLAGS}"
+done
+LDFLAGS=$(echo "${LDFLAGS}" | sed -e 's/ $//')
+export LDFLAGS
+
+
+# CPPFLAGS
+# 上の方が優先度が低い。ディレクトリがあれば追加していく。
+CPPFLAGS=''
+CPPFLAGS_LIST=(
+    # homebrew Intel
+    '/usr/local/opt/readline/include'
+    '/usr/local/opt/libffi/include'
+    '/usr/local/opt/openssl@1.1/include'
+    '/usr/local/opt/mysql@5.7/include'
+    '/usr/local/opt/sqlite/include'
+    '/usr/local/opt/icu4c/include'
+    '/usr/local/opt/ncurses/include'
+    '/usr/local/opt/tcl-tk/include'
+    '/usr/local/opt/binutils/include'
+
+    # homebrew Apple M1
+    '/opt/homebrew/opt/readline/include'
+    '/opt/homebrew/opt/libffi/include'
+    '/opt/homebrew/opt/openssl@1.1/include'
+    '/opt/homebrew/opt/mysql@5.7/include'
+    '/opt/homebrew/opt/sqlite/include'
+    '/opt/homebrew/opt/icu4c/include'
+    '/opt/homebrew/opt/ncurses/include'
+    '/opt/homebrew/opt/tcl-tk/include'
+    '/opt/homebrew/opt/binutils/include'
+)
+for c in ${CPPFLAGS_LIST[@]}; do
+    [ -d "${c}" ] && CPPFLAGS="-I${c} ${CPPFLAGS}"
+done
+CPPFLAGS=$(echo "${CPPFLAGS}" | sed -e 's/ $//')
+export CPPFLAGS
+
+
+# PKG_CONFIG_PATH
+# 上の方が優先度が低い。ディレクトリがあれば追加していく。
+PKG_CONFIG_PATH=''
+PKG_CONFIG_PATHS=(
+    # homebrew Intel
+    '/usr/local/opt/libffi/lib/pkgconfig'
+    '/usr/local/opt/openssl@1.1/lib/pkgconfig'
+    '/usr/local/opt/mysql@5.7/lib/pkgconfig'
+    '/usr/local/opt/sqlite/lib/pkgconfig'
+    '/usr/local/opt/icu4c/lib/pkgconfig'
+
+    # homebrew Apple M1
+    '/opt/homebrew/opt/libffi/lib/pkgconfig'
+    '/opt/homebrew/opt/openssl@1.1/lib/pkgconfig'
+    '/opt/homebrew/opt/mysql@5.7/lib/pkgconfig'
+    '/opt/homebrew/opt/sqlite/lib/pkgconfig'
+    '/opt/homebrew/opt/icu4c/lib/pkgconfig'
+)
+for p in ${PKG_CONFIG_PATHS[@]}; do
+    [ -d "${p}" ] && PKG_CONFIG_PATH="${p}:${PKG_CONFIG_PATH}"
+done
+PKG_CONFIG_PATH=$(echo "${PKG_CONFIG_PATH}" | sed -e 's/:$//')
+export PKG_CONFIG_PATH
+
+
 # EDITOR
-if [ -x /usr/local/bin/vim ]; then
-    EDITOR=/usr/local/bin/vim
-    export EDITOR
-elif [ -x /usr/bin/vim ]; then
-    EDITOR=/usr/bin/vim
+EDITOR=$(which vim)
+if [ $? -eq 0 ]; then
     export EDITOR
 fi
 
 
 # PAGER
 # man とかを見るときはいつも less を使う。
-if [ -x /usr/local/bin/less ]; then
-    PAGER=/usr/local/bin/less
-    export PAGER
-elif [ -x /usr/bin/less ]; then
-    PAGER=/usr/bin/less
+PAGER=$(which less)
+if [ $? -eq 0 ]; then
     export PAGER
 fi
 
 # less
 # ステータス行にファイル名と行数、いま何%かを表示するようにする。
 export LESS='-R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
-if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
-    export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+
+SRC_HILITE_LESSPIPE_SH=$(which src-hilite-lesspipe.sh)
+if [ $? -eq 0 ]; then
+    export LESSOPEN="| ${SRC_HILITE_LESSPIPE_SH} %s"
 fi
 
 # これを設定しないと日本語がでない less もあるので一応入れておく。
-export JLESSCHARSET=japanese-ujis
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+export JLESSCHARSET='japanese-ujis'
 
 
 # AWS
@@ -137,4 +261,8 @@ export AWS_DEFAULT_PROFILE='dnpp-org'
 # openssl ビルド時に binutils が BSD であることが前提のコードが入っているため
 # `export PATH=$(printenv PATH | tr ':' '\n' | grep -v binutils | tr '\n' ':' | sed -e 's/:$//')`
 # などして逃げる必要が出てきてしまう。
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@1.1"
+# brew --prefix は遅いらしいので直に書く。
+if which brew > /dev/null 2>&1; then
+    [ -d '/usr/local/opt/openssl@1.1' ] && export RUBY_CONFIGURE_OPTS='--with-openssl-dir=/usr/local/opt/openssl@1.1'
+    [ -d '/opt/homebrew/opt/openssl@1.1' ] && export RUBY_CONFIGURE_OPTS='--with-openssl-dir=/opt/homebrew/opt/openssl@1.1'
+fi
