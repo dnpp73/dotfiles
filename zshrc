@@ -134,7 +134,11 @@ source "${ZSH}/oh-my-zsh.sh"
 
 
 # homebrew が勝手に追記したやつ
-fpath=(/usr/local/share/zsh-completions ${fpath})
+fpath=(
+    /opt/homebrew/share/zsh-completions(N-/)
+    /usr/local/share/zsh-completions(N-/)
+    ${fpath}
+)
 
 
 # Google Cloud SDK
@@ -183,6 +187,6 @@ unset -f safe_source
 
 
 # Mac /etc/sshd_config check
-    if [ $(uname) = 'Darwin' ]; then
+if [ $(uname) = 'Darwin' ]; then
     source "${ORG_DIR}/check_osx_sshd_config"
 fi

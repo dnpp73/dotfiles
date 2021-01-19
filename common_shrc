@@ -121,10 +121,10 @@ PATHS=(
 
     "${HOME}/Library/Android/sdk/platform-tools"
     "${HOME}/go/bin" # $GOPATH/bin だと GOPATH が無かったときに /bin になるため。
-    # "${HOME}/.goenv/bin"
-    # "${HOME}/.nodenv/bin"
-    # "${HOME}/.pyenv/bin"
-    # "${HOME}/.rbenv/bin"
+    "${HOME}/.goenv/bin"
+    "${HOME}/.nodenv/bin"
+    "${HOME}/.pyenv/bin"
+    "${HOME}/.rbenv/bin"
     "${HOME}/sbin"
     "${HOME}/bin"
 )
@@ -263,6 +263,10 @@ export AWS_DEFAULT_PROFILE='dnpp-org'
 # などして逃げる必要が出てきてしまう。
 # brew --prefix は遅いらしいので直に書く。
 if which brew > /dev/null 2>&1; then
-    [ -d '/usr/local/opt/openssl@1.1' ] && export RUBY_CONFIGURE_OPTS='--with-openssl-dir=/usr/local/opt/openssl@1.1'
-    [ -d '/opt/homebrew/opt/openssl@1.1' ] && export RUBY_CONFIGURE_OPTS='--with-openssl-dir=/opt/homebrew/opt/openssl@1.1'
+    if uname -m | grep 'x86_64' > /dev/null 2>&1 ; then
+        export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@1.1 --with-readline-dir=/usr/local"
+    elif uname -m | grep 'arm64' > /dev/null 2>&1 ; then
+        export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/opt/homebrew/opt/openssl@1.1 --with-readline-dir=/opt/homebrew"
+        export RUBY_CFLAGS='-DUSE_FFI_CLOSURE_ALLOC'
+    fi
 fi
