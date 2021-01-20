@@ -33,10 +33,10 @@ KEY_FILES=('id_rsa' 'id_ecdsa' 'id_ed25519' 'id_rsa_aws' 'id_rsa_gcp')
 
 # 鍵を足して終わり
 if pgrep ssh-agent > /dev/null 2>&1; then
-    for key in ${KEY_FILES[@]}; do
+    for key in "${KEY_FILES[@]}"; do
         KEY_FULL_PATH="${HOME}/.ssh/${key}"
         if [ -f "${KEY_FULL_PATH}" ]; then
-            if [ $(uname) = 'Darwin' ]; then
+            if [ "$(uname)" = 'Darwin' ]; then
                 ssh-add -K "${KEY_FULL_PATH}" > /dev/null 2>&1
             else
                 ssh-add "${KEY_FULL_PATH}" > /dev/null 2>&1

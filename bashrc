@@ -3,12 +3,12 @@
 
 
 # constants
-C_DIR=$(cd "$(dirname "${BASH_SOURCE}")" || exit 1; pwd)
+C_DIR=$(cd "$(dirname "${BASH_SOURCE:$0}")" || exit 1; pwd)
 ORG_DIR="${C_DIR}"
-[ -L "${BASH_SOURCE}" ] && ORG_DIR=$(cd "$(dirname "$(readlink "${BASH_SOURCE}")")" || exit 1; pwd)
-COLOR_GREEN_BOLD='\033[1;32m'
-COLOR_RED_BOLD='\033[1;31m'
-COLOR_OFF='\033[0m'
+[ -L "${BASH_SOURCE:$0}" ] && ORG_DIR=$(cd "$(dirname "$(readlink "${BASH_SOURCE:$0}")")" || exit 1; pwd)
+# COLOR_GREEN_BOLD='\033[1;32m'
+# COLOR_RED_BOLD='\033[1;31m'
+# COLOR_OFF='\033[0m'
 
 
 function safe_source() {
@@ -168,7 +168,7 @@ elif [ -s '/etc/bash_completion' ]; then
 fi
 
 
-if [ $(uname) = 'Darwin' ]; then
+if [ "$(uname)" = 'Darwin' ]; then
     # homebrew で入れた curl-ca-bundle
     [ -r '/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt' ] && export SSL_CERT_FILE='/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt'
     [ -r '/opt/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt' ] && export SSL_CERT_FILE='/opt/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt'
@@ -191,15 +191,15 @@ unalias -a
 safe_source "${ORG_DIR}/common_sh_alias" 'alias'
 
 # Mac or Ubuntu alias
-if [ $(uname) = 'Darwin' ]; then
+if [ "$(uname)" = 'Darwin' ]; then
     safe_source "${ORG_DIR}/common_sh_alias_osx"
-elif [ $(uname) = 'Linux' ]; then
+elif [ "$(uname)" = 'Linux' ]; then
     safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
 fi
 
 
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ。 ssh 接続先では読まないようにする。
-if [ -z "${SSH_CONNECTION}" -a -z "${SSH_CLIENT}" -a -z "${SSH_TTY}" ]; then
+if [ -z "${SSH_CONNECTION}" ] && [ -z "${SSH_CLIENT}" ] && [ -z "${SSH_TTY}" ]; then
     safe_source "${ORG_DIR}/env_ssh_auth_sock" 'ssh_sock'
 fi
 
@@ -217,6 +217,6 @@ unset -f safe_source
 
 
 # Mac /etc/sshd_config check
-if [ $(uname) = 'Darwin' ]; then
+if [ "$(uname)" = 'Darwin' ]; then
     source "${ORG_DIR}/check_osx_sshd_config"
 fi

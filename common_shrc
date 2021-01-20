@@ -55,7 +55,7 @@ MANPATHS=(
     '/opt/homebrew/opt/gnu-tar/libexec/gnuman'
     '/opt/homebrew/opt/grep/libexec/gnuman'
 )
-for m in ${MANPATHS[@]}; do
+for m in "${MANPATHS[@]}"; do
     [ -d "${m}" ] && MANPATH="${m}:${MANPATH}"
 done
 MANPATH=$(echo "${MANPATH}" | sed -e 's/:$//')
@@ -128,7 +128,7 @@ PATHS=(
     "${HOME}/sbin"
     "${HOME}/bin"
 )
-for p in ${PATHS[@]}; do
+for p in "${PATHS[@]}"; do
     [ -d "${p}" ] && PATH="${p}:${PATH}"
 done
 PATH=$(echo "${PATH}" | sed -e 's/:$//')
@@ -161,7 +161,7 @@ LDFLAGS_LIST=(
     '/opt/homebrew/opt/tcl-tk/lib'
     '/opt/homebrew/opt/binutils/lib'
 )
-for l in ${LDFLAGS_LIST[@]}; do
+for l in "${LDFLAGS_LIST[@]}"; do
     [ -d "${l}" ] && LDFLAGS="-L${l} ${LDFLAGS}"
 done
 LDFLAGS=$(echo "${LDFLAGS}" | sed -e 's/ $//')
@@ -219,7 +219,7 @@ PKG_CONFIG_PATHS=(
     '/opt/homebrew/opt/sqlite/lib/pkgconfig'
     '/opt/homebrew/opt/icu4c/lib/pkgconfig'
 )
-for p in ${PKG_CONFIG_PATHS[@]}; do
+for p in "${PKG_CONFIG_PATHS[@]}"; do
     [ -d "${p}" ] && PKG_CONFIG_PATH="${p}:${PKG_CONFIG_PATH}"
 done
 PKG_CONFIG_PATH=$(echo "${PKG_CONFIG_PATH}" | sed -e 's/:$//')
@@ -228,7 +228,8 @@ export PKG_CONFIG_PATH
 
 # EDITOR
 EDITOR=$(which vim)
-if [ $? -eq 0 ]; then
+VIM_EXIST=$?
+if [ "${VIM_EXIST}" -eq 0 ]; then
     export EDITOR
 fi
 
@@ -236,7 +237,8 @@ fi
 # PAGER
 # man とかを見るときはいつも less を使う。
 PAGER=$(which less)
-if [ $? -eq 0 ]; then
+LESS_EXIST=$?
+if [ "${LESS_EXIST}" -eq 0 ]; then
     export PAGER
 fi
 

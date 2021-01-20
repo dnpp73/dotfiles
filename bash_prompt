@@ -11,10 +11,10 @@ function __prompt_command() {
     local COLOR_GREEN_BOLD='\[\033[1;32m\]'
     local COLOR_GREEN='\[\033[0;32m\]'
     local COLOR_RED_BOLD='\[\033[1;31m\]'
-    local COLOR_RED='\[\033[0;31m\]'
+    # local COLOR_RED='\[\033[0;31m\]'
     local COLOR_WHITE_BOLD='\[\033[1;37m\]'
     local COLOR_WHITE='\[\033[0;37m\]'
-    local COLOR_CYAN_BOLD='\[\033[1;36m\]'
+    # local COLOR_CYAN_BOLD='\[\033[1;36m\]'
     local COLOR_CYAN='\[\033[0;36m\]'
     local COLOR_MAGENTA_BOLD='\[\033[1;35m\]'
     local COLOR_MAGENTA='\[\033[0;35m\]'
@@ -22,9 +22,9 @@ function __prompt_command() {
 
     PS1=""
 
-    if [ $(uname) = 'Darwin' ]; then
+    if [ "$(uname)" = 'Darwin' ]; then
         PS1+="${COLOR_YELLOW_BOLD}\u${COLOR_YELLOW}@${COLOR_YELLOW_BOLD}\h"
-    elif [ $(uname) = 'Linux' ]; then
+    elif [ "$(uname)" = 'Linux' ]; then
         PS1+="${COLOR_GREEN_BOLD}\u${COLOR_GREEN}@${COLOR_GREEN_BOLD}\h"
     else
         PS1+="${COLOR_MAGENTA_BOLD}\u${COLOR_MAGENTA}@${COLOR_MAGENTA_BOLD}\h"

@@ -1,6 +1,6 @@
 # If not running interactively, don't do anything
 [ -z "${PS1}" ] && return
-[ $(uname) != 'Darwin' ] && return
+[ "$(uname)" != 'Darwin' ] && return
 
 alias_color='--color=always'
 
