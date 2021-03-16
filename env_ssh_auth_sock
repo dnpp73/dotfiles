@@ -5,7 +5,8 @@ AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@$(hostname)"
 SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-$(date|md5sum|cut -d ' ' -f1)"
 
 printenv SSH_AUTH_SOCK > /dev/null 2>&1
-if [ $? -eq 0 ]; then
+SSH_AUTH_SOCK_EXISTS=$?
+if [ ${SSH_AUTH_SOCK_EXISTS} -eq 0 ]; then
     # 環境変数 SSH_AUTH_SOCK がある場合
     if [ "${SSH_AUTH_SOCK}" != "${AGENT_SOCK_FILE}" ]; then
         # 毎回変わるタイプのソケットだったらシンボリックリンクを張ってそっちに向ける。
@@ -29,20 +30,18 @@ else
     fi
 fi
 
-KEY_FILES=('id_rsa' 'id_ecdsa' 'id_ed25519' 'id_rsa_aws' 'id_rsa_gcp')
+test "$(uname)" = 'Darwin'
+USE_OSX_KEYCHAIN=$?
 
 # 鍵を足して終わり
 if pgrep ssh-agent > /dev/null 2>&1; then
-    for key in "${KEY_FILES[@]}"; do
-        KEY_FULL_PATH="${HOME}/.ssh/${key}"
-        if [ -f "${KEY_FULL_PATH}" ]; then
-            if [ "$(uname)" = 'Darwin' ]; then
-                ssh-add -K "${KEY_FULL_PATH}" > /dev/null 2>&1
-            else
-                ssh-add "${KEY_FULL_PATH}" > /dev/null 2>&1
-            fi
+    find "${HOME}/.ssh" -maxdepth 1 -perm 600 | while read -r KEY_FULL_PATH; do
+        if [ ${USE_OSX_KEYCHAIN} -eq 0 ]; then
+            ssh-add -K "${KEY_FULL_PATH}" > /dev/null 2>&1
+        else
+            ssh-add "${KEY_FULL_PATH}" > /dev/null 2>&1
         fi
     done
 fi
 
-unset AGENT_SOCK_FILE SSH_AGENT_FILE KEY_FILES
+unset AGENT_SOCK_FILE SSH_AGENT_FILE SSH_AUTH_SOCK_EXISTS USE_OSX_KEYCHAIN
