@@ -7,7 +7,7 @@ alias_color='--color=always'
 # GNU coreutils
 # ls dir vdir が例外で --color=always を入れてる。
 # rm が例外でゴミ箱に入る感じ。
-if which yes | grep gnubin > /dev/null 2>&1; then
+if which yes | grep gnubin >/dev/null 2>&1; then
     alias dir="dir ${alias_color}"
     alias ls="ls -F ${alias_color}"
     #alias rm='mv -f --backup=numbered --target-directory ~/.Trash'
