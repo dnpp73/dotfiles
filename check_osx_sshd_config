@@ -6,11 +6,11 @@
 COLOR_RED_BOLD='\033[1;31m'
 COLOR_OFF='\033[0m'
 
-if ! diff '/etc/ssh/sshd_config' '/etc/ssh/sshd_config.etc.osx' > /dev/null 2>&1; then
+if ! diff '/etc/ssh/sshd_config' '/etc/ssh/sshd_config.etc.osx' >/dev/null 2>&1; then
     echo -e "${COLOR_RED_BOLD}[WARNING]${COLOR_OFF} Check /etc/ssh/sshd_config"
 fi
 
-if grep -E 'ssh\s+22' '/etc/services' > /dev/null 2>&1; then
+if grep -E 'ssh\s+22' '/etc/services' >/dev/null 2>&1; then
     echo -e "${COLOR_RED_BOLD}[WARNING]${COLOR_OFF} Check /etc/services"
 fi
 

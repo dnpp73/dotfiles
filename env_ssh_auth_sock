@@ -2,9 +2,9 @@
 [ -z "${PS1}" ] && return
 
 AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@$(hostname)"
-SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-$(date|md5sum|cut -d ' ' -f1)"
+SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-$(date | md5sum | cut -d ' ' -f1)"
 
-printenv SSH_AUTH_SOCK > /dev/null 2>&1
+printenv SSH_AUTH_SOCK >/dev/null 2>&1
 SSH_AUTH_SOCK_EXISTS=$?
 if [ ${SSH_AUTH_SOCK_EXISTS} -eq 0 ]; then
     # 環境変数 SSH_AUTH_SOCK がある場合
@@ -21,8 +21,8 @@ else
         export SSH_AUTH_SOCK="${AGENT_SOCK_FILE}"
     else
         # ssh-agent を起動して /tmp 以下にとりあえず情報を保持して source で読み込む
-        ssh-agent > "${SSH_AGENT_FILE}"
-        source "${SSH_AGENT_FILE}" > /dev/null 2>&1
+        ssh-agent >"${SSH_AGENT_FILE}"
+        source "${SSH_AGENT_FILE}" >/dev/null 2>&1
 
         # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
         ln -sf "${SSH_AUTH_SOCK}" "${AGENT_SOCK_FILE}"
@@ -33,13 +33,13 @@ fi
 test "$(uname)" = 'Darwin'
 USE_OSX_KEYCHAIN=$?
 
-# 鍵を足して終わり
-if pgrep ssh-agent > /dev/null 2>&1; then
+# 鍵を足して終わり。perm が 600 になってるものを雑に find で探している。
+if pgrep ssh-agent >/dev/null 2>&1; then
     find "${HOME}/.ssh" -maxdepth 1 -perm 600 | while read -r KEY_FULL_PATH; do
         if [ ${USE_OSX_KEYCHAIN} -eq 0 ]; then
-            ssh-add -K "${KEY_FULL_PATH}" > /dev/null 2>&1
+            ssh-add -K "${KEY_FULL_PATH}" >/dev/null 2>&1
         else
-            ssh-add "${KEY_FULL_PATH}" > /dev/null 2>&1
+            ssh-add "${KEY_FULL_PATH}" >/dev/null 2>&1
         fi
     done
 fi

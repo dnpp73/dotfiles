@@ -36,12 +36,12 @@ alias E="egrep ${alias_color} -n"
 #alias e10='e -A10 -B10'
 
 # diff
-if which colordiff > /dev/null 2>&1; then
+if which colordiff >/dev/null 2>&1; then
     alias diff='colordiff'
 fi
 
 # ccat
-if which ccat > /dev/null 2>&1; then
+if which ccat >/dev/null 2>&1; then
     alias ccat='ccat -G Keyword="*glay*" -G Decimal="glay" -G Plaintext="glay"'
     #alias cat='ccat'
 fi

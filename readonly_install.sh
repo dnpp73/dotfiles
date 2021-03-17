@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [ -n "$(which git)" ]; then
     echo " [$(basename "$0")] readonly install start."
 else
@@ -8,11 +7,9 @@ else
     exit 1
 fi
 
-
 E_DIR='environments'
 NOW=$(date '+%Y%m%d%H%M%S')
 BACKUP_SUFFIX="${NOW}bak"
-
 
 cd "${HOME}" || exit 1
 

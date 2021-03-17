@@ -1,37 +1,33 @@
 # If not running interactively, don't do anything
 [ -z "${PS1}" ] && return
 
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "${TERM}" in
-    xterm-color) color_prompt=yes;;
+xterm-color) color_prompt=yes ;;
 esac
-
 
 # LANG
 case "${TERM}" in
-    linux)
-        LANGUAGE='C.UTF-8:C:POSIX'
-        # LC_ALL='C'
-        # LC_CTYPE='C'
-        # LANG='C'
-        ;;
-    *)
-        LANGUAGE='ja_JP.UTF-8:en_US.utf8:C.UTF-8:C:POSIX'
-        # LC_ALL='ja_JP.UTF-8'
-        # LC_CTYPE='ja_JP.UTF-8'
-        # LANG='ja_JP.UTF-8'
-        ;;
+linux)
+    LANGUAGE='C.UTF-8:C:POSIX'
+    # LC_ALL='C'
+    # LC_CTYPE='C'
+    # LANG='C'
+    ;;
+*)
+    LANGUAGE='ja_JP.UTF-8:en_US.utf8:C.UTF-8:C:POSIX'
+    # LC_ALL='ja_JP.UTF-8'
+    # LC_CTYPE='ja_JP.UTF-8'
+    # LANG='ja_JP.UTF-8'
+    ;;
 esac
 export LANGUAGE # LC_ALL LC_CTYPE LANG
-
 
 # GOPATH
 if [ -d "${HOME}/go" ]; then
     GOPATH="${HOME}/go"
     export GOPATH
 fi
-
 
 # MANPATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
@@ -60,7 +56,6 @@ for m in "${MANPATHS[@]}"; do
 done
 MANPATH=$(echo "${MANPATH}" | sed -e 's/:$//')
 export MANPATH
-
 
 # PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
@@ -134,7 +129,6 @@ done
 PATH=$(echo "${PATH}" | sed -e 's/:$//')
 export PATH
 
-
 # LDFLAGS
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
 LDFLAGS=''
@@ -166,7 +160,6 @@ for l in "${LDFLAGS_LIST[@]}"; do
 done
 LDFLAGS=$(echo "${LDFLAGS}" | sed -e 's/ $//')
 export LDFLAGS
-
 
 # CPPFLAGS
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
@@ -200,7 +193,6 @@ done
 CPPFLAGS=$(echo "${CPPFLAGS}" | sed -e 's/ $//')
 export CPPFLAGS
 
-
 # PKG_CONFIG_PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
 PKG_CONFIG_PATH=''
@@ -225,14 +217,12 @@ done
 PKG_CONFIG_PATH=$(echo "${PKG_CONFIG_PATH}" | sed -e 's/:$//')
 export PKG_CONFIG_PATH
 
-
 # EDITOR
 EDITOR=$(which vim)
 VIM_EXIST=$?
 if [ "${VIM_EXIST}" -eq 0 ]; then
     export EDITOR
 fi
-
 
 # PAGER
 # man とかを見るときはいつも less を使う。
@@ -254,20 +244,18 @@ fi
 # これを設定しないと日本語がでない less もあるので一応入れておく。
 export JLESSCHARSET='japanese-ujis'
 
-
 # AWS
 export AWS_DEFAULT_PROFILE='dnpp-org'
-
 
 # rbenv で openssl を自前で持たないようにさせたい。
 # openssl ビルド時に binutils が BSD であることが前提のコードが入っているため
 # `export PATH=$(printenv PATH | tr ':' '\n' | grep -v binutils | tr '\n' ':' | sed -e 's/:$//')`
 # などして逃げる必要が出てきてしまう。
 # brew --prefix は遅いらしいので直に書く。
-if which brew > /dev/null 2>&1; then
-    if uname -m | grep 'x86_64' > /dev/null 2>&1 ; then
+if which brew >/dev/null 2>&1; then
+    if uname -m | grep 'x86_64' >/dev/null 2>&1; then
         export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@1.1 --with-readline-dir=/usr/local"
-    elif uname -m | grep 'arm64' > /dev/null 2>&1 ; then
+    elif uname -m | grep 'arm64' >/dev/null 2>&1; then
         export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/opt/homebrew/opt/openssl@1.1 --with-readline-dir=/opt/homebrew"
         export RUBY_CFLAGS='-DUSE_FFI_CLOSURE_ALLOC'
     fi
