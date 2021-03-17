@@ -187,7 +187,7 @@ CPPFLAGS_LIST=(
     '/opt/homebrew/opt/tcl-tk/include'
     '/opt/homebrew/opt/binutils/include'
 )
-for c in ${CPPFLAGS_LIST[@]}; do
+for c in "${CPPFLAGS_LIST[@]}"; do
     [ -d "${c}" ] && CPPFLAGS="-I${c} ${CPPFLAGS}"
 done
 CPPFLAGS=$(echo "${CPPFLAGS}" | sed -e 's/ $//')
@@ -237,7 +237,8 @@ fi
 export LESS='-R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
 
 SRC_HILITE_LESSPIPE_SH=$(which src-hilite-lesspipe.sh)
-if [ $? -eq 0 ]; then
+SRC_HILITE_LESSPIPE_EXIST=$?
+if [ "${SRC_HILITE_LESSPIPE_EXIST}" -eq 0 ]; then
     export LESSOPEN="| ${SRC_HILITE_LESSPIPE_SH} %s"
 fi
 
