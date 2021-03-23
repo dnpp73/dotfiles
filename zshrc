@@ -103,6 +103,11 @@ if [ -n "${pyenv_root}" ]; then
     fi
 fi
 
+# serverless framework
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
+
 # oh-my-zsh
 ZSH="${HOME}/.oh-my-zsh"
 
