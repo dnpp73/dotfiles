@@ -24,6 +24,9 @@
     autocrlf     = input
     excludesfile = ~/.gitignore_global
 
+[init]
+    defaultBranch = master
+
 [push]
     default = simple
 
