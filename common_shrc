@@ -261,3 +261,11 @@ if which brew >/dev/null 2>&1; then
         export RUBY_CFLAGS='-DUSE_FFI_CLOSURE_ALLOC'
     fi
 fi
+
+# for Swift mint
+if which mint >/dev/null 2>&1; then
+    export MINT_PATH="${HOME}/.mint/lib"
+    export MINT_LINK_PATH="${HOME}/.mint/bin"
+    mkdir -p "${MINT_PATH}"
+    mkdir -p "${MINT_LINK_PATH}"
+fi
