@@ -97,6 +97,7 @@ if [ -n "${pyenv_root}" ]; then
     if which pyenv >/dev/null 2>&1; then
         export PYENV_ROOT="${pyenv_root}"
         echo -n 'pyenv '
+        eval "$(pyenv init --path)"
         eval "$(pyenv init -)"
         echo -n 'virtualenv '
         eval "$(pyenv virtualenv-init -)"
