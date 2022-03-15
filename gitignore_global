@@ -21,7 +21,7 @@ UserInterface.xcuserstate
 *.swp
 
 # VSCode
-.vscode/
+#.vscode/
 
 # Mac Windows
 .DS_Store
