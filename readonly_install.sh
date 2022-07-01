@@ -31,7 +31,7 @@ else
 fi
 
 cd "${E_DIR}" || exit 1
-git clone 'git://github.com/dnpp73/dotfiles.git'
+git clone 'https://github.com/dnpp73/dotfiles.git'
 
 cd dotfiles || exit 1
 ./setup.sh
