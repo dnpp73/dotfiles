@@ -90,9 +90,9 @@ echo ""
 echo " [$(basename "$0")] --- install oh-my-zsh ---"
 
 if [ ! -d "${HOME}/.oh-my-zsh/.git" ]; then
-    echo " [$(basename "$0")] git clone git://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh"
+    echo " [$(basename "$0")] git clone https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh"
     cd "${HOME}" || exit 1
-    git clone 'git://github.com/robbyrussell/oh-my-zsh.git' "${HOME}/.oh-my-zsh"
+    git clone 'https://github.com/robbyrussell/oh-my-zsh.git' "${HOME}/.oh-my-zsh"
 else
     echo " [$(basename "$0")] already exists oh-my-zsh"
 fi
