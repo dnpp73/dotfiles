@@ -68,6 +68,7 @@ PATHS=(
     '/bin'
     '/usr/sbin'
     '/usr/bin'
+    '/snap/bin'
 
     # homebrew Intel
     '/usr/local/opt/ncurses/bin'
