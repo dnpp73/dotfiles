@@ -206,4 +206,5 @@ unset -f safe_source
 # Mac /etc/sshd_config check
 if [ "$(uname)" = 'Darwin' ]; then
     source "${ORG_DIR}/check_osx_sshd_config"
+    source "${ORG_DIR}/check_osx_letsencrypt_config"
 fi

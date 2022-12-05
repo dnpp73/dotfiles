@@ -1,0 +1,31 @@
+# If not running interactively, don't do anything
+[ -z "${PS1}" ] && return
+[ "$(uname)" != "Darwin" ] && return
+
+# COLOR_GREEN_BOLD='\033[1;32m'
+COLOR_RED_BOLD='\033[1;31m'
+COLOR_OFF='\033[0m'
+
+ETC_DIR='/etc/letsencrypt'
+VAR_LOG_DIR='/var/log/letsencrypt'
+VAR_LIB_DIR='/var/lib/letsencrypt'
+
+if [ -d "${ETC_DIR}" ] && [ -w "${ETC_DIR}" ]; then
+    :
+else
+    echo -e "${COLOR_RED_BOLD}[WARNING]${COLOR_OFF} Check ${ETC_DIR}"
+fi
+
+if [ -d "${VAR_LOG_DIR}" ] && [ -w "${VAR_LOG_DIR}" ]; then
+    :
+else
+    echo -e "${COLOR_RED_BOLD}[WARNING]${COLOR_OFF} Check ${VAR_LOG_DIR}"
+fi
+
+if [ -d "${VAR_LIB_DIR}" ] && [ -w "${VAR_LIB_DIR}" ]; then
+    :
+else
+    echo -e "${COLOR_RED_BOLD}[WARNING]${COLOR_OFF} Check ${VAR_LIB_DIR}"
+fi
+
+unset COLOR_GREEN_BOLD COLOR_RED_BOLD COLOR_OFF ETC_DIR VAR_LOG_DIR VAR_LIB_DIR
