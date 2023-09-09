@@ -127,6 +127,7 @@ DOTFILES=(
     'zshrc'
     'gemrc'
     'tmux.conf'
+    'terraformrc'
 )
 
 for filename in "${DOTFILES[@]}"; do
