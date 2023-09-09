@@ -106,11 +106,6 @@ fi
 #     fi
 # fi
 
-# serverless framework
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
-
 # oh-my-zsh
 ZSH="${HOME}/.oh-my-zsh"
 
@@ -126,7 +121,7 @@ COMPLETION_WAITING_DOTS='false'
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 if [ "${UNAME}" = 'Darwin' ]; then
-    plugins=(macos aws docker)
+    plugins=(macos)
 elif [ "${UNAME}" = 'Linux' ]; then
     plugins=(ubuntu)
 fi
@@ -143,12 +138,15 @@ if [ "${UNAME}" = 'Darwin' ]; then
     fi
 fi
 
+# 補完を効かせる。
+autoload bashcompinit && bashcompinit # for awscli
+autoload -Uz compinit && compinit
+if which aws_completer > /dev/null 2>&1; then
+    complete -C "$(which aws_completer)" aws
+fi
+
 echo -n 'oh-my-zsh '
 source "${ZSH}/oh-my-zsh.sh"
-
-# 補完を効かせる。
-autoload -Uz compinit
-compinit
 
 # # Google Cloud SDK
 # safe_source "${HOME}/google-cloud-sdk/path.zsh.inc" 'google-cloud-sdk'

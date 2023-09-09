@@ -140,6 +140,7 @@ elif [ "$(uname)" = 'Linux' ]; then
     safe_create_symlink "${DOTFILES_DIR}/screenrc.ubuntu" "${HOME}/.screenrc"
 fi
 
+# zsh completions
 DOCKER_MAC_ETC_DIR='/Applications/Docker.app/Contents/Resources/etc'
 if [ -d "${DOCKER_MAC_ETC_DIR}" ]; then
     mkdir -p "${HOME}/.zsh-completions"
