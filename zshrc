@@ -16,6 +16,8 @@ COLOR_GREEN_BOLD='\033[1;32m'
 COLOR_RED_BOLD='\033[1;31m'
 COLOR_OFF='\033[0m'
 
+UNAME="$(uname)"
+
 function safe_source() {
     if [ -s "$1" ]; then
         if [ "$2" != '' ]; then
@@ -85,24 +87,24 @@ if [ -n "${rbenv_root}" ]; then
     fi
 fi
 
-# pyenv
-if [ -s "${HOME}/.pyenv/bin" ]; then
-    pyenv_root="${HOME}/.pyenv"
-elif [ -s '/opt/homebrew/opt/pyenv' ]; then
-    pyenv_root='/opt/homebrew/opt/pyenv'
-elif [ -s '/usr/local/opt/pyenv' ]; then
-    pyenv_root='/usr/local/opt/pyenv'
-fi
-if [ -n "${pyenv_root}" ]; then
-    if which pyenv >/dev/null 2>&1; then
-        export PYENV_ROOT="${pyenv_root}"
-        echo -n 'pyenv '
-        eval "$(pyenv init --path)"
-        eval "$(pyenv init -)"
-        echo -n 'virtualenv '
-        eval "$(pyenv virtualenv-init -)"
-    fi
-fi
+# # pyenv
+# if [ -s "${HOME}/.pyenv/bin" ]; then
+#     pyenv_root="${HOME}/.pyenv"
+# elif [ -s '/opt/homebrew/opt/pyenv' ]; then
+#     pyenv_root='/opt/homebrew/opt/pyenv'
+# elif [ -s '/usr/local/opt/pyenv' ]; then
+#     pyenv_root='/usr/local/opt/pyenv'
+# fi
+# if [ -n "${pyenv_root}" ]; then
+#     if which pyenv >/dev/null 2>&1; then
+#         export PYENV_ROOT="${pyenv_root}"
+#         echo -n 'pyenv '
+#         eval "$(pyenv init --path)"
+#         eval "$(pyenv init -)"
+#         echo -n 'virtualenv '
+#         eval "$(pyenv virtualenv-init -)"
+#     fi
+# fi
 
 # serverless framework
 # tabtab source for packages
@@ -123,27 +125,34 @@ COMPLETION_WAITING_DOTS='false'
 # Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-if [ "$(uname)" = 'Darwin' ]; then
-    # plugins=(macos terminalapp autojump screen sudo brew git git-extras ruby bundler gem rake rbenv pod vagrant docker docker-compose pyenv virtualenv pip)
-    plugins=(macos xcode brew vscode bundler gem pip node npm yarn aws docker docker-compose docker-machine)
-elif [ "$(uname)" = 'Linux' ]; then
-    # plugins=(ubuntu autojump screen sudo git git-extras ruby bundler gem rake rbenv pyenv virtualenv pip)
+if [ "${UNAME}" = 'Darwin' ]; then
+    plugins=(macos aws docker)
+elif [ "${UNAME}" = 'Linux' ]; then
     plugins=(ubuntu)
+fi
+
+if [ "${UNAME}" = 'Darwin' ]; then
+    if [ -d '/opt/homebrew/share/zsh-completions' ]; then
+        fpath=('/opt/homebrew/share/zsh-completions' ${fpath} )
+    fi
+    if [ -d '/usr/local/share/zsh-completions' ]; then
+        fpath=('/usr/local/share/zsh-completions' ${fpath} )
+    fi
+    if [ -d "${HOME}/.zsh-completions" ]; then
+        fpath=("${HOME}/.zsh-completions" ${fpath} )
+    fi
 fi
 
 echo -n 'oh-my-zsh '
 source "${ZSH}/oh-my-zsh.sh"
 
-# homebrew が勝手に追記したやつ
-fpath=(
-    /opt/homebrew/share/zsh-completions(N-/)
-    /usr/local/share/zsh-completions(N-/)
-    ${fpath}
-)
+# 補完を効かせる。
+autoload -Uz compinit
+compinit
 
-# Google Cloud SDK
-safe_source "${HOME}/google-cloud-sdk/path.zsh.inc" 'google-cloud-sdk'
-safe_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
+# # Google Cloud SDK
+# safe_source "${HOME}/google-cloud-sdk/path.zsh.inc" 'google-cloud-sdk'
+# safe_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
 
 # alias
 unalias -m '*'
@@ -152,9 +161,9 @@ unalias -m '*'
 safe_source "${ORG_DIR}/common_sh_alias" 'alias'
 
 # Mac or Ubuntu alias
-if [ "$(uname)" = 'Darwin' ]; then
+if [ "${UNAME}" = 'Darwin' ]; then
     safe_source "${ORG_DIR}/common_sh_alias_osx"
-elif [ "$(uname)" = 'Linux' ]; then
+elif [ "${UNAME}" = 'Linux' ]; then
     safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
 fi
 
@@ -164,7 +173,7 @@ if [ -z "${SSH_CONNECTION}" ] && [ -z "${SSH_CLIENT}" ] && [ -z "${SSH_TTY}" ]; 
 fi
 
 # Mac iTerm2 Shell Integration
-if [ "$(uname)" = 'Darwin' ]; then
+if [ "${UNAME}" = 'Darwin' ]; then
     safe_source "${HOME}/.iterm2_shell_integration.zsh" 'iterm2'
 fi
 
@@ -178,7 +187,7 @@ unset COLOR_GREEN_BOLD COLOR_RED_BOLD COLOR_OFF
 unset -f safe_source
 
 # Mac /etc/sshd_config check
-if [ "$(uname)" = 'Darwin' ]; then
+if [ "${UNAME}" = 'Darwin' ]; then
     source "${ORG_DIR}/check_osx_sshd_config"
     source "${ORG_DIR}/check_osx_letsencrypt_config"
 fi

@@ -139,3 +139,11 @@ if [ "$(uname)" = 'Darwin' ]; then
 elif [ "$(uname)" = 'Linux' ]; then
     safe_create_symlink "${DOTFILES_DIR}/screenrc.ubuntu" "${HOME}/.screenrc"
 fi
+
+DOCKER_MAC_ETC_DIR='/Applications/Docker.app/Contents/Resources/etc'
+if [ -d "${DOCKER_MAC_ETC_DIR}" ]; then
+    mkdir -p "${HOME}/.zsh-completions"
+    chmod 700 "${HOME}/.zsh-completions"
+    safe_create_symlink "${DOCKER_MAC_ETC_DIR}/docker.zsh-completion"         "${HOME}/.zsh-completions/_docker"
+    safe_create_symlink "${DOCKER_MAC_ETC_DIR}/docker-compose.zsh-completion" "${HOME}/.zsh-completions/_docker-compose"
+fi

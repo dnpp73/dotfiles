@@ -84,24 +84,24 @@ if [ -n "${rbenv_root}" ]; then
     fi
 fi
 
-# pyenv
-if [ -s "${HOME}/.pyenv/bin" ]; then
-    pyenv_root="${HOME}/.pyenv"
-elif [ -s '/opt/homebrew/opt/pyenv' ]; then
-    pyenv_root='/opt/homebrew/opt/pyenv'
-elif [ -s '/usr/local/opt/pyenv' ]; then
-    pyenv_root='/usr/local/opt/pyenv'
-fi
-if [ -n "${pyenv_root}" ]; then
-    if which pyenv >/dev/null 2>&1; then
-        export PYENV_ROOT="${pyenv_root}"
-        echo -n 'pyenv '
-        eval "$(pyenv init --path)"
-        eval "$(pyenv init -)"
-        echo -n 'virtualenv '
-        eval "$(pyenv virtualenv-init -)"
-    fi
-fi
+# # pyenv
+# if [ -s "${HOME}/.pyenv/bin" ]; then
+#     pyenv_root="${HOME}/.pyenv"
+# elif [ -s '/opt/homebrew/opt/pyenv' ]; then
+#     pyenv_root='/opt/homebrew/opt/pyenv'
+# elif [ -s '/usr/local/opt/pyenv' ]; then
+#     pyenv_root='/usr/local/opt/pyenv'
+# fi
+# if [ -n "${pyenv_root}" ]; then
+#     if which pyenv >/dev/null 2>&1; then
+#         export PYENV_ROOT="${pyenv_root}"
+#         echo -n 'pyenv '
+#         eval "$(pyenv init --path)"
+#         eval "$(pyenv init -)"
+#         echo -n 'virtualenv '
+#         eval "$(pyenv virtualenv-init -)"
+#     fi
+# fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -169,9 +169,9 @@ if [ "$(uname)" = 'Darwin' ]; then
     [ -r '/opt/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt' ] && export SSL_CERT_FILE='/opt/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt'
 fi
 
-# Google Cloud SDK
-safe_source "${HOME}/google-cloud-sdk/path.bash.inc" 'google-cloud-sdk'
-safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
+# # Google Cloud SDK
+# safe_source "${HOME}/google-cloud-sdk/path.bash.inc" 'google-cloud-sdk'
+# safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
 
 # Mac or Ubuntu PS1
 safe_source "${ORG_DIR}/bash_prompt" 'bash_prompt'

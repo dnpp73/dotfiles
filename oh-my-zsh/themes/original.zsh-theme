@@ -99,8 +99,6 @@ ${git_info} \
 %{$fg[white]%}[\
 rbenv:\
 ${rbenv_info}, \
-pyenv:\
-${pyenv_info}, \
 nodenv:\
 ${nodenv_info}, \
 goenv:\
