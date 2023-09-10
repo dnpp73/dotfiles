@@ -169,10 +169,6 @@ if [ "$(uname)" = 'Darwin' ]; then
     [ -r '/opt/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt' ] && export SSL_CERT_FILE='/opt/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt'
 fi
 
-# # Google Cloud SDK
-# safe_source "${HOME}/google-cloud-sdk/path.bash.inc" 'google-cloud-sdk'
-# safe_source "${HOME}/google-cloud-sdk/completion.bash.inc"
-
 # Mac or Ubuntu PS1
 safe_source "${ORG_DIR}/bash_prompt" 'bash_prompt'
 

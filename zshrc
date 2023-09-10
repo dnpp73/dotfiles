@@ -126,31 +126,39 @@ elif [ "${UNAME}" = 'Linux' ]; then
     plugins=(ubuntu)
 fi
 
+# completion
 if [ "${UNAME}" = 'Darwin' ]; then
     if [ -d '/opt/homebrew/share/zsh-completions' ]; then
-        fpath=('/opt/homebrew/share/zsh-completions' ${fpath} )
+        fpath=('/opt/homebrew/share/zsh-completions' ${fpath})
     fi
     if [ -d '/usr/local/share/zsh-completions' ]; then
-        fpath=('/usr/local/share/zsh-completions' ${fpath} )
+        fpath=('/usr/local/share/zsh-completions' ${fpath})
     fi
-    if [ -d "${HOME}/.zsh-completions" ]; then
-        fpath=("${HOME}/.zsh-completions" ${fpath} )
+    if [ -d "${HOME}/.zsh/completion" ]; then
+        fpath=("${HOME}/.zsh/completion" ${fpath})
     fi
 fi
 
-# 補完を効かせる。
-autoload bashcompinit && bashcompinit # for awscli
-autoload -Uz compinit && compinit
-if which aws_completer > /dev/null 2>&1; then
-    complete -C "$(which aws_completer)" aws
+# どうしても docker 関連の補完が 2 回目の zsh の起動で失敗するので重くなるけど .zcompdump を毎回生成させるために消す。
+find "${HOME}" -maxdepth 1 -name '.zcompdump*' -delete
+
+# oh-my-zsh の plugins の配列に入れるだけで補完まで動くのは aws だけだったので自前でなんとかするしかなった…。
+AWS_COMPLETER_PATH="$(which aws_completer)"
+AWS_COMPLETER_EXISTS=$?
+if [ "${AWS_COMPLETER_EXISTS}" -eq 0 ]; then
+    autoload bashcompinit
+    bashcompinit
 fi
+autoload -Uz compinit
+compinit -i
+if [ "${AWS_COMPLETER_EXISTS}" -eq 0 ]; then
+    complete -C "${AWS_COMPLETER_PATH}" aws
+fi
+unset AWS_COMPLETER_PATH
+unset AWS_COMPLETER_EXISTS
 
 echo -n 'oh-my-zsh '
 source "${ZSH}/oh-my-zsh.sh"
-
-# # Google Cloud SDK
-# safe_source "${HOME}/google-cloud-sdk/path.zsh.inc" 'google-cloud-sdk'
-# safe_source "${HOME}/google-cloud-sdk/completion.zsh.inc"
 
 # alias
 unalias -m '*'
