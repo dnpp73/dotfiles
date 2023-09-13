@@ -126,6 +126,7 @@ DOTFILES=(
     'gvimrc'
     'zshrc'
     'gemrc'
+    'npmrc'
     'tmux.conf'
     'terraformrc'
 )
