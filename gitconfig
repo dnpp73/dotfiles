@@ -33,6 +33,11 @@
 [pull]
     ff = only
 
+[pager]
+    grep = false
+    diff = false
+    log = true
+
 [alias]
     st  = status --branch --short
     ad  = add --all
@@ -45,7 +50,7 @@
     rt  = remote -v
 
     # logをtree表示
-    # l     = log --oneline
+    # l      = log --oneline
     # lgraph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
     # lall   = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
     lg     = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
@@ -70,15 +75,16 @@
     ls = ls-tree --name-only HEAD
     ll = ls-tree --full-name HEAD
 
-    # grep (-I でバイナリを除く)
-    g = grep --ignore-case --line-number -I
-    G = grep --line-number -I
+    # デフォルトで exclude するやつ。 && : が重要で、引数の場所を変更しつつ、最後に入ってくるものを無視できる。
+    grep-with-exclude = !git grep --line-number -I --show-function --heading --break $@ -- ':!*.svg' ':!*/package-lock.json' ':!*/Gemfile.lock' && :
+    g = grep-with-exclude --ignore-case
+    G = grep-with-exclude
     # fgrep
-    f = grep --fixed-strings --ignore-case --line-number -I
-    F = grep --fixed-strings --line-number -I
+    f = grep-with-exclude --fixed-strings --ignore-case
+    F = grep-with-exclude --fixed-strings
     # egrep
-    e = grep --extended-regexp --ignore-case --line-number -I
-    E = grep --extended-regexp --line-number -I
+    e = grep-with-exclude --extended-regexp --ignore-case
+    E = grep-with-exclude --extended-regexp
 
     # 便利
     alias = !git config --get-regexp '^alias\\.' | sed 's/alias\\.\\([^ ]*\\) \\(.*\\)/\\1\\\t => \\2/' | sort
