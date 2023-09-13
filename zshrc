@@ -139,8 +139,8 @@ if [ "${UNAME}" = 'Darwin' ]; then
     fi
 fi
 
-# どうしても docker 関連の補完が 2 回目の zsh の起動で失敗するので重くなるけど .zcompdump を毎回生成させるために消す。
-find "${HOME}" -maxdepth 1 -name '.zcompdump*' -delete
+# どうしても docker 関連の補完が 2 回目の zsh の起動で失敗するので重くなるけど .zcompdump を毎回生成させるために消す。 .zcompdump-XXX-N.N(.zwc)? は消してたけど残して様子を見る。
+find "${HOME}" -maxdepth 1 -name '.zcompdump' -delete
 
 # oh-my-zsh の plugins の配列に入れるだけで補完まで動くのは aws だけだったので自前でなんとかするしかなった…。
 AWS_COMPLETER_PATH="$(which aws_completer)"

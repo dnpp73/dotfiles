@@ -34,8 +34,8 @@
     ff = only
 
 [pager]
-    grep = false
-    diff = false
+    grep = true
+    diff = true
     log = true
 
 [alias]
