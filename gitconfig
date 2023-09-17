@@ -76,7 +76,7 @@
     ll = ls-tree --full-name HEAD
 
     # デフォルトで exclude するやつ。 && : が重要で、引数の場所を変更しつつ、最後に入ってくるものを無視できる。
-    grep-with-exclude = !git grep --line-number -I --show-function --heading --break $@ -- ':!*.svg' ':!*/package-lock.json' ':!*/Gemfile.lock' && :
+    grep-with-exclude = !git grep --line-number -I --show-function --heading --break $@ -- ':!*.svg' ':!*/package-lock.json' ':!*/yarn.lock' ':!*/Gemfile.lock' && :
     g = grep-with-exclude --ignore-case
     G = grep-with-exclude
     # fgrep
