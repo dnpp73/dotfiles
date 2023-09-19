@@ -146,6 +146,5 @@ fi
 DOCKER_MAC_ETC_DIR='/Applications/Docker.app/Contents/Resources/etc'
 if [ -d "${DOCKER_MAC_ETC_DIR}" ]; then
     mkdir -p "${HOME}/.zsh/completion"
-    safe_create_symlink "${DOCKER_MAC_ETC_DIR}/docker.zsh-completion"         "${HOME}/.zsh/completion/_docker"
-    safe_create_symlink "${DOCKER_MAC_ETC_DIR}/docker-compose.zsh-completion" "${HOME}/.zsh/completion/_docker-compose"
+    safe_create_symlink "${DOCKER_MAC_ETC_DIR}/docker.zsh-completion" "${HOME}/.zsh/completion/_docker"
 fi
