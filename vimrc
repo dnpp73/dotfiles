@@ -55,6 +55,10 @@ set number
 set ruler
 " タブ文字を CTRL-I で表示し、行末に $ で表示しする
 set list
+" 不可視文字をカスタマイズする
+" set listchars=tab:→,trail:·,eol:￢,extends:»,precedes:«,nbsp:%,space:·
+" set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%,space:-
+set listchars=tab:￫･,trail:･,eol:¬,extends:»,precedes:«,nbsp:%,space:･
 " 入力中のコマンドをステータスに表示する
 set showcmd
 " ステータスラインを常に表示
@@ -93,6 +97,9 @@ highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 
 " カラースキーム
 colorscheme desert
+" 不可視文字の色の上書き
+hi NonText    ctermbg=None ctermfg=59
+hi SpecialKey ctermbg=None ctermfg=59
 
 "----------------------------------------------------
 " インデント
@@ -131,40 +138,6 @@ if has("autocmd")
     autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     autocmd BufReadPost *     exe "normal g`\""
     autocmd BufReadPost * endif
-
-    " バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin ファイルを開くと発動します）
-    " http://d.hatena.ne.jp/rdera/20081022/1224682665
-    "augroup BinaryXXD
-    "    autocmd!
-    "    autocmd BufReadPre *.bin let &binary =1
-    "
-    "    autocmd BufReadPost  * if &binary
-    "    autocmd BufReadPost  *     silent %!xxd -g 1
-    "    autocmd BufReadPost  *     set ft=xxd
-    "    autocmd BufReadPost  * endif
-    "
-    "    autocmd BufWritePre  * if &binary
-    "    autocmd BufWritePre  *     %!xxd -r
-    "    autocmd BufWritePre  * endif
-    "
-    "    autocmd BufWritePost * if &binary
-    "    autocmd BufWritePost *     silent %!xxd -g 1
-    "    autocmd BufWritePost *     set nomod
-    "    autocmd BufWritePost * endif
-    "augroup END
-
-    augroup BinaryVinarise
-        autocmd!
-        autocmd BufReadPre *.bin let &binary =1
-
-        autocmd BufReadPost  * if &binary
-        autocmd BufReadPost  *     Vinarise
-        autocmd BufReadPost  * endif
-
-        "autocmd BufWritePost * if &binary
-        "autocmd BufWritePost *     Vinarise
-        "autocmd BufWritePost * endif
-    augroup END
 endif
 
 "----------------------------------------------------
@@ -183,36 +156,6 @@ let g:html_use_css = 1
 let g:html_no_pre = 1
 
 "----------------------------------------------------
-" pathogen.vim
-"----------------------------------------------------
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-
-"----------------------------------------------------
-" neocomplcache.vim
-"----------------------------------------------------
-" 補完を有効にする
-let g:neocomplcache_enable_at_startup = 1
-" 大文字小文字を区別する
-let g:neocomplcache_enable_smart_case = 1
-" アンダーバー補完を有効にする
-let g:neocomplcache_enable_underbar_completion = 1
-" Enterで選択できないように
-let g:neocomplcache_enable_auto_select = 0
-
-
-"----------------------------------------------------
-" NERD_comments.vim
-"----------------------------------------------------
-let NERDSpaceDelims = 1
-let NERDShutUp = 1
-
-"----------------------------------------------------
-" less.vim
-"----------------------------------------------------
-au BufNewFile,BufRead *.less set filetype=less
-
-"----------------------------------------------------
 " MacVim用
 "----------------------------------------------------
 if has('gui_macvim')
@@ -228,11 +171,11 @@ if has('gui_macvim')
     set lines=50 columns=130
     " ツールバーっぽいの非表示"
     set guioptions-=T
-    " ウィンドウの右側にスクロールバーを表示しない" 
+    " ウィンドウの右側にスクロールバーを表示しない"
     set guioptions-=r
     " 縦に分割されたウィンドウの右側にスクロールバーを表示しない"
     set guioptions-=R
-    " ウィンドウの左側にスクロールバーを表示しない" 
+    " ウィンドウの左側にスクロールバーを表示しない"
     set guioptions-=l
     " 縦に分割されたウィンドウの左側にスクロールバーを表示しない"
     set guioptions-=L
