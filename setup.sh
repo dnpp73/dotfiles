@@ -78,13 +78,13 @@ function safe_cp() {
     echo ""
 }
 
-# git submodule (for vim bundle)
-echo " [$(basename "$0")] --- install vim bundles ---"
-
-echo " [$(basename "$0")] git submodule update --init"
-cd "${ORG_DIR}" || exit 1
-git submodule update --init
-echo ""
+# # git submodule (for vim bundle)
+# echo " [$(basename "$0")] --- install vim bundles ---"
+#
+# echo " [$(basename "$0")] git submodule update --init"
+# cd "${ORG_DIR}" || exit 1
+# git submodule update --init
+# echo ""
 
 # oh-my-zsh
 echo " [$(basename "$0")] --- install oh-my-zsh ---"
