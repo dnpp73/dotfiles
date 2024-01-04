@@ -108,5 +108,5 @@
     process = git-lfs filter-process
     required = true
 
-# [include]
-#    path = ~/.gitconfig_local
+[include]
+   path = ~/.gitconfig_local
