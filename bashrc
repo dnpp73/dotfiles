@@ -36,53 +36,53 @@ if which direnv >/dev/null 2>&1; then
     eval "$(direnv hook bash)"
 fi
 
-# goenv
-if [ -s "${HOME}/.goenv/bin" ]; then
-    goenv_root="${HOME}/.goenv"
-elif [ -s '/opt/homebrew/opt/goenv' ]; then
-    goenv_root='/opt/homebrew/opt/goenv'
-elif [ -s '/usr/local/opt/goenv' ]; then
-    goenv_root='/usr/local/opt/goenv'
-fi
-if [ -n "${goenv_root}" ]; then
-    if which goenv >/dev/null 2>&1; then
-        echo -n 'goenv '
-        export GOENV_ROOT="${goenv_root}"
-        eval "$(goenv init -)"
-    fi
-fi
+# # goenv
+# if [ -s "${HOME}/.goenv/bin" ]; then
+#     goenv_root="${HOME}/.goenv"
+# elif [ -s '/opt/homebrew/opt/goenv' ]; then
+#     goenv_root='/opt/homebrew/opt/goenv'
+# elif [ -s '/usr/local/opt/goenv' ]; then
+#     goenv_root='/usr/local/opt/goenv'
+# fi
+# if [ -n "${goenv_root}" ]; then
+#     if which goenv >/dev/null 2>&1; then
+#         echo -n 'goenv '
+#         export GOENV_ROOT="${goenv_root}"
+#         eval "$(goenv init -)"
+#     fi
+# fi
 
-# nodenv
-if [ -s "${HOME}/.nodenv/bin" ]; then
-    nodenv_root="${HOME}/.nodenv"
-elif [ -s '/opt/homebrew/opt/nodenv' ]; then
-    nodenv_root='/opt/homebrew/opt/nodenv'
-elif [ -s '/usr/local/opt/nodenv' ]; then
-    nodenv_root='/usr/local/opt/nodenv'
-fi
-if [ -n "${nodenv_root}" ]; then
-    if which nodenv >/dev/null 2>&1; then
-        echo -n 'nodenv '
-        export NODENV_ROOT="${nodenv_root}"
-        eval "$(nodenv init -)"
-    fi
-fi
+# # nodenv
+# if [ -s "${HOME}/.nodenv/bin" ]; then
+#     nodenv_root="${HOME}/.nodenv"
+# elif [ -s '/opt/homebrew/opt/nodenv' ]; then
+#     nodenv_root='/opt/homebrew/opt/nodenv'
+# elif [ -s '/usr/local/opt/nodenv' ]; then
+#     nodenv_root='/usr/local/opt/nodenv'
+# fi
+# if [ -n "${nodenv_root}" ]; then
+#     if which nodenv >/dev/null 2>&1; then
+#         echo -n 'nodenv '
+#         export NODENV_ROOT="${nodenv_root}"
+#         eval "$(nodenv init -)"
+#     fi
+# fi
 
-# rbenv
-if [ -s "${HOME}/.rbenv/bin" ]; then
-    rbenv_root="${HOME}/.rbenv"
-elif [ -s '/opt/homebrew/opt/rbenv' ]; then
-    rbenv_root='/opt/homebrew/opt/rbenv'
-elif [ -s '/usr/local/opt/rbenv' ]; then
-    rbenv_root='/usr/local/opt/rbenv'
-fi
-if [ -n "${rbenv_root}" ]; then
-    if which rbenv >/dev/null 2>&1; then
-        echo -n 'rbenv '
-        export RBENV_ROOT="${rbenv_root}"
-        eval "$(rbenv init -)"
-    fi
-fi
+# # rbenv
+# if [ -s "${HOME}/.rbenv/bin" ]; then
+#     rbenv_root="${HOME}/.rbenv"
+# elif [ -s '/opt/homebrew/opt/rbenv' ]; then
+#     rbenv_root='/opt/homebrew/opt/rbenv'
+# elif [ -s '/usr/local/opt/rbenv' ]; then
+#     rbenv_root='/usr/local/opt/rbenv'
+# fi
+# if [ -n "${rbenv_root}" ]; then
+#     if which rbenv >/dev/null 2>&1; then
+#         echo -n 'rbenv '
+#         export RBENV_ROOT="${rbenv_root}"
+#         eval "$(rbenv init -)"
+#     fi
+# fi
 
 # # pyenv
 # if [ -s "${HOME}/.pyenv/bin" ]; then
