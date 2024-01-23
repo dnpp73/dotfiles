@@ -1,6 +1,13 @@
 # If not running interactively, don't do anything
 [ -z "${PS1}" ] && return
 
+PID1_NAME=$(ps -p 1 -o comm=)
+
+# If PID 1 is not 'init' or 'launchd', don't do anything
+if [ "${PID1_NAME}" != "/sbin/init" ] && [ "${PID1_NAME}" != "/sbin/launchd" ]; then
+    return
+fi
+
 AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@$(hostname)"
 SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-$(date | md5sum | cut -d ' ' -f1)"
 
@@ -34,7 +41,7 @@ test "$(uname)" = 'Darwin'
 USE_OSX_KEYCHAIN=$?
 
 # 鍵を足して終わり。perm が 600 になってるものを雑に find で探している。
-if pgrep ssh-agent >/dev/null 2>&1; then
+if [ -d "${HOME}/.ssh" ] && pgrep ssh-agent >/dev/null 2>&1; then
     find "${HOME}/.ssh" -maxdepth 1 -perm 600 | while read -r KEY_FULL_PATH; do
         if [ ${USE_OSX_KEYCHAIN} -eq 0 ]; then
             ssh-add -K "${KEY_FULL_PATH}" >/dev/null 2>&1

@@ -120,14 +120,64 @@ COMPLETION_WAITING_DOTS='false'
 # Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+plugins=()
 if [ "${UNAME}" = 'Darwin' ]; then
-    plugins=(macos docker)
-    # https://github.com/ohmyzsh/ohmyzsh/issues/11789
-    zstyle ':completion:*:*:docker:*' option-stacking yes
-    zstyle ':completion:*:*:docker-*:*' option-stacking yes
-    zstyle ':omz:plugins:docker' legacy-completion yes
+    plugins+=(macos)
+    if which docker >/dev/null 2>&1; then
+        plugins+=(docker)
+        # https://github.com/ohmyzsh/ohmyzsh/issues/11789
+        zstyle ':completion:*:*:docker:*' option-stacking yes
+        zstyle ':completion:*:*:docker-*:*' option-stacking yes
+        zstyle ':omz:plugins:docker' legacy-completion yes
+    fi
 elif [ "${UNAME}" = 'Linux' ]; then
-    plugins=(ubuntu)
+    if [ -f '/etc/os-release' ]; then
+        if grep -q '^ID=ubuntu' '/etc/os-release'; then
+            plugins+=(ubuntu)
+        fi
+        if grep -q '^ID=debian' '/etc/os-release'; then
+            plugins+=(debian)
+        fi
+        if which docker >/dev/null 2>&1; then
+            plugins+=(docker)
+        fi
+    fi
+fi
+if which git >/dev/null 2>&1; then
+    plugins+=(git)
+fi
+if which node >/dev/null 2>&1; then
+    plugins+=(node)
+fi
+if which npm >/dev/null 2>&1; then
+    plugins+=(npm)
+fi
+if which yarn >/dev/null 2>&1; then
+    plugins+=(yarn)
+fi
+if which ruby >/dev/null 2>&1; then
+    plugins+=(ruby)
+fi
+if which gem >/dev/null 2>&1; then
+    plugins+=(gem)
+fi
+if which bundle >/dev/null 2>&1; then
+    plugins+=(bundler)
+fi
+if which python >/dev/null 2>&1 || which python3 >/dev/null 2>&1; then
+    plugins+=(python)
+fi
+if which pip >/dev/null 2>&1 || which pip3 >/dev/null 2>&1; then
+    plugins+=(pip)
+fi
+if which aws >/dev/null 2>&1; then
+    plugins+=(aws)
+fi
+if which gcloud >/dev/null 2>&1; then
+    plugins+=(gcloud)
+fi
+if which terraform >/dev/null 2>&1; then
+    plugins+=(terraform)
 fi
 
 # completion
