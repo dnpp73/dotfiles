@@ -1,27 +1,12 @@
 # If not running interactively, don't do anything
 [ -z "${PS1}" ] && return
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "${TERM}" in
-xterm-color) color_prompt=yes ;;
-esac
-
-# LANG
-case "${TERM}" in
-linux)
-    LANGUAGE='C.UTF-8:C:POSIX'
-    # LC_ALL='C'
-    # LC_CTYPE='C'
-    # LANG='C'
-    ;;
-*)
+# LANGUAGE, LANG, LC_ALL
+# LANGUAGE が一番優先度が低いらしい。LC_xxx は色々なサブタイプがあるが LC_ALL があればそれを見るとかそういう感じ。
+if [ -z "${LANGUAGE}" ]; then
     LANGUAGE='ja_JP.UTF-8:en_US.utf8:C.UTF-8:C:POSIX'
-    # LC_ALL='ja_JP.UTF-8'
-    # LC_CTYPE='ja_JP.UTF-8'
-    # LANG='ja_JP.UTF-8'
-    ;;
-esac
-export LANGUAGE # LC_ALL LC_CTYPE LANG
+    export LANGUAGE
+fi
 
 # GOPATH
 if [ -d "${HOME}/go" ]; then
@@ -54,12 +39,13 @@ MANPATHS=(
 for m in "${MANPATHS[@]}"; do
     [ -d "${m}" ] && MANPATH="${m}:${MANPATH}"
 done
+# shellcheck disable=SC2001
 MANPATH=$(echo "${MANPATH}" | sed -e 's/:$//')
 export MANPATH
 
 # PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
-PATH=''
+NEW_PATH=''
 PATHS=(
     '/usr/games'
     '/usr/bin/X11'
@@ -125,9 +111,10 @@ PATHS=(
     "${HOME}/bin"
 )
 for p in "${PATHS[@]}"; do
-    [ -d "${p}" ] && PATH="${p}:${PATH}"
+    [ -d "${p}" ] && NEW_PATH="${p}:${NEW_PATH}"
 done
-PATH=$(echo "${PATH}" | sed -e 's/:$//')
+# shellcheck disable=SC2001
+PATH=$(echo "${NEW_PATH}" | sed -e 's/:$//')
 export PATH
 
 # LDFLAGS
@@ -159,6 +146,7 @@ LDFLAGS_LIST=(
 for l in "${LDFLAGS_LIST[@]}"; do
     [ -d "${l}" ] && LDFLAGS="-L${l} ${LDFLAGS}"
 done
+# shellcheck disable=SC2001
 LDFLAGS=$(echo "${LDFLAGS}" | sed -e 's/ $//')
 export LDFLAGS
 
@@ -191,6 +179,7 @@ CPPFLAGS_LIST=(
 for c in "${CPPFLAGS_LIST[@]}"; do
     [ -d "${c}" ] && CPPFLAGS="-I${c} ${CPPFLAGS}"
 done
+# shellcheck disable=SC2001
 CPPFLAGS=$(echo "${CPPFLAGS}" | sed -e 's/ $//')
 export CPPFLAGS
 
@@ -215,6 +204,7 @@ PKG_CONFIG_PATHS=(
 for p in "${PKG_CONFIG_PATHS[@]}"; do
     [ -d "${p}" ] && PKG_CONFIG_PATH="${p}:${PKG_CONFIG_PATH}"
 done
+# shellcheck disable=SC2001
 PKG_CONFIG_PATH=$(echo "${PKG_CONFIG_PATH}" | sed -e 's/:$//')
 export PKG_CONFIG_PATH
 
@@ -247,7 +237,9 @@ fi
 export JLESSCHARSET='japanese-ujis'
 
 # AWS
-export AWS_DEFAULT_PROFILE='dnpp-org'
+if [ -z "${AWS_DEFAULT_PROFILE}" ]; then
+    export AWS_DEFAULT_PROFILE='dnpp-org'
+fi
 
 # rbenv で openssl を自前で持たないようにさせたい。
 # openssl ビルド時に binutils が BSD であることが前提のコードが入っているため
