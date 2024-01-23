@@ -121,7 +121,11 @@ COMPLETION_WAITING_DOTS='false'
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 if [ "${UNAME}" = 'Darwin' ]; then
-    plugins=(macos)
+    plugins=(macos docker)
+    # https://github.com/ohmyzsh/ohmyzsh/issues/11789
+    zstyle ':completion:*:*:docker:*' option-stacking yes
+    zstyle ':completion:*:*:docker-*:*' option-stacking yes
+    zstyle ':omz:plugins:docker' legacy-completion yes
 elif [ "${UNAME}" = 'Linux' ]; then
     plugins=(ubuntu)
 fi
@@ -138,9 +142,6 @@ if [ "${UNAME}" = 'Darwin' ]; then
         fpath=("${HOME}/.zsh/completion" ${fpath})
     fi
 fi
-
-# # どうしても docker 関連の補完が 2 回目の zsh の起動で失敗するので重くなるけど .zcompdump を毎回生成させるために消す。 .zcompdump-XXX-N.N(.zwc)? は消してたけど残して様子を見る。
-# find "${HOME}" -maxdepth 1 -name '.zcompdump' -delete
 
 # oh-my-zsh の plugins の配列に入れるだけで補完まで動くのは aws だけだったので自前でなんとかするしかなった…。
 AWS_COMPLETER_PATH="$(which aws_completer)"
