@@ -150,6 +150,12 @@ bind '"\033[F": end-of-line'
 bind '"\C-a": beginning-of-line'
 bind '"\C-e": end-of-line'
 bind '"\C-l": clear-screen'
+bind '"\e\e[C": forward-word'  # iTerm2 Custom Key Bindings, Opt + ← to 0x1b 0x1b 0x5b 0x44
+bind '"\e\e[D": backward-word' # iTerm2 Custom Key Bindings, Opt + → to 0x1b 0x1b 0x5b 0x43
+bind '"\e\C-?": backward-kill-line' # iTerm2 Custom Key Bindings, Cmd + delete to 0x1b 0x7f. 0x1b: esc(\e), 0x7f: delete(\C-?)
+# cmd + ← と cmd + → は iTerm2 側で 0x01 と 0x05 に設定している。
+# cmd + delete を 0x1b + 0x7f に設定している。
+# 他にも結構色々弄ってるかも…。
 
 # bash_completion
 if [ -s '/opt/homebrew/etc/bash_completion' ]; then

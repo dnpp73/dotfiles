@@ -179,6 +179,18 @@ fi
 if which terraform >/dev/null 2>&1; then
     plugins+=(terraform)
 fi
+if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
+    plugins+=(zsh-autosuggestions)
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+    ZSH_AUTOSUGGEST_STRATEGY=(history completion) # 補完の方を履歴より優先度高めにする場合は順序を変える。
+fi
+
+# cmd + ← と cmd + → は iTerm2 側で 0x01 と 0x05 に設定している。他にも結構色々弄ってるかも…。
+bindkey '^[^[[C' forward-word     # iTerm2 Custom Key Bindings, Opt + ← to 0x1b 0x1b 0x5b 0x44
+bindkey '^[^[[D' backward-word    # iTerm2 Custom Key Bindings, Opt + → to 0x1b 0x1b 0x5b 0x43
+bindkey '^[[H' beginning-of-line  # fn + ←
+bindkey '^[[F' end-of-line        # fn + →
+bindkey '^[^?' backward-kill-line # iTerm2 Custom Key Bindings, Cmd + delete to 0x1b 0x7f. 0x1b: esc, 0x7f: delete
 
 # completion
 if [ "${UNAME}" = 'Darwin' ]; then
