@@ -100,6 +100,18 @@ fi
 DOTFILES_DIR="${ORG_DIR}"
 safe_cp "${DOTFILES_DIR}/oh-my-zsh/themes/original.zsh-theme" "${HOME}/.oh-my-zsh/custom/themes/original.zsh-theme"
 
+# zsh-autosuggestions
+echo " [$(basename "$0")] --- install zsh-autosuggestions ---"
+
+if [ ! -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions/.git" ]; then
+    echo " [$(basename "$0")] git clone https://github.com/zsh-users/zsh-autosuggestions ${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    cd "${HOME}" || exit 1
+    git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+else
+    echo " [$(basename "$0")] already exists zsh-autosuggestions"
+fi
+echo ''
+
 # iTerm2 Shell Integration
 if [ "$(uname)" = 'Darwin' ]; then
     echo " [$(basename "$0")] --- install iTerm2 Shell Integration for zsh ---"
