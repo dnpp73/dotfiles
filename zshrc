@@ -191,6 +191,7 @@ bindkey '^[^[[D' backward-word    # iTerm2 Custom Key Bindings, Opt + → to 0x1
 bindkey '^[[H' beginning-of-line  # fn + ←
 bindkey '^[[F' end-of-line        # fn + →
 bindkey '^[^?' backward-kill-line # iTerm2 Custom Key Bindings, Cmd + delete to 0x1b 0x7f. 0x1b: esc, 0x7f: delete
+bindkey '^U' backward-kill-line   # default: kill-whole-line
 
 # completion
 if [ "${UNAME}" = 'Darwin' ]; then
