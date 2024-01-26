@@ -183,6 +183,11 @@ if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
     plugins+=(zsh-autosuggestions)
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
     ZSH_AUTOSUGGEST_STRATEGY=(history completion) # 補完の方を履歴より優先度高めにする場合は順序を変える。
+    ZSH_AUTOSUGGEST_HISTORY_IGNORE="(l * |ls *|code *| xed *)"
+    ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(code *|xed *)"
+fi
+if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
+    plugins+=(zsh-syntax-highlighting)
 fi
 
 # cmd + ← と cmd + → は iTerm2 側で 0x01 と 0x05 に設定している。他にも結構色々弄ってるかも…。
@@ -194,9 +199,10 @@ bindkey '^[^?' backward-kill-line # iTerm2 Custom Key Bindings, Cmd + delete to 
 bindkey '^U' backward-kill-line   # default: kill-whole-line
 
 # history 関連
-export HISTFILE="${HOME}/.zsh_history"
-export HISTSIZE=5000   # メモリに保存される履歴の件数
-export SAVEHIST=100000 # 履歴ファイルに保存される履歴の件数
+HISTFILE="${HOME}/.zsh_history"
+HISTSIZE=5000   # メモリに保存される履歴の件数
+SAVEHIST=100000 # 履歴ファイルに保存される履歴の件数
+HISTORY_IGNORE="(cd|pwd|l|l[sal]|exit)" # 履歴に残さないコマンド。 l, ls, la, ll は履歴に残さない。
 # share_history と inc_append_history と inc_append_history_time は排他で利用すべきっぽい。
 # setopt share_history           # 各端末で履歴(ファイル)を共有する = 履歴ファイルに対して参照と書き込みを行う。 書き込みは 時刻(タイムスタンプ) 付き。
 # setopt inc_append_history      # 履歴リストにイベントを登録するのと同時に、履歴ファイルにも書き込みを行う(追加する)。

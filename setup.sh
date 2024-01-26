@@ -112,6 +112,19 @@ else
 fi
 echo ''
 
+# zsh-syntax-highlighting
+echo " [$(basename "$0")] --- install zsh-syntax-highlighting ---"
+
+if [ ! -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/.git" ]; then
+    echo " [$(basename "$0")] git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    cd "${HOME}" || exit 1
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+else
+    echo " [$(basename "$0")] already exists zsh-syntax-highlighting"
+fi
+echo ''
+
+
 # iTerm2 Shell Integration
 if [ "$(uname)" = 'Darwin' ]; then
     echo " [$(basename "$0")] --- install iTerm2 Shell Integration for zsh ---"
