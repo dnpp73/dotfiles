@@ -194,24 +194,24 @@ bindkey '^[^?' backward-kill-line # iTerm2 Custom Key Bindings, Cmd + delete to 
 bindkey '^U' backward-kill-line   # default: kill-whole-line
 
 # history 関連
-export HISTFILE="${HOME}/.zsh_history" # 履歴ファイルの保存先
-export HISTSIZE=5000        # メモリに保存される履歴の件数
-export SAVEHIST=100000      # 履歴ファイルに保存される履歴の件数
+export HISTFILE="${HOME}/.zsh_history"
+export HISTSIZE=5000   # メモリに保存される履歴の件数
+export SAVEHIST=100000 # 履歴ファイルに保存される履歴の件数
 # share_history と inc_append_history と inc_append_history_time は排他で利用すべきっぽい。
-setopt share_history          # 各端末で履歴(ファイル)を共有する = 履歴ファイルに対して参照と書き込みを行う。 書き込みは 時刻(タイムスタンプ) 付き。
-# setopt inc_append_history   # 履歴リストにイベントを登録するのと同時に、履歴ファイルにも書き込みを行う(追加する)。
-# setopt inc_append_history_time # コマンド終了時に、履歴ファイルに書き込む。つまりコマンドの経過時間が正しく記録される。逆に言うと INC_APPEND_HISTORY × EXTENDED_HISTORY の併用では経過時間が全て0で記録される
-setopt extended_history       # 開始と終了を記録
-setopt hist_expire_dups_first # 履歴リストのイベント数が上限(HISTSIZE)に達したときに、古いものではなく重複したイベントを削除する
-setopt hist_find_no_dups      # ラインエディタでヒストリ検索するときに、一度見つかったものは後続で表示しない。
-setopt hist_ignore_dups       # 入力したコマンドが、直前のものと同じなら履歴リストに追加しない。 hist_ignore_all_dups が ON なら要らない気もする。
-setopt hist_ignore_all_dups   # 履歴リスト登録時に、すでに同じものがあったら削除する。
-setopt hist_reduce_blanks     # 余分な空白は詰めて記録
-setopt hist_expand            # 補完時にヒストリを自動的に展開
-setopt hist_ignore_space      # スペースで始まるコマンド行はヒストリリストから削除
-setopt hist_verify            # ヒストリを呼び出してから実行する間に一旦編集可能
-setopt hist_save_no_dups      # 古いコマンドと同じものは無視
-setopt hist_no_store          # history, fc -l コマンドは履歴に登録しない
+# setopt share_history           # 各端末で履歴(ファイル)を共有する = 履歴ファイルに対して参照と書き込みを行う。 書き込みは 時刻(タイムスタンプ) 付き。
+# setopt inc_append_history      # 履歴リストにイベントを登録するのと同時に、履歴ファイルにも書き込みを行う(追加する)。
+setopt inc_append_history_time # コマンド終了時に、履歴ファイルに書き込む。つまりコマンドの経過時間が正しく記録される。逆に言うと INC_APPEND_HISTORY × EXTENDED_HISTORY の併用では経過時間が全て0で記録される
+setopt extended_history        # 開始と終了を記録
+setopt hist_expire_dups_first  # 履歴リストのイベント数が上限(HISTSIZE)に達したときに、古いものではなく重複したイベントを削除する
+setopt hist_find_no_dups       # ラインエディタでヒストリ検索するときに、一度見つかったものは後続で表示しない。
+setopt hist_ignore_dups        # 入力したコマンドが、直前のものと同じなら履歴リストに追加しない。 hist_ignore_all_dups が ON なら要らない気もする。
+setopt hist_ignore_all_dups    # 履歴リスト登録時に、すでに同じものがあったら削除する。
+setopt hist_reduce_blanks      # 余分な空白は詰めて記録
+setopt hist_expand             # 補完時にヒストリを自動的に展開
+setopt hist_ignore_space       # スペースで始まるコマンド行はヒストリリストから削除
+setopt hist_verify             # ヒストリを呼び出してから実行する間に一旦編集可能
+setopt hist_save_no_dups       # 古いコマンドと同じものは無視
+setopt hist_no_store           # history, fc -l コマンドは履歴に登録しない
 
 # completion
 if [ "${UNAME}" = 'Darwin' ]; then
