@@ -7,8 +7,9 @@ if [ -z "${LANGUAGE}" ]; then
     LANGUAGE='ja_JP.UTF-8:en_US.utf8:C.UTF-8:C:POSIX'
     export LANGUAGE
 fi
-# Linux のときだけ zsh の補完で文字数がズレる挙動を示すので LANG の設定が必要。LC_ALL でも良いけど、強すぎるので LANG にする。
-if [ "$(uname)" = 'Linux' ] && [ -z "${LANG}" ]; then
+# VSCode devcontainer の Linux のときだけ zsh の補完で文字数がズレる挙動を示すので LANG の設定が必要だと思ったのだけど、それをやったら今度は .zsh_history がまた壊れるようになって辛い。バイナリが出てくることは無くなったけど…。
+# LC_ALL でも良いけど、強すぎるので LANG にする。
+if [ -z "${LANG}" ]; then
     LANG='C.UTF-8'
     export LANG
 fi
