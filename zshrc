@@ -199,7 +199,7 @@ bindkey '^[^?'   backward-kill-word # Option + delete, Option as Meta key. 0x1b:
 bindkey '^U'     backward-kill-line # C-u, default: kill-whole-line. iTerm2 Custom Key Bindings, Cmd + delete to 0x15 (C-u)
 
 # history 関連
-HISTFILE="${HOME}/.zsh_history"
+# HISTFILE="${HOME}/.zsh_history" # デフォルトだけど指定すると fc -AI でメモリからファイルに書き込むときに、 .zsh_history.new から mv みたいな挙動になってコンテナで使うときに面倒なので指定しない。
 HISTSIZE=5000   # メモリに保存される履歴の件数
 SAVEHIST=100000 # 履歴ファイルに保存される履歴の件数
 HISTORY_IGNORE="(cd|pwd|l|l[sal]|exit)" # 履歴に残さないコマンド。 l, ls, la, ll は履歴に残さない。
