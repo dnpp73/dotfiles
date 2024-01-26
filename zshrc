@@ -207,6 +207,7 @@ HISTORY_IGNORE="(cd|pwd|l|l[sal]|exit)" # 履歴に残さないコマンド。 l
 # setopt share_history           # 各端末で履歴(ファイル)を共有する = 履歴ファイルに対して参照と書き込みを行う。 書き込みは 時刻(タイムスタンプ) 付き。
 setopt inc_append_history        # 履歴リストにイベントを登録するのと同時に、履歴ファイルにも書き込みを行う(追加する)。
 # setopt inc_append_history_time # コマンド終了時に、履歴ファイルに書き込む。 .zsh_history をコンテナに共有すると相性が悪い。
+setopt append_history            # zsh のセッション終了時に、履歴ファイルを上書きするのではなく追加する。デフォルトでもオンのはず。
 # setopt extended_history        # 開始と終了を記録
 setopt hist_expire_dups_first    # 履歴リストのイベント数が上限(HISTSIZE)に達したときに、古いものではなく重複したイベントを削除する
 setopt hist_find_no_dups         # ラインエディタでヒストリ検索するときに、一度見つかったものは後続で表示しない。
@@ -218,6 +219,7 @@ setopt hist_ignore_space         # スペースで始まるコマンド行はヒ
 setopt hist_verify               # ヒストリを呼び出してから実行する間に一旦編集可能
 # setopt hist_save_no_dups       # 古いコマンドと同じものは無視
 setopt hist_no_store             # history, fc -l コマンドは履歴に登録しない
+setopt hist_fcntl_lock           # ヒストリファイルをロックする
 
 # completion
 if [ "${UNAME}" = 'Darwin' ]; then
