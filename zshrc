@@ -227,6 +227,8 @@ if [ "${UNAME}" = 'Darwin' ]; then
 fi
 
 # oh-my-zsh の plugins の配列に入れるだけで補完まで動くのは aws だけだったので自前でなんとかするしかなった…。
+ZSH_COMPDUMP="${HOME}/.cache/zsh/zcompdump"
+mkdir -p "$(dirname "${ZSH_COMPDUMP}")"
 AWS_COMPLETER_PATH="$(which aws_completer)"
 AWS_COMPLETER_EXISTS=$?
 if [ "${AWS_COMPLETER_EXISTS}" -eq 0 ]; then
@@ -234,7 +236,7 @@ if [ "${AWS_COMPLETER_EXISTS}" -eq 0 ]; then
     bashcompinit
 fi
 autoload -Uz compinit
-compinit -i
+compinit -i -d "${ZSH_COMPDUMP}"
 if [ "${AWS_COMPLETER_EXISTS}" -eq 0 ]; then
     complete -C "${AWS_COMPLETER_PATH}" aws
 fi
