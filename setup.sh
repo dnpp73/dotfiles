@@ -78,6 +78,41 @@ function safe_cp() {
     echo ""
 }
 
+function safe_mv() {
+    if [ ! -e "${1}" ]; then
+        echo " [$(basename "$0")] ${1} does not exist."
+        echo ""
+        return
+    fi
+
+    if [ -L "$2" ]; then
+        echo " [$(basename "$0")] $(basename "$2") already exists symlink."
+        echo " [$(basename "$0")] mv $2 ${2}_${BACKUP_SUFFIX}"
+        mv "$2" "${2}_${BACKUP_SUFFIX}"
+
+    elif [ -d "$2" ]; then
+        echo " [$(basename "$0")] $(basename "$2") already exists dir."
+        echo " [$(basename "$0")] mv $2 ${2}_${BACKUP_SUFFIX}"
+        mv "$2" "${2}_${BACKUP_SUFFIX}"
+
+    elif [ -f "$2" ]; then
+        echo " [$(basename "$0")] $(basename "$2") already exists file."
+        if diff "$1" "$2" >/dev/null 2>&1; then
+            echo " [$(basename "$0")] $(basename "$2") is same file."
+            echo ""
+            return
+        else
+            echo " [$(basename "$0")] mv $2 ${2}_${BACKUP_SUFFIX}"
+            mv "$2" "${2}_${BACKUP_SUFFIX}"
+        fi
+
+    fi
+
+    echo " [$(basename "$0")] mv $1 $2"
+    mv "$1" "$2"
+    echo ""
+}
+
 # # git submodule (for vim bundle)
 # echo " [$(basename "$0")] --- install vim bundles ---"
 #
@@ -154,6 +189,8 @@ DOTFILES=(
     'npmrc'
     'tmux.conf'
     'terraformrc'
+    'pryrc'
+    'irbrc'
 )
 
 for filename in "${DOTFILES[@]}"; do
@@ -173,3 +210,17 @@ if [ -d "${DOCKER_MAC_ETC_DIR}" ]; then
     mkdir -p "${HOME}/.zsh/completion"
     safe_create_symlink "${DOCKER_MAC_ETC_DIR}/docker.zsh-completion" "${HOME}/.zsh/completion/_docker"
 fi
+
+# history files
+HISTRY_DIRECTORY="${HOME}/.history.d"
+mkdir -p "${HISTRY_DIRECTORY}"
+
+safe_mv "${HOME}/.node_repl_history" "${HISTRY_DIRECTORY}/node_history"
+safe_mv "${HOME}/.sqlite_history"    "${HISTRY_DIRECTORY}/sqlite_history"
+safe_mv "${HOME}/.mysql_history"     "${HISTRY_DIRECTORY}/mysql_history"
+safe_mv "${HOME}/.psql_history"      "${HISTRY_DIRECTORY}/psql_history"
+safe_mv "${HOME}/.irb_history"       "${HISTRY_DIRECTORY}/irb_history"
+safe_mv "${HOME}/.pry_history"       "${HISTRY_DIRECTORY}/pry_history"
+safe_mv "${HOME}/.python_history"    "${HISTRY_DIRECTORY}/python_history"
+safe_mv "${HOME}/.bash_history"      "${HISTRY_DIRECTORY}/bash_history"
+safe_mv "${HOME}/.zsh_history"       "${HISTRY_DIRECTORY}/zsh_history"

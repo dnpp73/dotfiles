@@ -268,3 +268,14 @@ if which mint >/dev/null 2>&1; then
     mkdir -p "${MINT_PATH}"
     mkdir -p "${MINT_LINK_PATH}"
 fi
+
+# Histroy Files
+export HISTRY_DIRECTORY="${HOME}/.history.d"
+mkdir -p "${HISTRY_DIRECTORY}"
+export NODE_REPL_HISTORY="${HISTRY_DIRECTORY}/node_history"
+export SQLITE_HISTORY="${HISTRY_DIRECTORY}/sqlite_history"
+export MYSQL_HISTFILE="${HISTRY_DIRECTORY}/mysql_history"
+export PSQL_HISTORY="${HISTRY_DIRECTORY}/psql_history"
+export PRY_HISTORY_PATH="${HISTRY_DIRECTORY}/pry_history"
+export IRB_HISTORY_PATH="${HISTRY_DIRECTORY}/irb_history"
+export PYTHONHISTFILE="${HISTRY_DIRECTORY}/python_history"

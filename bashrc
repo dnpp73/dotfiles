@@ -103,6 +103,8 @@ if [ -n "${pyenv_root}" ]; then
     fi
 fi
 
+export HISTFILE="${HISTRY_DIRECTORY}/bash_history"
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
