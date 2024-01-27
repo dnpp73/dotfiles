@@ -120,7 +120,7 @@ COMPLETION_WAITING_DOTS='false'
 # Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=()
+plugins=(emoji man command-not-found)
 if [ "${UNAME}" = 'Darwin' ]; then
     plugins+=(macos)
     if which docker >/dev/null 2>&1; then
@@ -133,6 +133,9 @@ if [ "${UNAME}" = 'Darwin' ]; then
     if which xcodebuild >/dev/null 2>&1; then
         plugins+=(xcode)
     fi
+    if which brew >/dev/null 2>&1; then
+        plugins+=(brew)
+    fi
 elif [ "${UNAME}" = 'Linux' ]; then
     if [ -f '/etc/os-release' ]; then
         if grep -q '^ID=ubuntu' '/etc/os-release'; then
@@ -141,9 +144,9 @@ elif [ "${UNAME}" = 'Linux' ]; then
         if grep -q '^ID=debian' '/etc/os-release'; then
             plugins+=(debian)
         fi
-        if which docker >/dev/null 2>&1; then
-            plugins+=(docker)
-        fi
+    fi
+    if which docker >/dev/null 2>&1; then
+        plugins+=(docker)
     fi
 fi
 if which git >/dev/null 2>&1; then
@@ -172,6 +175,12 @@ if which python >/dev/null 2>&1 || which python3 >/dev/null 2>&1; then
 fi
 if which pip >/dev/null 2>&1 || which pip3 >/dev/null 2>&1; then
     plugins+=(pip)
+fi
+if which composer >/dev/null 2>&1; then
+    plugins+=(composer)
+fi
+if which redis-cli >/dev/null 2>&1; then
+    plugins+=(redis-cli)
 fi
 if which aws >/dev/null 2>&1; then
     plugins+=(aws)
