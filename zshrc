@@ -130,6 +130,9 @@ if [ "${UNAME}" = 'Darwin' ]; then
         zstyle ':completion:*:*:docker-*:*' option-stacking yes
         zstyle ':omz:plugins:docker' legacy-completion yes
     fi
+    if which xcodebuild >/dev/null 2>&1; then
+        plugins+=(xcode)
+    fi
 elif [ "${UNAME}" = 'Linux' ]; then
     if [ -f '/etc/os-release' ]; then
         if grep -q '^ID=ubuntu' '/etc/os-release'; then
@@ -202,7 +205,7 @@ bindkey '^U'     backward-kill-line # C-u, default: kill-whole-line. iTerm2 Cust
 export HISTFILE="${HISTRY_DIRECTORY}/zsh_history" # fc -AI でメモリからファイルに書き込むときに、 .zsh_history.new から mv みたいな挙動になってコンテナで使うときに面倒なのでディレクトリごと分けてる。
 export HISTSIZE=5000   # メモリに保存される履歴の件数
 export SAVEHIST=100000 # 履歴ファイルに保存される履歴の件数
-export HISTORY_IGNORE="(cd|cd .*|pwd|l|l[sal]|exit)" # 履歴に残さないコマンド。 l, ls, la, ll は履歴に残さない。
+export HISTORY_IGNORE="(cd|cd .*|pwd|l|l *|l[sal]|l[sal] *|exit)" # 履歴に残さないコマンド。 l, ls, la, ll は履歴に残さない。
 setopt share_history             # 各端末で履歴(ファイル)を共有する = 履歴ファイルに対して参照と書き込みを行う。 書き込みは 時刻(タイムスタンプ) 付き。
 setopt inc_append_history        # 履歴リストにイベントを登録するのと同時に、履歴ファイルにも書き込みを行う(追加する)。
 setopt inc_append_history_time   # コマンド終了時に、履歴ファイルに書き込む。 .zsh_history をコンテナに共有すると相性が悪い。
@@ -221,16 +224,20 @@ setopt hist_no_store             # history, fc -l コマンドは履歴に登録
 setopt hist_fcntl_lock           # ヒストリファイルをロックする
 
 # completion
-if [ "${UNAME}" = 'Darwin' ]; then
-    if [ -d '/opt/homebrew/share/zsh-completions' ]; then
-        fpath=('/opt/homebrew/share/zsh-completions' ${fpath})
-    fi
-    if [ -d '/usr/local/share/zsh-completions' ]; then
-        fpath=('/usr/local/share/zsh-completions' ${fpath})
-    fi
-    if [ -d "${HOME}/.zsh/completion" ]; then
-        fpath=("${HOME}/.zsh/completion" ${fpath})
-    fi
+if [ -d '/opt/homebrew/share/zsh/site-functions' ]; then
+    fpath=('/opt/homebrew/share/zsh/site-functions' ${fpath})
+fi
+if [ -d '/usr/local/share/zsh/site-functions' ]; then
+    fpath=('usr/local/share/zsh/site-functions' ${fpath})
+fi
+if [ -d '/opt/homebrew/share/zsh-completions' ]; then
+    fpath=('/opt/homebrew/share/zsh-completions' ${fpath})
+fi
+if [ -d '/usr/local/share/zsh-completions' ]; then
+    fpath=('/usr/local/share/zsh-completions' ${fpath})
+fi
+if [ -d "${HOME}/.zsh/completion" ]; then
+    fpath=("${HOME}/.zsh/completion" ${fpath})
 fi
 
 # oh-my-zsh の plugins の配列に入れるだけで補完まで動くのは aws だけだったので自前でなんとかするしかなった…。
