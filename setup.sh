@@ -224,3 +224,10 @@ safe_mv "${HOME}/.pry_history"       "${HISTRY_DIRECTORY}/pry_history"
 safe_mv "${HOME}/.python_history"    "${HISTRY_DIRECTORY}/python_history"
 safe_mv "${HOME}/.bash_history"      "${HISTRY_DIRECTORY}/bash_history"
 safe_mv "${HOME}/.zsh_history"       "${HISTRY_DIRECTORY}/zsh_history"
+
+# for zsh command-not-found plugin
+if type brew &> /dev/null; then
+    if brew command command-not-found-init > /dev/null 2>&1; then
+        eval "$(brew command-not-found-init)";
+    fi
+fi
