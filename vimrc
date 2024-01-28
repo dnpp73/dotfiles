@@ -96,7 +96,8 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 
 " カラースキーム
-colorscheme desert
+" colorscheme desert
+colorscheme xcodedarkhc
 " 不可視文字の色の上書き
 hi NonText    ctermbg=None ctermfg=59
 hi SpecialKey ctermbg=None ctermfg=59
@@ -159,13 +160,8 @@ let g:html_no_pre = 1
 " MacVim用
 "----------------------------------------------------
 if has('gui_macvim')
-    " カラースキーム"
-    colorscheme koehler
-    " 透明度"
-    set transparency=20
     " フォントの変更"
     "set guifont=Monaco:h14
-    set guifont=Menlo:h13
     " ラインとカラム"
     "大きさ的なの
     set lines=50 columns=130
@@ -199,3 +195,10 @@ nmap <space>W :set nowrap<CR>
 nmap <space>w :set wrap<CR>
 nmap <Space>b :ls<CR>:buffer
 nmap <Space>v :vsplit<CR><C-w><C-w>:ls<CR>:buffer
+
+"----------------------------------------------------
+" Mouse and Clipboard
+"----------------------------------------------------
+set mouse=a
+set clipboard+=unnamed
+
