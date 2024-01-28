@@ -231,7 +231,11 @@ fi
 
 # less
 # ステータス行にファイル名と行数、いま何%かを表示するようにする。
-export LESS='-R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
+# -R は ANSI カラーエスケープシーケンスを解釈。
+# -F はファイルが1画面に収まる場合は自動的に終了する。
+# -X はターミナルの初期化と終了時にクリアしない。
+# -i は検索時に大文字小文字を区別しない。
+export LESS='--mouse -R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
 
 SRC_HILITE_LESSPIPE_SH=$(which src-hilite-lesspipe.sh)
 SRC_HILITE_LESSPIPE_EXIST=$?
