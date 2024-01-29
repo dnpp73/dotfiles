@@ -120,7 +120,7 @@ COMPLETION_WAITING_DOTS='false'
 # Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(emoji man command-not-found)
+plugins=(emoji man)
 if [ "${UNAME}" = 'Darwin' ]; then
     plugins+=(macos)
     if which docker >/dev/null 2>&1; then
