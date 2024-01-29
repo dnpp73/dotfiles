@@ -205,8 +205,27 @@ set clipboard+=unnamed
 "----------------------------------------------------
 " Copilot
 "----------------------------------------------------
-let g:copilot_filetypes = {
-    \ 'gitcommit': v:true,
-    \ 'markdown': v:true,
-    \ 'yaml': v:true
-    \ }
+let g:copilot_filetypes = {}
+let g:copilot_filetypes['gitcommit'] = v:true
+let g:copilot_filetypes['markdown'] = v:true
+let g:copilot_filetypes['yaml'] = v:true
+
+function s:append_diff() abort
+    let git_root = system('git rev-parse --show-toplevel | tr -d "\n"')
+    if v:shell_error
+        return
+    endif
+
+    call append(line('$'), '# git diff --cached')
+    let diff_cached = system('git --no-pager -C ' . shellescape(git_root) . ' diff --cached --no-color')
+    let comment_diff_cached = join(map(split(diff_cached, '\n'), {idx, line -> '# ' . line}), "\n")
+    call append(line('$'), split(comment_diff_cached, '\n'))
+
+    call append(line('$'), '# git diff')
+    let diff = system('git --no-pager -C ' . shellescape(git_root) . ' diff --no-color --no-ext-diff ')
+    let comment_diff = join(map(split(diff, '\n'), {idx, line -> '# ' . line}), "\n")
+    call append(line('$'), split(comment_diff, '\n'))
+endfunction
+
+autocmd BufReadPost COMMIT_EDITMSG call s:append_diff()
+
