@@ -216,13 +216,14 @@ function s:append_diff() abort
         return
     endif
 
-    call append(line('$'), '# git diff --cached')
-    let diff_cached = system('git --no-pager -C ' . shellescape(git_root) . ' diff --cached --no-color')
+    call append(line('$'), '# Below are the diffs of the staged changes.')
+    call append(line('$'), '#')
+
+    let diff_cached = system('git --no-pager -C ' . shellescape(git_root) . ' diff --cached --no-color --ignore-space-change --ignore-blank-lines --minimal --function-context --unified=0')
     let comment_diff_cached = join(map(split(diff_cached, '\n'), {idx, line -> '# ' . line}), "\n")
     call append(line('$'), split(comment_diff_cached, '\n'))
 
-    call append(line('$'), '# git diff')
-    let diff = system('git --no-pager -C ' . shellescape(git_root) . ' diff --no-color --no-ext-diff ')
+    let diff = system('git --no-pager -C ' . shellescape(git_root) . ' diff --no-color --no-ext-diff --ignore-space-change --ignore-blank-lines --minimal --function-context --unified=0')
     let comment_diff = join(map(split(diff, '\n'), {idx, line -> '# ' . line}), "\n")
     call append(line('$'), split(comment_diff, '\n'))
 endfunction
