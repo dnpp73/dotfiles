@@ -147,6 +147,8 @@ elif [ "${UNAME}" = 'Linux' ]; then
     fi
     if which docker >/dev/null 2>&1; then
         plugins+=(docker)
+        zstyle ':completion:*:*:docker:*' option-stacking yes
+        zstyle ':completion:*:*:docker-*:*' option-stacking yes
     fi
 fi
 if which git >/dev/null 2>&1; then
@@ -196,7 +198,7 @@ if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
     ZSH_AUTOSUGGEST_STRATEGY=(history completion) # 補完の方を履歴より優先度高めにする場合は順序を変える。
     ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd .*|l|ls|l *|ls *|code *|xed *|vim *|open *)"
-    ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(cd .*|l|ls|l *|ls *|code *|xed *|vim *|open *)"
+    ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(l|ls|l *|ls *)"
 fi
 if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
     plugins+=(zsh-syntax-highlighting)
