@@ -41,9 +41,9 @@
 [alias]
     st  = status --branch --short
     ad  = add --all
-    ci  = commit -a
+    ci  = commit -a -v
     co  = checkout
-    cam = commit -a --amend
+    cam = commit -a -v --amend
     mg  = merge
     ft  = fetch
     br  = branch -v
