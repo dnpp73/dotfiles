@@ -19,7 +19,7 @@
     grep        = auto
 
 [core]
-    editor       = vim
+    editor       = code --wait
     pager        = less -+FX
     autocrlf     = input
     excludesfile = ~/.gitignore_global
