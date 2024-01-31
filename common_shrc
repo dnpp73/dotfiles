@@ -249,6 +249,8 @@ export JLESSCHARSET='japanese-ujis'
 # MAN を bat でオシャレに見る。
 if which bat >/dev/null 2>&1; then
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+elif which batcat >/dev/null 2>&1; then
+    export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
 fi
 
 # AWS

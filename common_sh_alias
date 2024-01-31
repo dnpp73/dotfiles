@@ -46,6 +46,11 @@ if which ccat >/dev/null 2>&1; then
     #alias cat='ccat'
 fi
 
+# batcat to bat
+if which batcat >/dev/null 2>&1; then
+    alias bat='batcat'
+fi
+
 # util
 alias j='jobs -l'
 #alias 600='chmod 600'
