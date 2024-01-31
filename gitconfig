@@ -59,11 +59,12 @@
     lga    = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
     # diff関連
+    dff  = !git diff --name-only --relative --diff-filter=d | xargs bat --diff
     df   = diff --diff-algorithm=histogram --ignore-space-change --ignore-blank-lines
     dfw  = df --color-words    # 単語単位でいろつけてdiff
     dfc  = df --cached         # addされているものとのdiff
     dfs  = df --staged         # 同上(1.6.1移行)
-    dfm  = df master           # masterとのdiff
+    # dfm = df master           # masterとのdiff
     # d1  = diff HEAD~            # HEADから1つ前とdiff
     # d2  = diff HEAD~~           # HEADから2つ前とdiff
     # d3  = diff HEAD~~~          # HEADから3つ前とdiff
