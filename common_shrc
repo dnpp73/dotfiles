@@ -246,6 +246,11 @@ fi
 # これを設定しないと日本語がでない less もあるので一応入れておく。
 export JLESSCHARSET='japanese-ujis'
 
+# MAN を bat でオシャレに見る。
+if which bat >/dev/null 2>&1; then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
 # AWS
 if [ -z "${AWS_DEFAULT_PROFILE}" ]; then
     export AWS_DEFAULT_PROFILE='dnpp-org'

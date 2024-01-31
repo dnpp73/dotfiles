@@ -19,9 +19,10 @@
     grep        = auto
 
 [core]
-    # editor       = code --wait --new-window
+    # editor     = code --wait --new-window
     editor       = vim
-    pager        = less -+FX
+    # X も足してたけどやっぱり履歴に残ってくれた方がいい
+    pager        = less -+F
     autocrlf     = input
     excludesfile = ~/.gitignore_global
 

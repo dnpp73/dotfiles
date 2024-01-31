@@ -284,6 +284,13 @@ elif [ "${UNAME}" = 'Linux' ]; then
     safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
 fi
 
+# MAN を bat でオシャレに見る。
+if which bat >/dev/null 2>&1; then
+    alias bathelp='bat --plain --language=help' # これで cur --help all | bathelp くらいがほど良い。
+    # alias -g -- -h='-h 2>&1 | bat --language=help --style=plain' # これはやりすぎ。
+    # alias -g -- --help='--help 2>&1 | bat --language=help --style=plain' # これも curl とかだと --help all で潰れるのでやりすぎ。
+fi
+
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ。 ssh 接続先では読まないようにする。
 if [ -z "${SSH_CONNECTION}" ] && [ -z "${SSH_CLIENT}" ] && [ -z "${SSH_TTY}" ]; then
     safe_source "${ORG_DIR}/env_ssh_auth_sock" 'ssh_sock'
