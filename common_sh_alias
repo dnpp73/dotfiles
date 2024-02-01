@@ -33,10 +33,10 @@ fi
 # grep
 alias g="grep ${alias_color} -in"
 alias G="grep ${alias_color} -n"
-alias f="fgrep ${alias_color} -in"
-alias F="fgrep ${alias_color} -n"
-alias e="egrep ${alias_color} -in"
-alias E="egrep ${alias_color} -n"
+#alias f="fgrep ${alias_color} -in"
+#alias F="fgrep ${alias_color} -n"
+#alias e="egrep ${alias_color} -in"
+#alias E="egrep ${alias_color} -n"
 #alias g3='g -A3 -B3'
 #alias g5='g -A5 -B5'
 #alias g10='g -A10 -B10'
@@ -61,6 +61,20 @@ fi
 # batcat to bat
 if which batcat >/dev/null 2>&1; then
     alias bat='batcat'
+    alias cat='batcat'
+fi
+
+# bat
+if which bat >/dev/null 2>&1; then
+    alias bat='bat'
+fi
+
+# git typo
+if which git >/dev/null 2>&1; then
+    alias gti='git'
+    alias gut='git'
+    alias got='git'
+    alias qgit='git'
 fi
 
 # util
@@ -84,8 +98,8 @@ alias sshmmn61='ssh mmn61-afp50548-vnc55900-airvideo45633'
 #alias sshraspberrypi='ssh raspberrypi-local-over-mmn61-vnc55902'
 
 # screen
-alias sls='screen -ls'
-alias s='screen -dR'
+#alias sls='screen -ls'
+#alias s='screen -dR'
 
 # 変数のリセット
 unset alias_color

@@ -214,7 +214,7 @@ bindkey '^U'     backward-kill-line # C-u, default: kill-whole-line. iTerm2 Cust
 
 # history 関連
 export HISTFILE="${HISTRY_DIRECTORY}/zsh_history" # fc -AI でメモリからファイルに書き込むときに、 .zsh_history.new から mv みたいな挙動になってコンテナで使うときに面倒なのでディレクトリごと分けてる。
-export HISTSIZE=5000   # メモリに保存される履歴の件数
+export HISTSIZE=1000   # メモリに保存される履歴の件数
 export SAVEHIST=100000 # 履歴ファイルに保存される履歴の件数
 export HISTORY_IGNORE="(cd|cd .*|pwd|l|l *|l[sal]|l[sal] *|exit)" # 履歴に残さないコマンド。 l, ls, la, ll は履歴に残さない。
 setopt share_history             # 各端末で履歴(ファイル)を共有する = 履歴ファイルに対して参照と書き込みを行う。 書き込みは 時刻(タイムスタンプ) 付き。
