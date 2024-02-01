@@ -1,12 +1,24 @@
+# shellcheck disable=SC2139
+
 # If not running interactively, don't do anything
 [ -z "${PS1}" ] && return
 
 alias_color='--color=always'
 
 # ls
-alias l='ls -Alh'
-#alias ll='ls -lh'
-#alias la='ls -A'
+# eza は exa の fork で、開発が止まっている exa の後継
+# -halFbg の並び順の長いオプションで書いている。
+# --icons はフォントが必要なのでとりあえず書いてない。 --binary (-b) じゃなくて --bytes (-B) でもいいかも。指定しなくてもいいかも。
+# --octal-permissions で 755 とか 644 って出して --no-permissions でパーミッションを出さないようにしている。
+if which eza >/dev/null 2>&1; then
+    # alias l='eza --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
+    alias l='eza --header --all --long --classify --group --time-style=long-iso'
+elif which exa >/dev/null 2>&1; then
+    # alias l='exa --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
+    alias l='exa --header --all --long --classify --group --time-style=long-iso'
+else
+    alias l='ls -Alh'
+fi
 
 # ファイル操作の確認
 #alias rmi='rm -i'
