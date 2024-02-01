@@ -59,7 +59,7 @@
     lga    = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
     # diff関連
-    dff  = !git diff --name-only --relative --diff-filter=d | xargs bat --diff
+    dff  = !git diff --name-only --relative --diff-filter=d | grep -v -e '.svg' -e '.png' -e 'package-lock.json' -e 'yarn.lock' -e 'Gemfile.lock' | xargs bat --diff
     df   = diff --diff-algorithm=histogram --ignore-space-change --ignore-blank-lines
     dfw  = df --color-words    # 単語単位でいろつけてdiff
     dfc  = df --cached         # addされているものとのdiff
