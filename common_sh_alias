@@ -66,7 +66,7 @@ fi
 
 # bat
 if which bat >/dev/null 2>&1; then
-    alias bat='bat'
+    alias cat='bat'
 fi
 
 # git typo
