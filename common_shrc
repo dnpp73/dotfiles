@@ -20,6 +20,12 @@ if [ -d "${HOME}/go" ]; then
     export GOPATH
 fi
 
+# Android SDK
+if [ -d "${HOME}/Library/Android/sdk" ]; then
+    ANDROID_HOME="${HOME}/Library/Android/sdk"
+    export ANDROID_HOME
+fi
+
 # MANPATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
 MANPATH=''
@@ -107,12 +113,21 @@ PATHS=(
     '/opt/homebrew/sbin'
     '/opt/homebrew/bin'
 
-    "${HOME}/Library/Android/sdk/platform-tools"
+    # Android SDK
+    "${HOME}/Library/Android/sdk/tools"          # $ANDROID_HOME/tools
+    "${HOME}/Library/Android/sdk/tools/bin"      # $ANDROID_HOME/tools/bin
+    "${HOME}/Library/Android/sdk/platform-tools" # $ANDROID_HOME/platform-tools
+
+    # go
     "${HOME}/go/bin" # $GOPATH/bin だと GOPATH が無かったときに /bin になるため。
+
+    # anyenv
     "${HOME}/.goenv/bin"
     "${HOME}/.nodenv/bin"
     "${HOME}/.pyenv/bin"
     "${HOME}/.rbenv/bin"
+
+    # Personal
     "${HOME}/sbin"
     "${HOME}/bin"
 )
