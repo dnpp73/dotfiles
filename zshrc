@@ -193,6 +193,9 @@ fi
 if which terraform >/dev/null 2>&1; then
     plugins+=(terraform)
 fi
+if which flutter >/dev/null 2>&1; then
+    plugins+=(flutter)
+fi
 if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
     plugins+=(zsh-autosuggestions)
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
