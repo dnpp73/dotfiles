@@ -40,7 +40,9 @@ if which direnv >/dev/null 2>&1; then
 fi
 
 # goenv
-if [ -s "${HOME}/.goenv/bin" ]; then
+if [ -n "${GOENV_ROOT}" ] && [ -d "${GOENV_ROOT}" ]; then
+    goenv_root="${GOENV_ROOT}"
+elif [ -s "${HOME}/.goenv/bin" ]; then
     goenv_root="${HOME}/.goenv"
 elif [ -s '/opt/homebrew/opt/goenv' ]; then
     goenv_root='/opt/homebrew/opt/goenv'
@@ -56,7 +58,9 @@ if [ -n "${goenv_root}" ]; then
 fi
 
 # nodenv
-if [ -s "${HOME}/.nodenv/bin" ]; then
+if [ -n "${NODENV_ROOT}" ] && [ -d "${NODENV_ROOT}" ]; then
+    nodenv_root="${NODENV_ROOT}"
+elif [ -s "${HOME}/.nodenv/bin" ]; then
     nodenv_root="${HOME}/.nodenv"
 elif [ -s '/opt/homebrew/opt/nodenv' ]; then
     nodenv_root='/opt/homebrew/opt/nodenv'
@@ -72,7 +76,9 @@ if [ -n "${nodenv_root}" ]; then
 fi
 
 # rbenv
-if [ -s "${HOME}/.rbenv/bin" ]; then
+if [ -n "${RBENV_ROOT}" ] && [ -d "${RBENV_ROOT}" ]; then
+    rbenv_root="${RBENV_ROOT}"
+elif [ -s "${HOME}/.rbenv/bin" ]; then
     rbenv_root="${HOME}/.rbenv"
 elif [ -s '/opt/homebrew/opt/rbenv' ]; then
     rbenv_root='/opt/homebrew/opt/rbenv'
@@ -88,7 +94,9 @@ if [ -n "${rbenv_root}" ]; then
 fi
 
 # pyenv
-if [ -s "${HOME}/.pyenv/bin" ]; then
+if [ -n "${PYENV_ROOT}" ] && [ -d "${PYENV_ROOT}" ]; then
+    pyenv_root="${PYENV_ROOT}"
+elif [ -s "${HOME}/.pyenv/bin" ]; then
     pyenv_root="${HOME}/.pyenv"
 elif [ -s '/opt/homebrew/opt/pyenv' ]; then
     pyenv_root='/opt/homebrew/opt/pyenv'
