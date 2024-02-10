@@ -29,49 +29,68 @@ function machine_name {
 "
 }
 
-# function rbenv_version {
-#     RBENV_RESULT=$(rbenv version 2>/dev/null)
-#     RBENV_VERSION=$(echo $RBENV_RESULT | cut -d ' ' -f1)
-#     if echo $RBENV_RESULT | grep $RBENV_ROOT > /dev/null 2>&1; then
-#         echo "%{$fg[cyan]%}$RBENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
-#     else
-#         echo "%{$fg[cyan]%}$RBENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
-#     fi
-# }
-# local rbenv_info='$(rbenv_version)'
+function rbenv_version {
+    RBENV_RESULT=$(rbenv version 2>/dev/null)
+    RBENV_VERSION=$(echo $RBENV_RESULT | cut -d ' ' -f1)
+    if echo $RBENV_RESULT | grep $RBENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$RBENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$RBENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
+}
 
-# function pyenv_version {
-#     PYENV_RESULT=$(pyenv version 2>/dev/null)
-#     PYENV_VERSION=$(echo $PYENV_RESULT | cut -d ' ' -f1)
-#     if echo $PYENV_RESULT | grep $PYENV_ROOT > /dev/null 2>&1; then
-#         echo "%{$fg[cyan]%}$PYENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
-#     else
-#         echo "%{$fg[cyan]%}$PYENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
-#     fi
-# }
-# local pyenv_info='$(pyenv_version)'
+function pyenv_version {
+    PYENV_RESULT=$(pyenv version 2>/dev/null)
+    PYENV_VERSION=$(echo $PYENV_RESULT | cut -d ' ' -f1)
+    if echo $PYENV_RESULT | grep $PYENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$PYENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$PYENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
+}
 
-# function nodenv_version {
-#     NODENV_RESULT=$(nodenv version 2>/dev/null)
-#     NODENV_VERSION=$(echo $NODENV_RESULT | cut -d ' ' -f1)
-#     if echo $NODENV_RESULT | grep $NODENV_ROOT > /dev/null 2>&1; then
-#         echo "%{$fg[cyan]%}$NODENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
-#     else
-#         echo "%{$fg[cyan]%}$NODENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
-#     fi
-# }
-# local nodenv_info='$(nodenv_version)'
+function nodenv_version {
+    NODENV_RESULT=$(nodenv version 2>/dev/null)
+    NODENV_VERSION=$(echo $NODENV_RESULT | cut -d ' ' -f1)
+    if echo $NODENV_RESULT | grep $NODENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$NODENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$NODENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
+}
 
-# function goenv_version {
-#     GOENV_RESULT=$(goenv version 2>/dev/null)
-#     GOENV_VERSION=$(echo $GOENV_RESULT | cut -d ' ' -f1)
-#     if echo $GOENV_RESULT | grep $GOENV_ROOT > /dev/null 2>&1; then
-#         echo "%{$fg[cyan]%}$GOENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
-#     else
-#         echo "%{$fg[cyan]%}$GOENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
-#     fi
-# }
-# local goenv_info='$(goenv_version)'
+function goenv_version {
+    GOENV_RESULT=$(goenv version 2>/dev/null)
+    GOENV_VERSION=$(echo $GOENV_RESULT | cut -d ' ' -f1)
+    if echo $GOENV_RESULT | grep $GOENV_ROOT > /dev/null 2>&1; then
+        echo "%{$fg[cyan]%}$GOENV_VERSION%{$fg[blue]%}(g)%{$reset_color%}"
+    else
+        echo "%{$fg[cyan]%}$GOENV_VERSION%{$fg[blue]%}(l)%{$reset_color%}"
+    fi
+}
+
+function rb_py_nod_go_env_info {
+    local info='['
+    if which rbenv >/dev/null 2>&1; then
+        info="${info}rbenv: \$(rbenv_version), "
+    fi
+    if which pyenv >/dev/null 2>&1; then
+        info="${info}pyenv: \$(pyenv_version), "
+    fi
+    if which nodenv >/dev/null 2>&1; then
+        info="${info}nodenv: \$(nodenv_version), "
+    fi
+    if which goenv >/dev/null 2>&1; then
+        info="${info}goenv: \$(goenv_version), "
+    fi
+    # info から ', ' の後ろ 2 文字を削除して、 ']' で見た目を閉じる。
+    info="${info%, }"
+    info="${info}]"
+    if [ "${info}" = '[]' ]; then
+        info=''
+    fi
+    echo -n "${info}"
+}
 
 # Directory info.
 local current_dir='${PWD/#$HOME/~}'
@@ -86,46 +105,25 @@ ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}(%{$fg[green]%}✔"
 
 # Prompt format
 # rbenv nodenv goenv の情報入りのやつ。
-# PROMPT="\
-# $(machine_name)\
-#  \
-# %{$terminfo[bold]$fg[white]%}${current_dir}%{$reset_color%}\
-#  \
-# %{$reset_color$fg[cyan]%}%D %*\
-# \
-# %{$reset_color%} -zsh $ZSH_VERSION\
-# \
-# ${git_info} \
-# \
-# %{$fg[white]%}[\
-# rbenv:\
-# ${rbenv_info}, \
-# nodenv:\
-# ${nodenv_info}, \
-# goenv:\
-# ${goenv_info}\
-# ] \
-# \
-#
-# %h \
-# $(prev_command_exit_flag) \
-# $(prompt_char) "
-
 PROMPT="\
 $(machine_name)\
  \
 %{$terminfo[bold]$fg[white]%}\
 ${current_dir}\
-%{$reset_color%}\
  \
 %{$reset_color$fg[cyan]%}\
 %D %*\
-%{$reset_color%}\
 \
-${git_info}\
+%{$reset_color%}\
+ -zsh $ZSH_VERSION\
+\
+${git_info} \
+\
+%{$fg[white]%}\
+$(rb_py_nod_go_env_info)\
+ \
 \
 
-\
 %h \
 $(prev_command_exit_flag) \
 $(prompt_char) "
