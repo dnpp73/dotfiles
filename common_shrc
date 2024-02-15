@@ -113,6 +113,9 @@ PATHS=(
     '/opt/homebrew/sbin'
     '/opt/homebrew/bin'
 
+    # Docker Ruby Global bundle gems
+    /usr/local/bundle/bin
+
     # Android SDK
     "${HOME}/Library/Android/sdk/tools"          # $ANDROID_HOME/tools
     "${HOME}/Library/Android/sdk/tools/bin"      # $ANDROID_HOME/tools/bin
