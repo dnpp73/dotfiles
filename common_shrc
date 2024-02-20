@@ -34,6 +34,7 @@ MANPATHS=(
     '/usr/X11/man'
     '/usr/share/man'
     '/usr/local/share/man'
+    '/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home/man'
     '/usr/local/opt/coreutils/libexec/gnuman'
     '/usr/local/opt/findutils/libexec/gnuman'
     '/usr/local/opt/gnu-sed/libexec/gnuman'
@@ -42,6 +43,7 @@ MANPATHS=(
 
     # homebrew Apple M1
     '/opt/homebrew/share/man'
+    '/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home/man'
     '/opt/homebrew/opt/coreutils/libexec/gnuman'
     '/opt/homebrew/opt/findutils/libexec/gnuman'
     '/opt/homebrew/opt/gnu-sed/libexec/gnuman'
@@ -69,6 +71,7 @@ PATHS=(
     '/snap/bin'
 
     # homebrew Intel
+    '/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home/bin'
     '/usr/local/opt/ncurses/bin'
     '/usr/local/opt/tcl-tk/bin'
     '/usr/local/opt/sqlite/bin'
@@ -92,6 +95,7 @@ PATHS=(
     '/usr/local/go/bin'
 
     # homebrew Apple M1
+    '/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home/bin'
     '/opt/homebrew/opt/ncurses/bin'
     '/opt/homebrew/opt/tcl-tk/bin'
     '/opt/homebrew/opt/sqlite/bin'
@@ -144,6 +148,18 @@ done
 # shellcheck disable=SC2001
 PATH=$(echo "${NEW_PATH}" | sed -e 's/:$//')
 export PATH
+
+# JAVA_HOME
+if [ -n "${JAVA_HOME}" ] && [ -d "${JAVA_HOME}" ]; then
+    java_home="${JAVA_HOME}"
+elif [ -d '/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home' ]; then
+    java_home='/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home'
+elif [ -d '/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home' ]; then
+    java_home='/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home'
+fi
+if [ -n "${java_home}" ]; then
+    export JAVA_HOME="${java_home}"
+fi
 
 # LDFLAGS
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
