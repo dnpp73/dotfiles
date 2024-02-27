@@ -193,6 +193,7 @@ if which redis-cli >/dev/null 2>&1; then
     plugins+=(redis-cli)
 fi
 if which aws >/dev/null 2>&1; then
+    SHOW_AWS_PROMPT=false
     plugins+=(aws)
 fi
 if which gcloud >/dev/null 2>&1; then
