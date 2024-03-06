@@ -291,10 +291,10 @@ elif which batcat >/dev/null 2>&1; then
     export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
 fi
 
-# AWS
-if [ -z "${AWS_DEFAULT_PROFILE}" ]; then
-    export AWS_DEFAULT_PROFILE='dnpp-org'
-fi
+# # AWS
+# if [ -z "${AWS_DEFAULT_PROFILE}" ]; then
+#     export AWS_DEFAULT_PROFILE='dnpp-org'
+# fi
 
 # rbenv で openssl を自前で持たないようにさせたい。
 # openssl ビルド時に binutils が BSD であることが前提のコードが入っているため
