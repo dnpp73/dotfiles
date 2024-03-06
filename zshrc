@@ -246,6 +246,18 @@ setopt hist_save_no_dups         # 古いコマンドと同じものは無視
 setopt hist_no_store             # history, fc -l コマンドは履歴に登録しない
 setopt hist_fcntl_lock           # ヒストリファイルをロックする
 
+# https://qiita.com/sho-t/items/d44bfbc783db7ca278c0
+zshaddhistory() {
+    emulate -L zsh
+    # ${1} に改行文字が複数含まれていたら return 1 する。改行で確定させるので 1 行だけ打てば普通は 2 になる。
+    if [ "$(echo "${1}" | wc -l)" -ne 2 ]; then
+        return 1
+    fi
+    if [[ ${1%%$'\n'} == ${~HISTORY_IGNORE} ]]; then
+        return 1
+    fi
+}
+
 # completion
 if [ -d '/opt/homebrew/share/zsh/site-functions' ]; then
     fpath=('/opt/homebrew/share/zsh/site-functions' ${fpath})
