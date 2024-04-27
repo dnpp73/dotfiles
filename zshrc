@@ -295,6 +295,11 @@ unset AWS_COMPLETER_EXISTS
 echo -n 'oh-my-zsh '
 source "${ZSH}/oh-my-zsh.sh"
 
+# dart cli
+if [ -f "${HOME}/.dart-cli-completion/zsh-config.zsh" ]; then
+    source "${HOME}/.dart-cli-completion/zsh-config.zsh"
+fi
+
 # alias
 unalias -m '*'
 
