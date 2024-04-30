@@ -16,6 +16,11 @@ profile
 
 UserInterface.xcuserstate
 
+# Android Studio / Intellij
+.gradle/
+.externalNativeBuild/
+.idea/
+
 # vim emacs
 *~
 *.swp
