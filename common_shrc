@@ -121,9 +121,10 @@ PATHS=(
     /usr/local/bundle/bin
 
     # Android SDK
-    "${HOME}/Library/Android/sdk/tools"          # $ANDROID_HOME/tools
-    "${HOME}/Library/Android/sdk/tools/bin"      # $ANDROID_HOME/tools/bin
-    "${HOME}/Library/Android/sdk/platform-tools" # $ANDROID_HOME/platform-tools
+    "${HOME}/Library/Android/sdk/tools"                    # $ANDROID_HOME/tools
+    "${HOME}/Library/Android/sdk/tools/bin"                # $ANDROID_HOME/tools/bin
+    "${HOME}/Library/Android/sdk/platform-tools"           # $ANDROID_HOME/platform-tools
+    "${HOME}/Library/Android/sdk/cmdline-tools/latest/bin" # $ANDROID_HOME/cmdline-tools/latest/bin
 
     # fvm (flutter)
     "${HOME}/.pub-cache/bin"
