@@ -23,6 +23,7 @@
     editor       = vim
     # X も足してたけどやっぱり履歴に残ってくれた方がいい
     pager        = less -+F
+    # pager        = delta
     autocrlf     = input
     excludesfile = ~/.gitignore_global
 
@@ -36,9 +37,45 @@
     ff = only
 
 [pager]
-    grep = true
-    diff = true
-    log = true
+#     grep = true
+#     diff = true
+#     log  = true
+    diff   = delta
+    log    = delta
+    reflog = delta
+    show   = delta
+    blame  = delta
+
+[delta]
+    plus-style   = "syntax #012800"
+    minus-style  = "syntax #340001"
+    # syntax-theme = "1337"
+    # syntax-theme = "Coldark-Cold"
+    # syntax-theme = "Coldark-Dark"
+    # syntax-theme = "DarkNeon"
+    syntax-theme = "Dracula"
+    # syntax-theme = "Monokai Extended"
+    # syntax-theme = "Monokai Extended Bright"
+    # syntax-theme = "Monokai Extended Origin"
+    # syntax-theme = "Nord"
+    # syntax-theme = "OneHalfDark"
+    # syntax-theme = "Solarized (dark)"
+    # syntax-theme = "Sublime Snazzy"
+    # syntax-theme = "TwoDark"
+    # syntax-theme = "Visual Studio Dark+"
+    # syntax-theme = "ansi"
+    # syntax-theme = "base16"
+    # syntax-theme = "base16-256"
+    # syntax-theme = "gruvbox-dark"
+    # syntax-theme = "zenburn"
+    navigate     = true
+    line-numbers = true
+    side-by-side = true
+    hyperlinks   = true
+    hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+
+[interactive]
+    diffFilter = delta --color-only
 
 [alias]
     st  = status --branch --short
@@ -93,13 +130,17 @@
     alias = !git config --get-regexp '^alias\\.' | sed 's/alias\\.\\([^ ]*\\) \\(.*\\)/\\1\\\t => \\2/' | sort
     refresh= !git fetch origin && git remote prune origin
 
-# [diff]
-#     # git diff --diff-algorithm={patience|minimal|histogram|myers}
-#     algorithm = histogram
+[diff]
+    # git diff --diff-algorithm={patience|minimal|histogram|myers}
+    # algorithm = histogram
+    colorMoved = default
 
 [difftool "sourcetree"]
     cmd  = opendiff \"$LOCAL\" \"$REMOTE\"
     path =
+
+[merge]
+    conflictstyle = diff3
 
 [mergetool "sourcetree"]
     cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
