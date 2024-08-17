@@ -33,10 +33,12 @@ function machine_name {
 function __omz_custom_theme_rbenv_version {
     RBENV_RESULT="$(rbenv version 2>/dev/null)"
     RBENV_VERSION="$(echo "${RBENV_RESULT}" | cut -d ' ' -f1)"
-    if echo "${RBENV_RESULT}" | grep "${RBENV_ROOT}" > /dev/null 2>&1; then
-        echo -n "%{${fg[blue]}%}g${fg_gray}:"
-    else
-        echo -n "%{${fg[blue]}%}l${fg_gray}:"
+    if [ "${RBENV_VERSION}" != 'system' ]; then
+        if echo "${RBENV_RESULT}" | grep "${RBENV_ROOT}" > /dev/null 2>&1; then
+            echo -n "%{${fg[blue]}%}g${fg_gray}:"
+        else
+            echo -n "%{${fg[blue]}%}l${fg_gray}:"
+        fi
     fi
     echo -n "%{${fg[cyan]}%}${RBENV_VERSION}%{${reset_color}%}"
 }
@@ -44,10 +46,12 @@ function __omz_custom_theme_rbenv_version {
 function __omz_custom_theme_pyenv_version {
     PYENV_RESULT="$(pyenv version 2>/dev/null)"
     PYENV_VERSION="$(echo "${PYENV_RESULT}" | cut -d ' ' -f1)"
-    if echo "${PYENV_RESULT}" | grep "${PYENV_ROOT}" > /dev/null 2>&1; then
-        echo -n "%{${fg[blue]}%}g${fg_gray}:"
-    else
-        echo -n "%{${fg[blue]}%}l${fg_gray}:"
+    if [ "${PYENV_VERSION}" != 'system' ]; then
+        if echo "${PYENV_RESULT}" | grep "${PYENV_ROOT}" > /dev/null 2>&1; then
+            echo -n "%{${fg[blue]}%}g${fg_gray}:"
+        else
+            echo -n "%{${fg[blue]}%}l${fg_gray}:"
+        fi
     fi
     echo -n "%{${fg[cyan]}%}${PYENV_VERSION}%{${reset_color}%}"
 }
@@ -55,10 +59,12 @@ function __omz_custom_theme_pyenv_version {
 function __omz_custom_theme_nodenv_version {
     NODENV_RESULT="$(nodenv version 2>/dev/null)"
     NODENV_VERSION="$(echo "${NODENV_RESULT}" | cut -d ' ' -f1)"
-    if echo "${NODENV_RESULT}" | grep "${NODENV_ROOT}" > /dev/null 2>&1; then
-        echo -n "%{${fg[blue]}%}g${fg_gray}:"
-    else
-        echo -n "%{${fg[blue]}%}l${fg_gray}:"
+    if [ "${NODENV_VERSION}" != 'system' ]; then
+        if echo "${NODENV_RESULT}" | grep "${NODENV_ROOT}" > /dev/null 2>&1; then
+            echo -n "%{${fg[blue]}%}g${fg_gray}:"
+        else
+            echo -n "%{${fg[blue]}%}l${fg_gray}:"
+        fi
     fi
     echo -n "%{${fg[cyan]}%}${NODENV_VERSION}%{${reset_color}%}"
 }
@@ -66,10 +72,12 @@ function __omz_custom_theme_nodenv_version {
 function __omz_custom_theme_goenv_version {
     GOENV_RESULT="$(goenv version 2>/dev/null)"
     GOENV_VERSION="$(echo ${GOENV_RESULT} | cut -d ' ' -f1)"
-    if echo "${GOENV_RESULT}" | grep "${GOENV_ROOT}" > /dev/null 2>&1; then
-        echo -n "%{${fg[blue]}%}g${fg_gray}:"
-    else
-        echo -n "%{${fg[blue]}%}l${fg_gray}:"
+    if [ "${GOENV_VERSION}" != 'system' ]; then
+        if echo "${GOENV_RESULT}" | grep "${GOENV_ROOT}" > /dev/null 2>&1; then
+            echo -n "%{${fg[blue]}%}g${fg_gray}:"
+        else
+            echo -n "%{${fg[blue]}%}l${fg_gray}:"
+        fi
     fi
     echo -n "%{${fg[cyan]}%}${GOENV_VERSION}%{${reset_color}%}"
 }
