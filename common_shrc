@@ -325,6 +325,13 @@ if which mint >/dev/null 2>&1; then
     mkdir -p "${MINT_LINK_PATH}"
 fi
 
+# Python
+export PIP_DISABLE_PIP_VERSION_CHECK='1'
+export PYTHONDONTWRITEBYTECODE='1'
+export PYTHONUTF8='1'
+export PYTHONIOENCODING='UTF-8'
+export VIRTUAL_ENV_DISABLE_PROMPT='1'
+
 # Histroy Files
 export HISTRY_DIRECTORY="${HOME}/.history.d"
 mkdir -p "${HISTRY_DIRECTORY}"
