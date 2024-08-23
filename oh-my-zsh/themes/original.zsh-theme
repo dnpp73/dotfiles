@@ -107,14 +107,20 @@ function rb_py_nod_go_env_info {
 function __omz_custom_theme_venv_info {
     # VIRTUAL_ENV 環境変数があれば、その中身を表示する。
     if [ -n "${VIRTUAL_ENV}" ]; then
-        # 末尾が /.venv か /venv なら削除して、 $HOME は ~ に置換して、最後のディレクトリ名以外を 1 文字に省略する
+        # # 末尾が /.venv か /venv なら削除して、 $HOME は ~ に置換して、最後のディレクトリ名以外を 1 文字に省略する
+        # local venv_dir="${VIRTUAL_ENV}"
+        # venv_dir="${venv_dir/#${HOME}/~}"
+        # venv_dir="${venv_dir/%\/.venv/}"
+        # venv_dir="${venv_dir/%\/venv/}"
+        # local venv_basename="$(basename "${venv_dir}")"
+        # venv_dir="$(echo "${venv_dir}" | sed 's/\b\(\w\)\w*/\1/g')"
+        # echo -n "${fg_gray}[venv:${fg[cyan]}${venv_dir}/${venv_basename}${fg_gray}]${reset_color} "
+
         local venv_dir="${VIRTUAL_ENV}"
-        venv_dir="${venv_dir/#${HOME}/~}"
-        venv_dir="${venv_dir/%\/.venv/}"
-        venv_dir="${venv_dir/%\/venv/}"
+        local venv_dirname="$(dirname "${venv_dir}")"
         local venv_basename="$(basename "${venv_dir}")"
-        venv_dir="$(echo "${venv_dir}" | sed 's/\b\(\w\)\w*/\1/g')"
-        echo -n "${fg_gray}[venv:${fg[cyan]}${venv_dir}/${venv_basename}${fg_gray}]${reset_color} "
+        local venv_parentdirbasename="$(basename "${venv_dirname}")"
+        echo -n "${fg_gray}[venv:${fg[cyan]}${venv_parentdirbasename}/${venv_basename}${fg_gray}]${reset_color} "
     fi
 }
 
