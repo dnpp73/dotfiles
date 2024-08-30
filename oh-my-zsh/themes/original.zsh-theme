@@ -107,25 +107,46 @@ function rb_py_nod_go_env_info {
 function __omz_custom_theme_venv_info {
     # VIRTUAL_ENV 環境変数があれば、その中身を表示する。
     if [ -n "${VIRTUAL_ENV}" ]; then
-        # # 末尾が /.venv か /venv なら削除して、 $HOME は ~ に置換して、最後のディレクトリ名以外を 1 文字に省略する
-        # local venv_dir="${VIRTUAL_ENV}"
-        # venv_dir="${venv_dir/#${HOME}/~}"
-        # venv_dir="${venv_dir/%\/.venv/}"
-        # venv_dir="${venv_dir/%\/venv/}"
-        # local venv_basename="$(basename "${venv_dir}")"
-        # venv_dir="$(echo "${venv_dir}" | sed 's/\b\(\w\)\w*/\1/g')"
-        # echo -n "${fg_gray}[venv:${fg[cyan]}${venv_dir}/${venv_basename}${fg_gray}]${reset_color} "
-
         local venv_dir="${VIRTUAL_ENV}"
         local venv_dirname="$(dirname "${venv_dir}")"
-        local venv_basename="$(basename "${venv_dir}")"
-        local venv_parentdirbasename="$(basename "${venv_dirname}")"
-        echo -n "${fg_gray}[venv:${fg[cyan]}${venv_parentdirbasename}/${venv_basename}${fg_gray}]${reset_color} "
+        local venv_relative_dirname="$(realpath --relative-to="${PWD}" "${venv_dirname}")"
+        echo -n "${fg_gray}[venv:${fg[cyan]}${venv_relative_dirname}${fg_gray}]${reset_color} "
     fi
 }
 
 # Directory info.
-local current_dir='${PWD/#$HOME/~}'
+# local current_dir='${PWD/#${HOME}/~}' # $HOME を ~ に置き換えるだけのパターン
+# local current_dir='$(basename "${PWD/#${HOME}/~}")' # basename で最後のディレクトリ名だけにするパターン
+# 60 文字くらいで区切って [...] を間に入れて省略して表示する。最後のディレクトリ名は省略しない。
+function __omz_shortened_pwd {
+    local num_limit=60 # ターミナルに表示する都合で、この文字数を超えたら省略する
+    local num_truncation_str_length=5 # '[...]' の文字数
+
+    local current_dir="${PWD/#${HOME}/~}"
+    local current_dir_length=${#current_dir}
+    if [ "${current_dir_length}" -le "$((num_limit + num_truncation_str_length))" ]; then
+        echo -n "${current_dir}"
+        return
+    fi
+
+    local current_dir_basename="$(basename "${current_dir}")"
+    local basename_length=${#current_dir_basename}
+
+    # '/'.length (1) + basename_length
+    local num_minimum_suffix=$((1 + basename_length))
+
+    # 凄い長いディレクトリ名にいるときは num_minimum_suffix が num_limit より大きくなるが、そういう場合は省略しない
+    if [ "${num_minimum_suffix}" -gt "${num_limit}" ]; then
+        echo -n "${fg_gray}[...]${terminfo[bold]}${fg[white]}/${current_dir_basename}"
+        return
+    fi
+
+    # (num_limit - num_minimum_suffix) / 2 # 切り捨てられるので注意
+    local num_prefix=$(((num_limit - num_minimum_suffix) / 2))
+    local num_suffix=$((num_limit - num_prefix))
+    echo -n "${current_dir[1,$num_prefix]}${reset_color}${fg_gray}[...]${terminfo[bold]}${fg[white]}${current_dir[-$num_suffix,-1]}"
+}
+local current_dir='$(__omz_shortened_pwd)'
 
 # Git info.
 local git_info='$(git_prompt_info)'
@@ -140,7 +161,7 @@ PROMPT="\
 $(machine_name)\
 \
 %{${terminfo[bold]}${fg[white]}%} \
-${current_dir} \
+${current_dir}${reset_color} \
 \
 ${git_info}\
 \
