@@ -1,4 +1,4 @@
-function find-nearest-venv-exist-dir() {
+function find-nearest-python-venv-exist-dir() {
     local dir="${PWD}"
     while [ -n "${dir}" ]; do
         if [ -d "${dir}/.venv" ] && [ -f "${dir}/.venv/bin/activate" ]; then
@@ -10,11 +10,21 @@ function find-nearest-venv-exist-dir() {
     return 1
 }
 
-chpwd() {
-    # VIRTUAL_ENV が設定されていたら、 pwd とチェックをして、親ディレクトリに移動したら deactivate する。
+function automate-python-venv-activation() {
+    local esc
+    esc="$(printf '\033')"
+    local fg_bold="${esc}[1m"
+    local fg_cyan="${esc}[38;5;14m"    # 14
+    local fg_magenta="${esc}[38;5;13m" # 13
+    local fg_gray="${esc}[38;5;250m"   # 250
+    local reset_color="${esc}[m"
+
+    # Python venv の activate と deactivate を自動でやる。
     local nearest_venv_exist_dir
-    nearest_venv_exist_dir="$(find-nearest-venv-exist-dir)"
+    nearest_venv_exist_dir="$(find-nearest-python-venv-exist-dir)"
     local nearest_venv_exist_dir_exit_code=$?
+
+    local venv_relative_dirname
 
     # -v で変数が設定されているかどうかをチェックできる。
     if [ -v 'VIRTUAL_ENV' ] && which deactivate >/dev/null 2>&1; then
@@ -23,12 +33,25 @@ chpwd() {
         if [ "${nearest_venv_exist_dir}" = "${venv_root}" ]; then
             return 0
         else
+            venv_relative_dirname="$(realpath --relative-to="${PWD}" "${VIRTUAL_ENV}")"
+            echo -e "${fg_bold}${fg_magenta}[deactivate]${reset_color}${fg_gray} ${venv_relative_dirname}${reset_color}"
+
             deactivate >/dev/null 2>&1
             if [ "${nearest_venv_exist_dir_exit_code}" -eq 0 ]; then
+                venv_relative_dirname="$(realpath --relative-to="${PWD}" "${nearest_venv_exist_dir}")/.venv"
+                echo -e "${fg_bold}${fg_cyan}[ activate ]${reset_color}${fg_gray} ${venv_relative_dirname}${reset_color}"
+
                 source "${nearest_venv_exist_dir}/.venv/bin/activate" >/dev/null 2>&1
             fi
         fi
     elif [ "${nearest_venv_exist_dir_exit_code}" -eq 0 ]; then
+        venv_relative_dirname="$(realpath --relative-to="${PWD}" "${nearest_venv_exist_dir}")/.venv"
+        echo -e "${fg_bold}${fg_cyan}[ activate ]${reset_color}${fg_gray} ${venv_relative_dirname}${reset_color}"
+
         source "${nearest_venv_exist_dir}/.venv/bin/activate" >/dev/null 2>&1
     fi
+}
+
+function chpwd() {
+    automate-python-venv-activation
 }
