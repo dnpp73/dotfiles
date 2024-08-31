@@ -69,6 +69,15 @@ if which bat >/dev/null 2>&1; then
     alias cat='bat'
 fi
 
+# colorprintenv
+if which bat >/dev/null 2>&1; then
+    function colorprintenv() {
+        # 上で cat を bat に alias しているのが利いているか確認するのも兼ねて cat にしたけど、ちゃんと動いている。
+        printenv "$@" | cat --language=sh --style=plain --paging=never --color=always
+    }
+    alias printenv='colorprintenv'
+fi
+
 # git typo
 if which git >/dev/null 2>&1; then
     alias gti='git'

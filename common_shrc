@@ -276,11 +276,16 @@ fi
 
 # less
 # ステータス行にファイル名と行数、いま何%かを表示するようにする。
-# -R は ANSI カラーエスケープシーケンスを解釈。
+# -N or --LINE-NUMBERS は行番号を表示する。
+# -R --RAW-CONTROL-CHARS は ANSI カラーエスケープシーケンスを解釈。 -r or --raw-control-chars もあるけど、これは使うなって書いてある。
 # -F はファイルが1画面に収まる場合は自動的に終了する。
-# -X はターミナルの初期化と終了時にクリアしない。
-# -i は検索時に大文字小文字を区別しない。
-export LESS='--mouse -R -X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
+# -X --no-init はターミナルの初期化と終了時にクリアしない。
+# -i --ignore-case は検索時に大文字小文字を区別しない。
+# -m --long-prompt もある。
+# -M --LONG-PROMPT は -m より詳細なステータス行にファイル名と行数、いま何%かを表示するようにする。
+# -S --chop-long-lines は長い行を折り返さずに表示する。
+# -P -P prompt or --prompt=prompt  '-P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]' の指定をしてた。
+export LESS='--mouse --RAW-CONTROL-CHARS --no-init --ignore-case --chop-long-lines --LONG-PROMPT --prompt=?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
 
 SRC_HILITE_LESSPIPE_SH=$(which src-hilite-lesspipe.sh)
 SRC_HILITE_LESSPIPE_EXIST=$?
