@@ -307,11 +307,11 @@ unalias -m '*'
 safe_source "${ORG_DIR}/common_sh_alias" 'alias'
 
 # Mac or Ubuntu alias
-if [ "${UNAME}" = 'Darwin' ]; then
-    safe_source "${ORG_DIR}/common_sh_alias_osx"
-elif [ "${UNAME}" = 'Linux' ]; then
-    safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
-fi
+#if [ "${UNAME}" = 'Darwin' ]; then
+#    safe_source "${ORG_DIR}/common_sh_alias_osx"
+#elif [ "${UNAME}" = 'Linux' ]; then
+#    safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
+#fi
 
 # MAN を bat でオシャレに見る。
 if which bat >/dev/null 2>&1; then

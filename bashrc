@@ -195,11 +195,11 @@ unalias -a
 safe_source "${ORG_DIR}/common_sh_alias" 'alias'
 
 # Mac or Ubuntu alias
-if [ "$(uname)" = 'Darwin' ]; then
-    safe_source "${ORG_DIR}/common_sh_alias_osx"
-elif [ "$(uname)" = 'Linux' ]; then
-    safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
-fi
+#if [ "$(uname)" = 'Darwin' ]; then
+#    safe_source "${ORG_DIR}/common_sh_alias_osx"
+#elif [ "$(uname)" = 'Linux' ]; then
+#    safe_source "${ORG_DIR}/common_sh_alias_ubuntu"
+#fi
 
 # ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ。 ssh 接続先では読まないようにする。
 if [ -z "${SSH_CONNECTION}" ] && [ -z "${SSH_CLIENT}" ] && [ -z "${SSH_TTY}" ]; then

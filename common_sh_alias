@@ -10,15 +10,30 @@ alias_color='--color=always'
 # -halFbg の並び順の長いオプションで書いている。
 # --icons はフォントが必要なのでとりあえず書いてない。 --binary (-b) じゃなくて --bytes (-B) でもいいかも。指定しなくてもいいかも。
 # --octal-permissions で 755 とか 644 って出して --no-permissions でパーミッションを出さないようにしている。
+ls_command=''
 if which eza >/dev/null 2>&1; then
-    # alias l='pwd; eza --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
-    alias l='pwd; eza --header --all --long --classify --group --time-style=long-iso'
+    ls_command="eza --classify --group --time-style=long-iso --git ${alias_color}"
+    alias ls="${ls_command}"
+    alias l="pwd; ${ls_command} --header --all --long"
+    alias ll="pwd; ${ls_command} --header --long"
+
+    alias tree='eza --tree --header --long --classify --group --time-style=long-iso --git'
+    alias tree-all='eza --tree --header --all --long --classify --group --time-style=long-iso --git'
 elif which exa >/dev/null 2>&1; then
-    # alias l='pwd; exa --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
-    alias l='pwd; exa --header --all --long --classify --group --time-style=long-iso'
+    ls_command="exa --classify --group --time-style=long-iso --git ${alias_color}"
+    alias ls="${ls_command}"
+    alias l="pwd; ${ls_command} --header --all --long"
+    alias ll="pwd; ${ls_command} --header --long"
+
+    alias tree='exa --tree --header --long --classify --group --time-style=long-iso --git'
+    alias tree-all='exa --tree --header --all --long --classify --group --time-style=long-iso --git'
 else
-    alias l='pwd; ls -Alh'
+    ls_command="ls -hF ${alias_color}"
+    alias ls="${ls_command}"
+    alias l="pwd; ${ls_command} -Al"
+    alias ll="pwd; ${ls_command} -l"
 fi
+unset ls_command
 
 # ファイル操作の確認
 #alias rmi='rm -i'
