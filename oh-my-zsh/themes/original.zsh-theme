@@ -1,106 +1,88 @@
-local fg_gray="%{\e[38;5;250m%}"
+# %{ ... %} で挟むと、その中の色設定はプロンプトの長さ計算に含まれない。
+function color256 {
+    echo -n "\e[38;5;${1}m"
+}
+
+function colorize {
+    local color_name="${1}"
+    local text="${2}"
+    if [ ${color_name} = 'gray' ]; then
+        echo -n "%{$(color256 250)%}${text}%{${reset_color}%}"
+    else
+        echo -n "%{${fg[${color_name}]}%}${text}%{${reset_color}%}"
+    fi
+}
+
+function bold-colorize {
+    local color_name="${1}"
+    local text="${2}"
+    echo -n "%{${terminfo[bold]}%}$(colorize ${color_name} ${text})"
+}
 
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname
 }
 
 function prev_command_exit_flag {
-    echo -n "%(?.%{${fg[green]}%}✔.%{${fg[red]}%}✘)%{${reset_color}%}"
+    # 三項演算子のようなやつ。
+    echo -n '%(?.'
+    colorize 'green' '✔'
+    echo -n '.'
+    colorize 'red' '✘'
+    echo -n ')%'
 }
 
 function prompt_char {
     if [ "${UID}" -eq 0 ]; then
-        echo -n "%{${terminfo[bold]}${fg[red]}%}#%{${reset_color}%}"
+        bold-colorize 'red' '#'
     else
-        echo -n "%{${terminfo[bold]}${fg[magenta]}%}$%{${reset_color}%}"
+        bold-colorize 'magenta' '$'
     fi
 }
 
 function machine_name {
     if [ "$(uname)" = 'Darwin' ]; then
-        machine_color='yellow'
+        local machine_color='yellow'
     elif [ "$(uname)" = 'Linux' ]; then
-        machine_color='green'
+        local machine_color='green'
     fi
 
-    echo -n "\
-%{${terminfo[bold]}${fg[$machine_color]}%}%n%{${reset_color}%}\
-%{${fg[${machine_color}]}%}@%{${reset_color}%}\
-%{${terminfo[bold]}${fg[${machine_color}]}%}$(box_name)%{${reset_color}%}\
-"
+    bold-colorize ${machine_color} '%n'
+    colorize      ${machine_color} '@'
+    bold-colorize ${machine_color} "$(box_name)"
 }
 
-function __omz_custom_theme_rbenv_version {
-    RBENV_RESULT="$(rbenv version 2>/dev/null)"
-    RBENV_VERSION="$(echo "${RBENV_RESULT}" | cut -d ' ' -f1)"
-    if [ "${RBENV_VERSION}" != 'system' ]; then
-        if echo "${RBENV_RESULT}" | grep "${RBENV_ROOT}" > /dev/null 2>&1; then
-            echo -n "%{${fg[blue]}%}g${fg_gray}:"
-        else
-            echo -n "%{${fg[blue]}%}l${fg_gray}:"
+function __omz_custom_theme_anyenv_version {
+    if which "${1}" >/dev/null 2>&1; then
+        local result="$("${1}" version 2>/dev/null)"
+        local version="$(echo "${result}" | cut -d ' ' -f1)"
+        colorize 'gray' "${1}:"
+        if [ "${version}" != 'system' ]; then
+            if echo "${result}" | grep "$("${1}" root)" > /dev/null 2>&1; then
+                colorize blue 'g'
+                colorize gray ':'
+            else
+                colorize blue 'l'
+                colorize gray ':'
+            fi
         fi
+        colorize 'cyan' "${version}"
+        echo -n ' '
     fi
-    echo -n "%{${fg[cyan]}%}${RBENV_VERSION}%{${reset_color}%}"
 }
 
-function __omz_custom_theme_pyenv_version {
-    PYENV_RESULT="$(pyenv version 2>/dev/null)"
-    PYENV_VERSION="$(echo "${PYENV_RESULT}" | cut -d ' ' -f1)"
-    if [ "${PYENV_VERSION}" != 'system' ]; then
-        if echo "${PYENV_RESULT}" | grep "${PYENV_ROOT}" > /dev/null 2>&1; then
-            echo -n "%{${fg[blue]}%}g${fg_gray}:"
-        else
-            echo -n "%{${fg[blue]}%}l${fg_gray}:"
-        fi
-    fi
-    echo -n "%{${fg[cyan]}%}${PYENV_VERSION}%{${reset_color}%}"
-}
-
-function __omz_custom_theme_nodenv_version {
-    NODENV_RESULT="$(nodenv version 2>/dev/null)"
-    NODENV_VERSION="$(echo "${NODENV_RESULT}" | cut -d ' ' -f1)"
-    if [ "${NODENV_VERSION}" != 'system' ]; then
-        if echo "${NODENV_RESULT}" | grep "${NODENV_ROOT}" > /dev/null 2>&1; then
-            echo -n "%{${fg[blue]}%}g${fg_gray}:"
-        else
-            echo -n "%{${fg[blue]}%}l${fg_gray}:"
-        fi
-    fi
-    echo -n "%{${fg[cyan]}%}${NODENV_VERSION}%{${reset_color}%}"
-}
-
-function __omz_custom_theme_goenv_version {
-    GOENV_RESULT="$(goenv version 2>/dev/null)"
-    GOENV_VERSION="$(echo ${GOENV_RESULT} | cut -d ' ' -f1)"
-    if [ "${GOENV_VERSION}" != 'system' ]; then
-        if echo "${GOENV_RESULT}" | grep "${GOENV_ROOT}" > /dev/null 2>&1; then
-            echo -n "%{${fg[blue]}%}g${fg_gray}:"
-        else
-            echo -n "%{${fg[blue]}%}l${fg_gray}:"
-        fi
-    fi
-    echo -n "%{${fg[cyan]}%}${GOENV_VERSION}%{${reset_color}%}"
-}
-
-function rb_py_nod_go_env_info {
-    local info='['
-    if which rbenv >/dev/null 2>&1; then
-        info="${info}rbenv:\$(__omz_custom_theme_rbenv_version)${fg_gray} "
-    fi
-    if which pyenv >/dev/null 2>&1; then
-        info="${info}pyenv:\$(__omz_custom_theme_pyenv_version)${fg_gray} "
-    fi
-    if which nodenv >/dev/null 2>&1; then
-        info="${info}nodenv:\$(__omz_custom_theme_nodenv_version)${fg_gray} "
-    fi
-    if which goenv >/dev/null 2>&1; then
-        info="${info}goenv:\$(__omz_custom_theme_goenv_version)${fg_gray} "
-    fi
-    # info から ' ' の後ろ 1 文字を削除して、 ']' で見た目を閉じる。
+function __omz_custom_theme_rb_py_nod_go_env_info {
+    local info=''
+    info="${info}$(__omz_custom_theme_anyenv_version rbenv)"
+    info="${info}$(__omz_custom_theme_anyenv_version pyenv)"
+    info="${info}$(__omz_custom_theme_anyenv_version nodenv)"
+    info="${info}$(__omz_custom_theme_anyenv_version goenv)"
+    # info から ' ' の後ろ 1 文字を削除する。
     info="${info% }"
-    info="${info}]"
-    if [ "${info}" != '[]' ]; then
-        echo -n "%{${reset_color}%}${fg_gray}${info}%{${reset_color}%}"
+    if [ "${info}" != '' ]; then
+        colorize 'gray' '['
+        echo -n "${info}"
+        colorize 'gray' ']'
     fi
 }
 
@@ -110,22 +92,38 @@ function __omz_custom_theme_venv_info {
         local venv_dir="${VIRTUAL_ENV}"
         local venv_dirname="$(dirname "${venv_dir}")"
         local venv_relative_dirname="$(realpath --relative-to="${PWD}" "${venv_dirname}")"
-        echo -n "${fg_gray}[venv:${fg[cyan]}${venv_relative_dirname}${fg_gray}]${reset_color}"
+        colorize 'gray' '[venv:'
+        colorize 'cyan' "${venv_relative_dirname}"
+        colorize 'gray' ']'
     fi
 }
 
+function __omz_custom_theme_remove_ansi_escape {
+    sed 's/\x1B\[[0-9;]*[a-zA-Z]//g'
+}
+
+function __omz_custom_theme_remove_zsh_escape {
+    sed 's/%{%}//g'
+}
+
 # Directory info.
-# local current_dir='${PWD/#${HOME}/~}' # $HOME を ~ に置き換えるだけのパターン
-# local current_dir='$(basename "${PWD/#${HOME}/~}")' # basename で最後のディレクトリ名だけにするパターン
 # 60 文字くらいで区切って [...] を間に入れて省略して表示する。最後のディレクトリ名は省略しない。
-function __omz_shortened_pwd {
-    local num_limit=40 # ターミナルに表示する都合で、この文字数を超えたら省略する
+function __omz_custom_theme_shortened_pwd {
+    local cols="$(tput cols)"
+    local git_prompt_info_length="$(git_prompt_info | __omz_custom_theme_remove_ansi_escape | __omz_custom_theme_remove_zsh_escape | wc -m)"
+    local venv_info_length="$(__omz_custom_theme_venv_info | __omz_custom_theme_remove_ansi_escape | __omz_custom_theme_remove_zsh_escape | wc -m)"
+    local rb_py_nod_go_env_info_length="$(__omz_custom_theme_rb_py_nod_go_env_info | __omz_custom_theme_remove_ansi_escape | __omz_custom_theme_remove_zsh_escape | wc -m)"
+
+    # ターミナルに表示する都合で、この文字数を超えたら省略する。
+    # 'user@host [ここ] [git:master(✔)][venv:.][rbenv:g:3.2.2 pyenv:l:3.12.5]' みたいになって、 user@host と余裕を見て 25 文字くらい引いておく。
+    local num_limit=$((cols - git_prompt_info_length - venv_info_length - rb_py_nod_go_env_info_length - 25))
+
     local num_truncation_str_length=5 # '[...]' の文字数
 
     local current_dir="${PWD/#${HOME}/~}"
     local current_dir_length=${#current_dir}
     if [ "${current_dir_length}" -le "$((num_limit + num_truncation_str_length))" ]; then
-        echo -n "${current_dir}"
+        bold-colorize 'white' "${current_dir}"
         return
     fi
 
@@ -137,45 +135,32 @@ function __omz_shortened_pwd {
 
     # 凄い長いディレクトリ名にいるときは num_minimum_suffix が num_limit より大きくなるが、そういう場合は省略しない
     if [ "${num_minimum_suffix}" -gt "${num_limit}" ]; then
-        echo -n "${fg_gray}[...]${terminfo[bold]}${fg[white]}/${current_dir_basename}"
+        colorize 'gray' '[...]'
+        bold-colorize 'white' "/${current_dir_basename}"
         return
     fi
 
     # (num_limit - num_minimum_suffix) / 2 # 切り捨てられるので注意
     local num_prefix=$(((num_limit - num_minimum_suffix) / 2))
     local num_suffix=$((num_limit - num_prefix))
-    echo -n "${current_dir[1,$num_prefix]}${reset_color}${fg_gray}[...]${terminfo[bold]}${fg[white]}${current_dir[-$num_suffix,-1]}"
+    bold-colorize 'white' "${current_dir[1,$num_prefix]}"
+    colorize 'gray' '[...]'
+    bold-colorize 'white' "${current_dir[-$num_suffix,-1]}"
 }
-local current_dir='$(__omz_shortened_pwd)'
 
 # Git info.
-local git_info='$(git_prompt_info)'
-ZSH_THEME_GIT_PROMPT_PREFIX="%{${reset_color}%}${fg_gray}[git:%{${fg[magenta]}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="${fg_gray})]%{${reset_color}%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{${reset_color}%}(%{${fg[red]}%}✘"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{${reset_color}%}(%{${fg[green]}%}✔"
-
+ZSH_THEME_GIT_PROMPT_PREFIX="$(colorize 'gray' '[git:')%{${fg[magenta]}%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="$(colorize 'gray' ']')"
+ZSH_THEME_GIT_PROMPT_DIRTY="$(colorize 'gray' '(')$(colorize 'red' '✘')$(colorize 'gray' ')')"
+ZSH_THEME_GIT_PROMPT_CLEAN="$(colorize 'gray' '(')$(colorize 'green' '✔')$(colorize 'gray' ')')"
 
 # Prompt format
 PROMPT="\
-$(machine_name)\
-\
-%{${terminfo[bold]}${fg[white]}%} \
-${current_dir}${reset_color} \
-\
-${git_info}\
-\
-\$(__omz_custom_theme_venv_info)\
-\
-$(rb_py_nod_go_env_info)\
-\
-
-%h \
-$(prev_command_exit_flag) \
-$(prompt_char) "
+$(machine_name) \$(__omz_custom_theme_shortened_pwd) \$(git_prompt_info)\$(__omz_custom_theme_venv_info)\$(__omz_custom_theme_rb_py_nod_go_env_info)
+%h $(prev_command_exit_flag)  $(prompt_char) \
+"
 
 unfunction box_name
 unfunction prev_command_exit_flag
 unfunction prompt_char
 unfunction machine_name
-unfunction rb_py_nod_go_env_info
