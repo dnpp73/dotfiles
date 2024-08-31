@@ -332,6 +332,9 @@ if [ "${UNAME}" = 'Darwin' ]; then
     safe_source "${HOME}/.iterm2_shell_integration.zsh" 'iterm2'
 fi
 
+# chpwd
+safe_source "${ORG_DIR}/zsh_chpwd" 'chpwd'
+
 # 最後に local があれば
 safe_source "${HOME}/.zshrc_local" 'zshrc_local'
 

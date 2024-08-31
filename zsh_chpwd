@@ -1,0 +1,3 @@
+chpwd() {
+    echo "Changing directory to $1"
+}
