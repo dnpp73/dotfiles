@@ -1,3 +1,17 @@
 chpwd() {
-    AUTO_VENV_LOAD=1
+    # VIRTUAL_ENV が設定されていたら、 pwd とチェックをして、親ディレクトリに移動したら deactivate する。
+    if [ -v 'VIRTUAL_ENV' ] && which deactivate >/dev/null 2>&1; then
+        # local venv_root="$(dirname "${VIRTUAL_ENV}")"
+        local venv_root="${VIRTUAL_ENV%/*}"
+        if [[ "$PWD" == "$venv_root"* ]]; then
+          # venv の中にいるので何もしなくていい。
+          :
+        else
+          # venv の中にいないので deactivate する。
+          deactivate >/dev/null 2>&1
+        fi
+    elif [ -d .venv ] && [ -f .venv/bin/activate ]; then
+        # .venv がある場合は activate する。
+        source .venv/bin/activate >/dev/null 2>&1
+    fi
 }

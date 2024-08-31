@@ -85,22 +85,22 @@ function __omz_custom_theme_goenv_version {
 function rb_py_nod_go_env_info {
     local info='['
     if which rbenv >/dev/null 2>&1; then
-        info="${info}rbenv:\$(__omz_custom_theme_rbenv_version)${fg_gray}, "
+        info="${info}rbenv:\$(__omz_custom_theme_rbenv_version)${fg_gray} "
     fi
     if which pyenv >/dev/null 2>&1; then
-        info="${info}pyenv:\$(__omz_custom_theme_pyenv_version)${fg_gray}, "
+        info="${info}pyenv:\$(__omz_custom_theme_pyenv_version)${fg_gray} "
     fi
     if which nodenv >/dev/null 2>&1; then
-        info="${info}nodenv:\$(__omz_custom_theme_nodenv_version)${fg_gray}, "
+        info="${info}nodenv:\$(__omz_custom_theme_nodenv_version)${fg_gray} "
     fi
     if which goenv >/dev/null 2>&1; then
-        info="${info}goenv:\$(__omz_custom_theme_goenv_version)${fg_gray}, "
+        info="${info}goenv:\$(__omz_custom_theme_goenv_version)${fg_gray} "
     fi
-    # info から ',' の後ろ 1 文字を削除して、 ']' で見た目を閉じる。
-    info="${info%, }"
+    # info から ' ' の後ろ 1 文字を削除して、 ']' で見た目を閉じる。
+    info="${info% }"
     info="${info}]"
     if [ "${info}" != '[]' ]; then
-        echo -n "%{${reset_color}%}${fg_gray}${info}%{${reset_color}%} "
+        echo -n "%{${reset_color}%}${fg_gray}${info}%{${reset_color}%}"
     fi
 }
 
@@ -110,7 +110,7 @@ function __omz_custom_theme_venv_info {
         local venv_dir="${VIRTUAL_ENV}"
         local venv_dirname="$(dirname "${venv_dir}")"
         local venv_relative_dirname="$(realpath --relative-to="${PWD}" "${venv_dirname}")"
-        echo -n "${fg_gray}[venv:${fg[cyan]}${venv_relative_dirname}${fg_gray}]${reset_color} "
+        echo -n "${fg_gray}[venv:${fg[cyan]}${venv_relative_dirname}${fg_gray}]${reset_color}"
     fi
 }
 
@@ -119,7 +119,7 @@ function __omz_custom_theme_venv_info {
 # local current_dir='$(basename "${PWD/#${HOME}/~}")' # basename で最後のディレクトリ名だけにするパターン
 # 60 文字くらいで区切って [...] を間に入れて省略して表示する。最後のディレクトリ名は省略しない。
 function __omz_shortened_pwd {
-    local num_limit=60 # ターミナルに表示する都合で、この文字数を超えたら省略する
+    local num_limit=40 # ターミナルに表示する都合で、この文字数を超えたら省略する
     local num_truncation_str_length=5 # '[...]' の文字数
 
     local current_dir="${PWD/#${HOME}/~}"
@@ -151,7 +151,7 @@ local current_dir='$(__omz_shortened_pwd)'
 # Git info.
 local git_info='$(git_prompt_info)'
 ZSH_THEME_GIT_PROMPT_PREFIX="%{${reset_color}%}${fg_gray}[git:%{${fg[magenta]}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="${fg_gray})]%{${reset_color}%} "
+ZSH_THEME_GIT_PROMPT_SUFFIX="${fg_gray})]%{${reset_color}%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{${reset_color}%}(%{${fg[red]}%}✘"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{${reset_color}%}(%{${fg[green]}%}✔"
 

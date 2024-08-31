@@ -11,13 +11,13 @@ alias_color='--color=always'
 # --icons はフォントが必要なのでとりあえず書いてない。 --binary (-b) じゃなくて --bytes (-B) でもいいかも。指定しなくてもいいかも。
 # --octal-permissions で 755 とか 644 って出して --no-permissions でパーミッションを出さないようにしている。
 if which eza >/dev/null 2>&1; then
-    # alias l='eza --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
-    alias l='eza --header --all --long --classify --group --time-style=long-iso'
+    # alias l='pwd; eza --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
+    alias l='pwd; eza --header --all --long --classify --group --time-style=long-iso'
 elif which exa >/dev/null 2>&1; then
-    # alias l='exa --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
-    alias l='exa --header --all --long --classify --group --time-style=long-iso'
+    # alias l='pwd; exa --header --all --long --classify --group --octal-permissions --no-permissions --time-style=long-iso'
+    alias l='pwd; exa --header --all --long --classify --group --time-style=long-iso'
 else
-    alias l='ls -Alh'
+    alias l='pwd; ls -Alh'
 fi
 
 # ファイル操作の確認
