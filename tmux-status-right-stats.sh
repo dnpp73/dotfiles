@@ -32,7 +32,7 @@ elif [ "$(uname)" = 'Linux' ]; then
     # 7.53 GB free swap
     # 328.56 GB paged in
     # 629.40 GB paged out
-    memory_result="$(vmstat -s | awk '/ K / {sub(/K/, ""); printf "%.2f GB %s %s\n", $1/1024/1024, $2, $3}')"
+    memory_result="$(vmstat -s | awk '/ K / {sub(/K/, ""); printf "%.2fG %s %s\n", $1/1024/1024, $2, $3}')"
     # memory_total="$(echo      "${memory_result}" | head -n 1  | tail -n 1 | cut -d ' ' -f1-2)"
     memory_used="$(echo       "${memory_result}" | head -n 2  | tail -n 1 | cut -d ' ' -f1-2)"
     memory_active="$(echo     "${memory_result}" | head -n 3  | tail -n 1 | cut -d ' ' -f1-2)"
@@ -46,11 +46,11 @@ elif [ "$(uname)" = 'Linux' ]; then
     memory_paged_in="$(echo   "${memory_result}" | head -n 11 | tail -n 1 | cut -d ' ' -f1-2)"
     memory_paged_out="$(echo  "${memory_result}" | head -n 12 | tail -n 1 | cut -d ' ' -f1-2)"
 
-    echo -n "[CPU] user: ${cpu_user}, sys: ${cpu_system}, wait: ${cpu_wait}, steal: ${cpu_steal}"
-    echo -n " | "
-    echo -n "[MEM] used: ${memory_used}, active: ${memory_active}, inactive: ${memory_inactive}, free: ${memory_free}"
-    echo -n " | "
-    echo -n "[SWAP] used: ${memory_used_swap}, free: ${memory_free_swap}"
-    echo -n " | "
-    echo -n "[PAGE] in: ${memory_paged_in}, out: ${memory_paged_out}"
+    echo -n "[CPU] user:${cpu_user},sys:${cpu_system},wait:${cpu_wait},steal:${cpu_steal}"
+    echo -n "|"
+    echo -n "[MEM] used:${memory_used},active:${memory_active},inactive:${memory_inactive},free:${memory_free}"
+    echo -n "|"
+    echo -n "[SWAP] used:${memory_used_swap},free:${memory_free_swap}"
+    echo -n "|"
+    echo -n "[PAGE] in:${memory_paged_in},out:${memory_paged_out}"
 fi
