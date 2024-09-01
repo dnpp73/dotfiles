@@ -46,11 +46,11 @@ elif [ "$(uname)" = 'Linux' ]; then
     memory_paged_in="$(echo   "${memory_result}" | head -n 11 | tail -n 1 | cut -d ' ' -f1)"
     memory_paged_out="$(echo  "${memory_result}" | head -n 12 | tail -n 1 | cut -d ' ' -f1)"
 
-    echo -n "[CPU] user:${cpu_user},sys:${cpu_system},wait:${cpu_wait},steal:${cpu_steal}"
+    echo -n "[CPU]user:${cpu_user},sys:${cpu_system},wait:${cpu_wait},steal:${cpu_steal}"
     echo -n "|"
-    echo -n "[MEM] used:${memory_used},active:${memory_active},inactive:${memory_inactive},free:${memory_free}"
+    echo -n "[MEM]used:${memory_used},active:${memory_active},inactive:${memory_inactive},free:${memory_free}"
     echo -n "|"
-    echo -n "[SWAP] used:${memory_used_swap},free:${memory_free_swap}"
+    echo -n "[SWAP]used:${memory_used_swap},free:${memory_free_swap}"
     echo -n "|"
-    echo -n "[PAGE] in:${memory_paged_in},out:${memory_paged_out}"
+    echo -n "[PAGE]in:${memory_paged_in},out:${memory_paged_out}"
 fi
