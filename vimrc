@@ -201,6 +201,7 @@ nmap <Space>v :vsplit<CR><C-w><C-w>:ls<CR>:buffer
 "----------------------------------------------------
 set mouse=a
 set clipboard+=unnamed
+set ttymouse=xterm2
 
 "----------------------------------------------------
 " Copilot
