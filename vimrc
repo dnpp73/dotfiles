@@ -141,10 +141,7 @@ if has("autocmd")
     autocmd BufReadPost * endif
 
     " OSCYank で手元のクリップボードにコピー
-    autocmd TextYankPost *
-        \ if v:event.operator is 'y' && v:event.regname is '+' |
-        \ execute 'OSCYankRegister +' |
-        \ endif
+    autocmd TextYankPost * execute 'OSCYankRegister' |
 endif
 
 "----------------------------------------------------
@@ -201,9 +198,6 @@ nmap <space>W :set nowrap<CR>
 nmap <space>w :set wrap<CR>
 nmap <Space>b :ls<CR>:buffer
 nmap <Space>v :vsplit<CR><C-w><C-w>:ls<CR>:buffer
-" nmap y  <Plug>OSCYankOperator
-" nmap yy y_
-" vmap y  <Plug>OSCYankVisual
 
 "----------------------------------------------------
 " Mouse and Clipboard
