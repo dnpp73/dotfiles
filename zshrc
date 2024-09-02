@@ -332,8 +332,11 @@ if [ "${UNAME}" = 'Darwin' ]; then
     safe_source "${HOME}/.iterm2_shell_integration.zsh" 'iterm2'
 fi
 
-# chpwd
+# chpwd and auto venv activation
 safe_source "${ORG_DIR}/zsh_chpwd" 'chpwd'
+if which automate-python-venv-activation >/dev/null 2>&1; then
+    automate-python-venv-activation >/dev/null 2>&1
+fi
 
 # 最後に local があれば
 safe_source "${HOME}/.zshrc_local" 'zshrc_local'
