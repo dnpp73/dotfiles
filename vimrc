@@ -135,13 +135,38 @@ if has("autocmd")
     " ファイルタイプ別インデント、プラグインを有効にする
     filetype plugin indent on
 
-    " カーソル位置を記憶する
-    autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    autocmd BufReadPost *     exe "normal g`\""
-    autocmd BufReadPost * endif
+    " # カーソル位置を記憶する
+    "
+    " autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    " autocmd BufReadPost *     exe "normal g`\""
+    " autocmd BufReadPost * endif
+    "
+    augroup AutoCursor
+        autocmd!
+        autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
+            \ exe "normal g`\"" |
+        \ endif
+    augroup END
 
-    " OSCYank で手元のクリップボードにコピー
-    autocmd TextYankPost * execute 'OSCYankRegister' |
+    " # OSCYank で手元のクリップボードにコピー
+    "
+    " autocmd TextYankPost * execute 'OSCYankRegister'
+    "
+    " autocmd TextYankPost * if v:event.operator is 'y' || v:event.operator is 'd'
+    " autocmd TextYankPost *     execute 'OSCYankRegister'
+    " autocmd TextYankPost * endif
+    "
+    " autocmd TextYankPost *
+    "     \ if v:event.operator is 'y' || v:event.operator is 'd' |
+    "     \ execute 'OSCYankRegister' |
+    "     \ endif
+    "
+    augroup AutoOSCYank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator is# 'y' || v:event.operator is# 'd' |
+            \ execute 'OSCYankRegister' |
+        \ endif
+    augroup END
 endif
 
 "----------------------------------------------------
@@ -203,7 +228,6 @@ nmap <Space>v :vsplit<CR><C-w><C-w>:ls<CR>:buffer
 " Mouse and Clipboard
 "----------------------------------------------------
 set mouse=a
-set ttymouse=xterm2
 set clipboard&
 set clipboard^=unnamedplus,unnamed
 

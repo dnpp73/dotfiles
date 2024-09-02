@@ -1,3 +1,6 @@
+" commit hash: a83657e8d4237f5a6bfec90ea26268c34138ed07
+" https://raw.githubusercontent.com/ojroques/vim-oscyank/main/plugin/oscyank.vim
+
 " -------------------- INIT --------------------------------
 if exists('g:loaded_oscyank')
   finish
