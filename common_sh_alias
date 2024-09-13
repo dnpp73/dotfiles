@@ -12,7 +12,11 @@ alias_color='--color=always'
 # --octal-permissions で 755 とか 644 って出して --no-permissions でパーミッションを出さないようにしている。
 ls_command=''
 if which eza >/dev/null 2>&1; then
-    ls_command="eza --classify --group --time-style=long-iso --git ${alias_color}"
+    if eza --git /dev/null >/dev/null 2>&1; then
+        ls_command="eza --classify --group --time-style=long-iso --git ${alias_color}"
+    else
+        ls_command="eza --classify --group --time-style=long-iso ${alias_color}"
+    fi
     alias ls="${ls_command}"
     alias l="pwd; ${ls_command} --header --all --long"
     alias ll="pwd; ${ls_command} --header --long"
@@ -20,7 +24,11 @@ if which eza >/dev/null 2>&1; then
     alias tree='eza --tree --header --long --classify --group --time-style=long-iso --git'
     alias tree-all='eza --tree --header --all --long --classify --group --time-style=long-iso --git'
 elif which exa >/dev/null 2>&1; then
-    ls_command="exa --classify --group --time-style=long-iso --git ${alias_color}"
+    if exa --git /dev/null >/dev/null 2>&1; then
+        ls_command="exa --classify --group --time-style=long-iso --git ${alias_color}"
+    else
+        ls_command="exa --classify --group --time-style=long-iso ${alias_color}"
+    fi
     alias ls="${ls_command}"
     alias l="pwd; ${ls_command} --header --all --long"
     alias ll="pwd; ${ls_command} --header --long"
