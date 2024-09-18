@@ -14,34 +14,38 @@ ls_command=''
 if which eza >/dev/null 2>&1; then
     if eza --git /dev/null >/dev/null 2>&1; then
         ls_command="eza --classify --group --time-style=long-iso --git ${alias_color}"
+        tree_command="eza --tree --header --long --classify --group --time-style=long-iso --git ${alias_color}"
     else
         ls_command="eza --classify --group --time-style=long-iso ${alias_color}"
+        tree_command="eza --tree --header --long --classify --group --time-style=long-iso ${alias_color}"
     fi
     alias ls="${ls_command}"
     alias l="pwd; ${ls_command} --header --all --long"
     alias ll="pwd; ${ls_command} --header --long"
 
-    alias tree='eza --tree --header --long --classify --group --time-style=long-iso --git'
-    alias tree-all='eza --tree --header --all --long --classify --group --time-style=long-iso --git'
+    alias tree="${tree_command}"
+    alias tree-all="${tree_command} --all"
 elif which exa >/dev/null 2>&1; then
     if exa --git /dev/null >/dev/null 2>&1; then
         ls_command="exa --classify --group --time-style=long-iso --git ${alias_color}"
+        tree_command="exa --tree --header --long --classify --group --time-style=long-iso --git ${alias_color}"
     else
         ls_command="exa --classify --group --time-style=long-iso ${alias_color}"
+        tree_command="exa --tree --header --long --classify --group --time-style=long-iso ${alias_color}"
     fi
     alias ls="${ls_command}"
     alias l="pwd; ${ls_command} --header --all --long"
     alias ll="pwd; ${ls_command} --header --long"
 
-    alias tree='exa --tree --header --long --classify --group --time-style=long-iso --git'
-    alias tree-all='exa --tree --header --all --long --classify --group --time-style=long-iso --git'
+    alias tree="${tree_command}"
+    alias tree-all="${tree_command} --all"
 else
     ls_command="ls -hF ${alias_color}"
     alias ls="${ls_command}"
     alias l="pwd; ${ls_command} -Al"
     alias ll="pwd; ${ls_command} -l"
 fi
-unset ls_command
+unset ls_command tree_command
 
 # ファイル操作の確認
 #alias rmi='rm -i'

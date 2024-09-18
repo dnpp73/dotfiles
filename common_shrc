@@ -70,6 +70,9 @@ PATHS=(
     '/usr/bin'
     '/snap/bin'
 
+    # cuda
+    /usr/local/cuda/bin
+
     # homebrew Intel
     '/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home/bin'
     '/usr/local/opt/ncurses/bin'
@@ -258,6 +261,19 @@ done
 # shellcheck disable=SC2001
 PKG_CONFIG_PATH=$(echo "${PKG_CONFIG_PATH}" | sed -e 's/:$//')
 export PKG_CONFIG_PATH
+
+# LD_LIBRARY_PATH
+# 上の方が優先度が低い。ディレクトリがあれば追加していく。
+LD_LIBRARY_PATH=''
+LD_LIBRARY_PATHS=(
+    '/usr/local/cuda/lib64'
+)
+for p in "${LD_LIBRARY_PATHS[@]}"; do
+    [ -d "${p}" ] && LD_LIBRARY_PATH="${p}:${LD_LIBRARY_PATH}"
+done
+# shellcheck disable=SC2001
+LD_LIBRARY_PATH=$(echo "${LD_LIBRARY_PATH}" | sed -e 's/:$//')
+export LD_LIBRARY_PATH
 
 # EDITOR
 EDITOR=$(which vim)
