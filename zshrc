@@ -126,18 +126,11 @@ DISABLE_AUTO_UPDATE='true'
 COMPLETION_WAITING_DOTS='false'
 
 # Uncomment following line if you want to disable marking untracked files under VCS as dirty. This makes repository status check for large repositories much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 plugins=(emoji man)
 if [ "${UNAME}" = 'Darwin' ]; then
     plugins+=(macos)
-    if which docker >/dev/null 2>&1; then
-        plugins+=(docker)
-        # https://github.com/ohmyzsh/ohmyzsh/issues/11789
-        zstyle ':completion:*:*:docker:*' option-stacking yes
-        zstyle ':completion:*:*:docker-*:*' option-stacking yes
-        zstyle ':omz:plugins:docker' legacy-completion yes
-    fi
     if which xcodebuild >/dev/null 2>&1; then
         plugins+=(xcode)
     fi
@@ -153,11 +146,15 @@ elif [ "${UNAME}" = 'Linux' ]; then
             plugins+=(debian)
         fi
     fi
-    if which docker >/dev/null 2>&1; then
-        plugins+=(docker)
-        zstyle ':completion:*:*:docker:*' option-stacking yes
-        zstyle ':completion:*:*:docker-*:*' option-stacking yes
-    fi
+fi
+if which docker >/dev/null 2>&1; then
+    plugins+=(docker)
+    plugins+=(docker-compose)
+    # # いつの間にかこれでも動かなくなってしまったので、後段で `source <(docker completion zsh)` することにした。
+    # # https://github.com/ohmyzsh/ohmyzsh/issues/11789
+    # zstyle ':completion:*:*:docker:*' option-stacking yes
+    # zstyle ':completion:*:*:docker-*:*' option-stacking yes
+    # zstyle ':omz:plugins:docker' legacy-completion yes
 fi
 if which git >/dev/null 2>&1; then
     plugins+=(git)
@@ -209,7 +206,7 @@ if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
     plugins+=(zsh-autosuggestions)
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
     ZSH_AUTOSUGGEST_STRATEGY=(history completion) # 補完の方を履歴より優先度高めにする場合は順序を変える。
-    ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd .*|l|ls|l *|ls *|code *|xed *|vim *|open *)"
+    ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd .*|l|ls|l *|ls *|code *|xed *)"
     ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(l|ls|l *|ls *)"
 fi
 if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
@@ -228,7 +225,7 @@ bindkey '^U'     backward-kill-line # C-u, default: kill-whole-line. iTerm2 Cust
 export HISTFILE="${HISTRY_DIRECTORY}/zsh_history" # fc -AI でメモリからファイルに書き込むときに、 .zsh_history.new から mv みたいな挙動になってコンテナで使うときに面倒なのでディレクトリごと分けてる。
 export HISTSIZE=5000   # メモリに保存される履歴の件数
 export SAVEHIST=100000 # 履歴ファイルに保存される履歴の件数
-export HISTORY_IGNORE="(cd|cd -|cd .*|cd /*|cd [[:alnum:]]*|cd _*|pwd|l|l *|l[sal]|l[sal] *|cp *|mv *|rm *|ln *|mkdir *|sudo *|xed *|code *|vim *|git st|git ft|git pull|git lga|git df|git ci -m *|git br *|git add *|git ad|kill *|clear|exit)" # 履歴に残さないコマンド。 l, ls, la, ll は履歴に残さない。
+export HISTORY_IGNORE="(cd|cd -|cd .*|cd /*|cd [[:alnum:]]*|cd _*|pwd|l|l *|l[sal]|l[sal] *|cp *|mv *|rm *|ln *|mkdir *|sudo cp *|sudo mv *|sudo rm *|sudo ln *|sudo mkdir *|xed *|code *|vim .*|vim _*|vim [[:alnum:]]*|git st|git ft|git pull|git lga|git df|git ci -m *|git br *|git add *|git ad|kill *|clear|exit)" # 履歴に残さないコマンド。 l, ls, la, ll は履歴に残さない。
 setopt share_history             # 各端末で履歴(ファイル)を共有する = 履歴ファイルに対して参照と書き込みを行う。 書き込みは 時刻(タイムスタンプ) 付き。
 setopt inc_append_history        # 履歴リストにイベントを登録するのと同時に、履歴ファイルにも書き込みを行う(追加する)。
 setopt inc_append_history_time   # コマンド終了時に、履歴ファイルに書き込む。 .zsh_history をコンテナに共有すると相性が悪い。
@@ -261,18 +258,23 @@ zshaddhistory() {
 # completion
 if [ -d '/opt/homebrew/share/zsh/site-functions' ]; then
     fpath=('/opt/homebrew/share/zsh/site-functions' ${fpath})
+    # fpath+=(/opt/homebrew/share/zsh/site-functions)
 fi
 if [ -d '/usr/local/share/zsh/site-functions' ]; then
     fpath=('usr/local/share/zsh/site-functions' ${fpath})
+    # fpath+=(/usr/local/share/zsh/site-functions)
 fi
 if [ -d '/opt/homebrew/share/zsh-completions' ]; then
     fpath=('/opt/homebrew/share/zsh-completions' ${fpath})
+    # fpath+=(/opt/homebrew/share/zsh-completions)
 fi
 if [ -d '/usr/local/share/zsh-completions' ]; then
     fpath=('/usr/local/share/zsh-completions' ${fpath})
+    # fpath+=(/usr/local/share/zsh-completions)
 fi
 if [ -d "${HOME}/.zsh/completion" ]; then
     fpath=("${HOME}/.zsh/completion" ${fpath})
+    # fpath+=("${HOME}/.zsh/completion")
 fi
 
 # oh-my-zsh の plugins の配列に入れるだけで補完まで動くのは aws だけだったので自前でなんとかするしかなった…。
@@ -336,6 +338,11 @@ fi
 safe_source "${ORG_DIR}/zsh_chpwd" 'chpwd'
 if which automate-python-venv-activation >/dev/null 2>&1; then
     automate-python-venv-activation >/dev/null 2>&1
+fi
+
+# docker completion hack
+if which docker >/dev/null 2>&1; then
+    source <(docker completion zsh)
 fi
 
 # 最後に local があれば
