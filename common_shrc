@@ -331,9 +331,11 @@ fi
 # brew --prefix は遅いらしいので直に書く。
 if which brew >/dev/null 2>&1; then
     if uname -m | grep 'x86_64' >/dev/null 2>&1; then
-        export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@1.1 --with-readline-dir=/usr/local"
+        # export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@1.1 --with-readline-dir=/usr/local"
+        export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@3 --with-readline-dir=/usr/local"
     elif uname -m | grep 'arm64' >/dev/null 2>&1; then
-        export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/opt/homebrew/opt/openssl@1.1 --with-readline-dir=/opt/homebrew"
+        # export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/opt/homebrew/opt/openssl@1.1 --with-readline-dir=/opt/homebrew"
+        export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/opt/homebrew/opt/openssl@3 --with-readline-dir=/opt/homebrew"
         export RUBY_CFLAGS='-DUSE_FFI_CLOSURE_ALLOC'
     fi
 fi
