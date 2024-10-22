@@ -39,6 +39,7 @@ MANPATHS=(
     '/usr/local/opt/coreutils/libexec/gnuman'
     '/usr/local/opt/findutils/libexec/gnuman'
     '/usr/local/opt/gnu-sed/libexec/gnuman'
+    '/usr/local/opt/gawk/libexec/gnuman'
     '/usr/local/opt/gnu-tar/libexec/gnuman'
     '/usr/local/opt/grep/libexec/gnuman'
 
@@ -49,6 +50,7 @@ MANPATHS=(
     '/opt/homebrew/opt/coreutils/libexec/gnuman'
     '/opt/homebrew/opt/findutils/libexec/gnuman'
     '/opt/homebrew/opt/gnu-sed/libexec/gnuman'
+    '/opt/homebrew/opt/gawk/libexec/gnuman'
     '/opt/homebrew/opt/gnu-tar/libexec/gnuman'
     '/opt/homebrew/opt/grep/libexec/gnuman'
 )
@@ -94,6 +96,7 @@ PATHS=(
     '/usr/local/opt/findutils/libexec/gnubin'
     '/usr/local/opt/coreutils/libexec/gnubin'
     '/usr/local/opt/gnu-sed/libexec/gnubin'
+    '/usr/local/opt/gawk/libexec/gnubin'
     '/usr/local/opt/gnu-tar/libexec/gnubin'
     '/usr/local/opt/grep/libexec/gnubin'
     '/usr/local/sbin'
@@ -119,6 +122,7 @@ PATHS=(
     '/opt/homebrew/opt/findutils/libexec/gnubin'
     '/opt/homebrew/opt/coreutils/libexec/gnubin'
     '/opt/homebrew/opt/gnu-sed/libexec/gnubin'
+    '/opt/homebrew/opt/gawk/libexec/gnubin'
     '/opt/homebrew/opt/gnu-tar/libexec/gnubin'
     '/opt/homebrew/opt/grep/libexec/gnubin'
     '/opt/homebrew/sbin'
