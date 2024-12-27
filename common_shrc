@@ -188,7 +188,10 @@ LDFLAGS_LIST=(
     '/usr/local/opt/icu4c/lib'
     '/usr/local/opt/ncurses/lib'
     '/usr/local/opt/tcl-tk/lib'
+    '/usr/local/opt/tcl-tk@8/lib'
     '/usr/local/opt/binutils/lib'
+    '/usr/local/opt/zlib/lib'
+    '/usr/local/opt/bzip2/lib'
 
     # homebrew Apple M1
     '/opt/homebrew/opt/readline/lib'
@@ -201,7 +204,10 @@ LDFLAGS_LIST=(
     '/opt/homebrew/opt/icu4c/lib'
     '/opt/homebrew/opt/ncurses/lib'
     '/opt/homebrew/opt/tcl-tk/lib'
+    '/opt/homebrew/opt/tcl-tk@8/lib'
     '/opt/homebrew/opt/binutils/lib'
+    '/opt/homebrew/opt/zlib/lib'
+    '/opt/homebrew/opt/bzip2/lib'
 )
 for l in "${LDFLAGS_LIST[@]}"; do
     [ -d "${l}" ] && LDFLAGS="-L${l} ${LDFLAGS}"
@@ -210,10 +216,10 @@ done
 LDFLAGS=$(echo "${LDFLAGS}" | sed -e 's/ $//')
 export LDFLAGS
 
-# CPPFLAGS
+# INCLUDES
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
-CPPFLAGS=''
-CPPFLAGS_LIST=(
+INCLUDES=''
+INCLUDE_LIST=(
     # homebrew Intel
     '/usr/local/opt/readline/include'
     '/usr/local/opt/libffi/include'
@@ -225,7 +231,10 @@ CPPFLAGS_LIST=(
     '/usr/local/opt/icu4c/include'
     '/usr/local/opt/ncurses/include'
     '/usr/local/opt/tcl-tk/include'
+    '/usr/local/opt/tcl-tk@8/include'
     '/usr/local/opt/binutils/include'
+    '/usr/local/opt/zlib/include'
+    '/usr/local/opt/bzip2/include'
 
     # homebrew Apple M1
     '/opt/homebrew/opt/readline/include'
@@ -238,14 +247,25 @@ CPPFLAGS_LIST=(
     '/opt/homebrew/opt/icu4c/include'
     '/opt/homebrew/opt/ncurses/include'
     '/opt/homebrew/opt/tcl-tk/include'
+    '/opt/homebrew/opt/tcl-tk@8/include'
     '/opt/homebrew/opt/binutils/include'
+    '/opt/homebrew//opt/zlib/include'
+    '/opt/homebrew//opt/bzip2/include'
 )
-for c in "${CPPFLAGS_LIST[@]}"; do
-    [ -d "${c}" ] && CPPFLAGS="-I${c} ${CPPFLAGS}"
+for c in "${INCLUDE_LIST[@]}"; do
+    [ -d "${c}" ] && INCLUDES="-I${c} ${INCLUDES}"
 done
 # shellcheck disable=SC2001
-CPPFLAGS=$(echo "${CPPFLAGS}" | sed -e 's/ $//')
+INCLUDES=$(echo "${INCLUDES}" | sed -e 's/ $//')
+
+CPPFLAGS="${INCLUDES}"
 export CPPFLAGS
+
+CFLAGS="${INCLUDES}"
+export CFLAGS
+
+CXXFLAGS="${INCLUDES}"
+export CXXFLAGS
 
 # PKG_CONFIG_PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
