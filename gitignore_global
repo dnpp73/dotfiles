@@ -37,3 +37,13 @@ Tumbs.db
 
 # direnv
 .envrc
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node.js
+node_modules/
+npm-debug.log*

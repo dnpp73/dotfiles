@@ -153,6 +153,9 @@ PATHS=(
     # Personal
     "${HOME}/sbin"
     "${HOME}/bin"
+
+    # LM Studio CLI (lms)
+    "${HOME}/.cache/lm-studio/bin"
 )
 for p in "${PATHS[@]}"; do
     [ -d "${p}" ] && NEW_PATH="${p}:${NEW_PATH}"
