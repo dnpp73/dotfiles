@@ -215,6 +215,9 @@ fi
 if which composer >/dev/null 2>&1; then
     plugins+=(composer)
 fi
+if which cargo >/dev/null 2>&1 || which rustc >/dev/null 2>&1 || which rustup >/dev/null 2>&1; then
+    plugins+=(rust)
+fi
 if which redis-cli >/dev/null 2>&1; then
     plugins+=(redis-cli)
 fi
