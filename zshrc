@@ -114,6 +114,35 @@ if [ -n "${pyenv_root}" ]; then
     fi
 fi
 
+# rust rustup
+if [ -n "${RUSTUP_HOME}" ] && [ -d "${RUSTUP_HOME}" ]; then
+    rustup_root="${RUSTUP_HOME}"
+elif [ -d "${HOME}/.rustup" ]; then
+    rustup_root="${HOME}/.rustup"
+fi
+if [ -n "${rustup_root}" ]; then
+    if which rustup >/dev/null 2>&1; then
+        echo -n 'rustup '
+        export RUSTUP_HOME="${rustup_root}"
+    fi
+fi
+
+# rust cargo
+if [ -n "${CARGO_HOME}" ] && [ -d "${CARGO_HOME}" ]; then
+    cargo_root="${CARGO_HOME}"
+elif [ -s "${HOME}/.cargo/bin" ]; then
+    cargo_root="${HOME}/.cargo"
+fi
+if [ -n "${cargo_root}" ]; then
+    if which cargo >/dev/null 2>&1; then
+        echo -n 'cargo '
+        export CARGO_HOME="${cargo_root}"
+        if [ -f "${cargo_root}/env" ]; then
+            source "${cargo_root}/env"
+        fi
+    fi
+fi
+
 # oh-my-zsh
 ZSH="${HOME}/.oh-my-zsh"
 

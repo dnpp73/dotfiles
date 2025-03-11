@@ -149,6 +149,7 @@ PATHS=(
     "${HOME}/.nodenv/bin"
     "${HOME}/.pyenv/bin"
     "${HOME}/.rbenv/bin"
+    "${HOME}/.cargo/bin"
 
     # Personal
     "${HOME}/sbin"
