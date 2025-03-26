@@ -162,10 +162,14 @@ PATHS=(
 )
 # OLD_PATHS の内容を PATHS に追加（重複を避ける）
 for oldpath in "${OLD_PATHS[@]}"; do
+    duplicate=0
     for p in "${PATHS[@]}"; do
-        [ "${oldpath}" = "${p}" ] && break
+        if [ "${oldpath}" = "${p}" ]; then
+            duplicate=1
+            break
+        fi
     done
-    PATHS+=("$oldpath")
+    [ "${duplicate}" -eq 0 ] && PATHS+=("$oldpath")
 done
 for p in "${PATHS[@]}"; do
     [ -e "${p}" ] && NEW_PATH="${p}:${NEW_PATH}"
