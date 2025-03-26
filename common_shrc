@@ -63,6 +63,7 @@ export MANPATH
 
 # PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
+OLD_PATH="${PATH}"
 NEW_PATH=''
 PATHS=(
     '/usr/games'

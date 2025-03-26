@@ -30,7 +30,7 @@ UserInterface.xcuserstate
 
 # Mac Windows
 .DS_Store
-Tumbs.db
+Thumbs.db
 
 # dotenv
 .env
