@@ -63,7 +63,8 @@ export MANPATH
 
 # PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
-OLD_PATH="${PATH}"
+# OLD_PATH を : で区切って配列に変換
+OLD_PATHS=$(echo "${PATH}" | tr ':' '\n')
 NEW_PATH=''
 PATHS=(
     '/usr/games'
@@ -159,8 +160,15 @@ PATHS=(
     # LM Studio CLI (lms)
     "${HOME}/.cache/lm-studio/bin"
 )
+# OLD_PATHS の内容を PATHS に追加（重複を避ける）
+for oldpath in "${OLD_PATHS[@]}"; do
+    for p in "${PATHS[@]}"; do
+        [ "${oldpath}" = "${p}" ] && break
+    done
+    PATHS+=("$oldpath")
+done
 for p in "${PATHS[@]}"; do
-    [ -d "${p}" ] && NEW_PATH="${p}:${NEW_PATH}"
+    [ -e "${p}" ] && NEW_PATH="${p}:${NEW_PATH}"
 done
 # shellcheck disable=SC2001
 PATH=$(echo "${NEW_PATH}" | sed -e 's/:$//')
