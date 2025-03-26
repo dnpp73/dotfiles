@@ -64,7 +64,8 @@ export MANPATH
 # PATH
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
 # OLD_PATH を : で区切って配列に変換
-OLD_PATHS=$(echo "${PATH}" | tr ':' '\n')
+OLD_PATHS=()
+while IFS='' read -r line; do OLD_PATHS+=("${line}"); done < <(echo "${PATH}" | tr ':' '\n')
 NEW_PATH=''
 PATHS=(
     '/usr/games'
@@ -162,14 +163,14 @@ PATHS=(
 )
 # OLD_PATHS の内容を PATHS に追加（重複を避ける）
 for oldpath in "${OLD_PATHS[@]}"; do
-    duplicate=0
     for p in "${PATHS[@]}"; do
         if [ "${oldpath}" = "${p}" ]; then
-            duplicate=1
-            break
+            # echo "dup: ${oldpath}"
+            continue 2
         fi
     done
-    [ "${duplicate}" -eq 0 ] && PATHS+=("$oldpath")
+    # echo "add: ${oldpath}"
+    PATHS+=("$oldpath")
 done
 for p in "${PATHS[@]}"; do
     [ -e "${p}" ] && NEW_PATH="${p}:${NEW_PATH}"
