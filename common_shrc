@@ -154,6 +154,9 @@ PATHS=(
     "${HOME}/.rbenv/bin"
     "${HOME}/.cargo/bin"
 
+    # uv
+    "${HOME}/.local/uv/bin"
+
     # Personal
     "${HOME}/sbin"
     "${HOME}/bin"
@@ -170,7 +173,7 @@ for oldpath in "${OLD_PATHS[@]}"; do
         fi
     done
     # echo "add: ${oldpath}"
-    PATHS+=("$oldpath")
+    PATHS=("${oldpath}" "${PATHS[@]}")
 done
 for p in "${PATHS[@]}"; do
     [ -e "${p}" ] && NEW_PATH="${p}:${NEW_PATH}"

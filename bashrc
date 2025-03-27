@@ -224,6 +224,16 @@ elif [ -s '/etc/bash_completion' ]; then
     source '/etc/bash_completion'
 fi
 
+# uv
+if which uv >/dev/null 2>&1; then
+    echo -n 'uv '
+    eval "$(uv generate-shell-completion bash)"
+    if which uvx >/dev/null 2>&1; then
+        echo -n 'uvx '
+        eval "$(uvx --generate-shell-completion bash)"
+    fi
+fi
+
 if [ "$(uname)" = 'Darwin' ]; then
     # homebrew で入れた curl-ca-bundle
     [ -r '/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt' ] && export SSL_CERT_FILE='/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt'

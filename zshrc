@@ -342,6 +342,16 @@ fi
 unset AWS_COMPLETER_PATH
 unset AWS_COMPLETER_EXISTS
 
+# uv
+if which uv >/dev/null 2>&1; then
+    echo -n 'uv '
+    eval "$(uv generate-shell-completion zsh)"
+    if which uvx >/dev/null 2>&1; then
+        echo -n 'uvx '
+        eval "$(uvx --generate-shell-completion zsh)"
+    fi
+fi
+
 echo -n 'oh-my-zsh '
 source "${ZSH}/oh-my-zsh.sh"
 
