@@ -42,10 +42,14 @@ fi
 # goenv
 if [ -n "${GOENV_ROOT}" ] && [ -d "${GOENV_ROOT}" ]; then
     goenv_root="${GOENV_ROOT}"
-elif [ -s "${HOME}/.goenv/bin" ]; then
+elif [ -s "${HOME}/.goenv" ]; then
     goenv_root="${HOME}/.goenv"
+elif [ -s '/opt/homebrew/var/goenv' ]; then
+    goenv_root='/opt/homebrew/var/goenv'
 elif [ -s '/opt/homebrew/opt/goenv' ]; then
     goenv_root='/opt/homebrew/opt/goenv'
+elif [ -s '/usr/local/var/goenv' ]; then
+    goenv_root='/usr/local/var/goenv'
 elif [ -s '/usr/local/opt/goenv' ]; then
     goenv_root='/usr/local/opt/goenv'
 fi
@@ -60,10 +64,14 @@ fi
 # nodenv
 if [ -n "${NODENV_ROOT}" ] && [ -d "${NODENV_ROOT}" ]; then
     nodenv_root="${NODENV_ROOT}"
-elif [ -s "${HOME}/.nodenv/bin" ]; then
+elif [ -s "${HOME}/.nodenv" ]; then
     nodenv_root="${HOME}/.nodenv"
+elif [ -s '/opt/homebrew/var/nodenv' ]; then
+    nodenv_root='/opt/homebrew/var/nodenv'
 elif [ -s '/opt/homebrew/opt/nodenv' ]; then
     nodenv_root='/opt/homebrew/opt/nodenv'
+elif [ -s '/usr/local/var/nodenv' ]; then
+    nodenv_root='/usr/local/var/nodenv'
 elif [ -s '/usr/local/opt/nodenv' ]; then
     nodenv_root='/usr/local/opt/nodenv'
 fi
@@ -78,10 +86,14 @@ fi
 # rbenv
 if [ -n "${RBENV_ROOT}" ] && [ -d "${RBENV_ROOT}" ]; then
     rbenv_root="${RBENV_ROOT}"
-elif [ -s "${HOME}/.rbenv/bin" ]; then
+elif [ -s "${HOME}/.rbenv" ]; then
     rbenv_root="${HOME}/.rbenv"
+elif [ -s '/opt/homebrew/var/rbenv' ]; then
+    rbenv_root='/opt/homebrew/var/rbenv'
 elif [ -s '/opt/homebrew/opt/rbenv' ]; then
     rbenv_root='/opt/homebrew/opt/rbenv'
+elif [ -s '/usr/local/var/rbenv' ]; then
+    rbenv_root='/usr/local/var/rbenv'
 elif [ -s '/usr/local/opt/rbenv' ]; then
     rbenv_root='/usr/local/opt/rbenv'
 fi
@@ -96,10 +108,14 @@ fi
 # pyenv
 if [ -n "${PYENV_ROOT}" ] && [ -d "${PYENV_ROOT}" ]; then
     pyenv_root="${PYENV_ROOT}"
-elif [ -s "${HOME}/.pyenv/bin" ]; then
+elif [ -s "${HOME}/.pyenv" ]; then
     pyenv_root="${HOME}/.pyenv"
+elif [ -s '/opt/homebrew/var/pyenv' ]; then
+    pyenv_root='/opt/homebrew/var/pyenv'
 elif [ -s '/opt/homebrew/opt/pyenv' ]; then
     pyenv_root='/opt/homebrew/opt/pyenv'
+elif [ -s '/usr/local/var/pyenv' ]; then
+    pyenv_root='/usr/local/var/pyenv'
 elif [ -s '/usr/local/opt/pyenv' ]; then
     pyenv_root='/usr/local/opt/pyenv'
 fi
@@ -130,7 +146,7 @@ fi
 # rust cargo
 if [ -n "${CARGO_HOME}" ] && [ -d "${CARGO_HOME}" ]; then
     cargo_root="${CARGO_HOME}"
-elif [ -s "${HOME}/.cargo/bin" ]; then
+elif [ -s "${HOME}/.cargo" ]; then
     cargo_root="${HOME}/.cargo"
 fi
 if [ -n "${cargo_root}" ]; then
