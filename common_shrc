@@ -213,6 +213,7 @@ LDFLAGS_LIST=(
     '/usr/local/opt/binutils/lib'
     '/usr/local/opt/zlib/lib'
     '/usr/local/opt/bzip2/lib'
+    '/usr/local/opt/openblas/lib'
 
     # homebrew Apple M1
     '/opt/homebrew/opt/readline/lib'
@@ -229,6 +230,7 @@ LDFLAGS_LIST=(
     '/opt/homebrew/opt/binutils/lib'
     '/opt/homebrew/opt/zlib/lib'
     '/opt/homebrew/opt/bzip2/lib'
+    '/opt/homebrew/opt/openblas/lib'
 )
 for l in "${LDFLAGS_LIST[@]}"; do
     [ -d "${l}" ] && LDFLAGS="-L${l} ${LDFLAGS}"
@@ -256,6 +258,7 @@ INCLUDE_LIST=(
     '/usr/local/opt/binutils/include'
     '/usr/local/opt/zlib/include'
     '/usr/local/opt/bzip2/include'
+    '/usr/local/opt/openblas/include'
 
     # homebrew Apple M1
     '/opt/homebrew/opt/readline/include'
@@ -270,8 +273,9 @@ INCLUDE_LIST=(
     '/opt/homebrew/opt/tcl-tk/include'
     '/opt/homebrew/opt/tcl-tk@8/include'
     '/opt/homebrew/opt/binutils/include'
-    '/opt/homebrew//opt/zlib/include'
-    '/opt/homebrew//opt/bzip2/include'
+    '/opt/homebrew/opt/zlib/include'
+    '/opt/homebrew/opt/bzip2/include'
+    '/opt/homebrew/opt/openblas/include'
 )
 for c in "${INCLUDE_LIST[@]}"; do
     [ -d "${c}" ] && INCLUDES="-I${c} ${INCLUDES}"
@@ -300,6 +304,13 @@ PKG_CONFIG_PATHS=(
     '/usr/local/opt/mysql-client@8.0/lib/pkgconfig'
     '/usr/local/opt/sqlite/lib/pkgconfig'
     '/usr/local/opt/icu4c/lib/pkgconfig'
+    '/usr/local/opt/ncurses/lib/pkgconfig'
+    '/usr/local/opt/tcl-tk/lib/pkgconfig'
+    '/usr/local/opt/tcl-tk@8/lib/pkgconfig'
+    '/usr/local/opt/binutils/lib/pkgconfig'
+    '/usr/local/opt/zlib/lib/pkgconfig'
+    '/usr/local/opt/bzip2/lib/pkgconfig'
+    '/usr/local/opt/openblas/lib/pkgconfig'
 
     # homebrew Apple M1
     '/opt/homebrew/opt/libffi/lib/pkgconfig'
@@ -309,6 +320,13 @@ PKG_CONFIG_PATHS=(
     '/opt/homebrew/opt/mysql-client@8.0/lib/pkgconfig'
     '/opt/homebrew/opt/sqlite/lib/pkgconfig'
     '/opt/homebrew/opt/icu4c/lib/pkgconfig'
+    '/opt/homebrew/opt/ncurses/lib/pkgconfig'
+    '/opt/homebrew/opt/tcl-tk/lib/pkgconfig'
+    '/opt/homebrew/opt/tcl-tk@8/lib/pkgconfig'
+    '/opt/homebrew/opt/binutils/lib/pkgconfig'
+    '/opt/homebrew/opt/zlib/lib/pkgconfig'
+    '/opt/homebrew/opt/bzip2/lib/pkgconfig'
+    '/opt/homebrew/opt/openblas/lib/pkgconfig'
 )
 for p in "${PKG_CONFIG_PATHS[@]}"; do
     [ -d "${p}" ] && PKG_CONFIG_PATH="${p}:${PKG_CONFIG_PATH}"
