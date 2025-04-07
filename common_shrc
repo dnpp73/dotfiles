@@ -131,6 +131,9 @@ PATHS=(
     '/opt/homebrew/sbin'
     '/opt/homebrew/bin'
 
+    # dotnet
+    '/usr/local/share/dotnet'
+
     # Docker Ruby Global bundle gems
     /usr/local/bundle/bin
 
@@ -435,6 +438,9 @@ export PYTHONDONTWRITEBYTECODE='1'
 export PYTHONUTF8='1'
 export PYTHONIOENCODING='UTF-8'
 export VIRTUAL_ENV_DISABLE_PROMPT='1'
+
+# .NET
+export DOTNET_CLI_TELEMETRY_OPTOUT='1'
 
 # Histroy Files
 export HISTRY_DIRECTORY="${HOME}/.history.d"
