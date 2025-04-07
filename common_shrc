@@ -439,8 +439,17 @@ export PYTHONUTF8='1'
 export PYTHONIOENCODING='UTF-8'
 export VIRTUAL_ENV_DISABLE_PROMPT='1'
 
-# .NET
+# .NET & mono
 export DOTNET_CLI_TELEMETRY_OPTOUT='1'
+if which mono >/dev/null 2>&1; then
+    if uname -s | grep 'Darwin' >/dev/null 2>&1; then
+        if [ -d '/usr/local/Cellar/mono' ]; then
+            export MONO_GAC_PREFIX='/usr/local'
+        elif [ -d '/opt/homebrew/Cellar/mono' ]; then
+            export MONO_GAC_PREFIX='/opt/homebrew'
+        fi
+    fi
+fi
 
 # Histroy Files
 export HISTRY_DIRECTORY="${HOME}/.history.d"
