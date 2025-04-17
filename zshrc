@@ -324,6 +324,12 @@ if [ -d "${HOME}/.zsh/completion" ]; then
     fpath=("${HOME}/.zsh/completion" ${fpath})
     # fpath+=("${HOME}/.zsh/completion")
 fi
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+if [ -d "${HOME}/.docker/completions" ]; then
+    fpath=("${HOME}/.docker/completions" ${fpath})
+    # fpath+=("${HOME}/.docker/completions")
+fi
+# End of Docker CLI completions
 
 # oh-my-zsh の plugins の配列に入れるだけで補完まで動くのは aws だけだったので自前でなんとかするしかなった…。
 ZSH_COMPDUMP="${HOME}/.cache/zsh/zcompdump"
@@ -398,10 +404,10 @@ if which automate-python-venv-activation >/dev/null 2>&1; then
     automate-python-venv-activation >/dev/null 2>&1
 fi
 
-# docker completion hack
-if which docker >/dev/null 2>&1; then
-    source <(docker completion zsh)
-fi
+# # docker completion hack
+# if which docker >/dev/null 2>&1; then
+#     source <(docker completion zsh)
+# fi
 
 # 最後に local があれば
 safe_source "${HOME}/.zshrc_local" 'zshrc_local'
