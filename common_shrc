@@ -451,6 +451,10 @@ if which mono >/dev/null 2>&1; then
     fi
 fi
 
+# Docker BuildKit
+export DOCKER_BUILDKIT='1'
+export BUILDKIT_INLINE_CACHE='1'
+
 # Histroy Files
 export HISTRY_DIRECTORY="${HOME}/.history.d"
 mkdir -p "${HISTRY_DIRECTORY}"
