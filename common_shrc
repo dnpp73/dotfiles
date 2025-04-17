@@ -454,6 +454,7 @@ fi
 # Docker BuildKit
 export DOCKER_BUILDKIT='1'
 export BUILDKIT_INLINE_CACHE='1'
+export COMPOSE_DOCKER_CLI_BUILD='1'
 
 # Histroy Files
 export HISTRY_DIRECTORY="${HOME}/.history.d"
