@@ -158,7 +158,7 @@ PATHS=(
     "${HOME}/.cargo/bin"
 
     # uv
-    "${HOME}/.local/uv/bin"
+    "${HOME}/.local/bin"
 
     # Personal
     "${HOME}/sbin"
