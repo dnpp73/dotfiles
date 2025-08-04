@@ -166,6 +166,9 @@ PATHS=(
 
     # LM Studio CLI (lms)
     "${HOME}/.cache/lm-studio/bin"
+
+    # Claude Code
+    "${HOME}/.claude/local/node_modules/.bin"
 )
 # OLD_PATHS の内容を PATHS に追加（重複を避ける）
 for oldpath in "${OLD_PATHS[@]}"; do
@@ -467,3 +470,7 @@ export PSQL_HISTORY="${HISTRY_DIRECTORY}/psql_history"
 export PRY_HISTORY_PATH="${HISTRY_DIRECTORY}/pry_history" # pryrc と併用している。標準で用意されている仕組みではない。
 export IRB_HISTORY_PATH="${HISTRY_DIRECTORY}/irb_history" # irbrc と併用している。標準で用意されている仕組みではない。
 # export PYTHON_HISTFILE="${HISTRY_DIRECTORY}/python_history" # やるなら $PYTHONSTARTUP に pythonrc みたいなのを指定して実装する必要がある。標準で用意されている仕組みではない。
+
+# Claude Code
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC='1' # DISABLE_AUTOUPDATER、DISABLE_BUG_COMMAND、DISABLE_ERROR_REPORTING、DISABLE_TELEMETRY の設定と同等
+export CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL='1'
