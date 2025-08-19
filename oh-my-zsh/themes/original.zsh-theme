@@ -65,8 +65,10 @@ function __omz_custom_theme_anyenv_version {
                 colorize blue 'l'
                 colorize gray ':'
             fi
+            colorize 'cyan' "${version}"
+        else
+            colorize 'cyan' 'sys'
         fi
-        colorize 'cyan' "${version}"
         echo -n ' '
     fi
 }
