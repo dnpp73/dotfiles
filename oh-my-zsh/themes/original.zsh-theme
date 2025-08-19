@@ -56,7 +56,7 @@ function __omz_custom_theme_anyenv_version {
     if which "${1}" >/dev/null 2>&1; then
         local result="$("${1}" version 2>/dev/null)"
         local version="$(echo "${result}" | cut -d ' ' -f1)"
-        colorize 'gray' "${1}:"
+        colorize 'gray' "${2}:"
         if [ "${version}" != 'system' ]; then
             if echo "${result}" | grep "$("${1}" root)" > /dev/null 2>&1; then
                 colorize blue 'g'
@@ -73,10 +73,10 @@ function __omz_custom_theme_anyenv_version {
 
 function __omz_custom_theme_rb_py_nod_go_env_info {
     local info=''
-    info="${info}$(__omz_custom_theme_anyenv_version rbenv)"
-    info="${info}$(__omz_custom_theme_anyenv_version pyenv)"
-    info="${info}$(__omz_custom_theme_anyenv_version nodenv)"
-    info="${info}$(__omz_custom_theme_anyenv_version goenv)"
+    info="${info}$(__omz_custom_theme_anyenv_version rbenv rb)"
+    info="${info}$(__omz_custom_theme_anyenv_version pyenv py)"
+    info="${info}$(__omz_custom_theme_anyenv_version nodenv node)"
+    info="${info}$(__omz_custom_theme_anyenv_version goenv go)"
     # info から ' ' の後ろ 1 文字を削除する。
     info="${info% }"
     if [ "${info}" != '' ]; then
@@ -94,6 +94,14 @@ function __omz_custom_theme_venv_info {
         local venv_relative_dirname="$(realpath --relative-to="${PWD}" "${venv_dirname}")"
         colorize 'gray' '[venv:'
         colorize 'cyan' "${venv_relative_dirname}"
+        colorize 'gray' ']'
+    fi
+}
+
+function __omz_custom_theme_ros_info {
+    if [ -n "${ROS_DISTRO}" ]; then
+        colorize 'gray' '[ROS:'
+        colorize 'cyan' "${ROS_DISTRO}"
         colorize 'gray' ']'
     fi
 }
@@ -156,7 +164,7 @@ ZSH_THEME_GIT_PROMPT_CLEAN="$(colorize 'gray' '(')$(colorize 'green' '✔')$(col
 
 # Prompt format
 PROMPT="\
-$(machine_name) \$(__omz_custom_theme_shortened_pwd) \$(git_prompt_info)\$(__omz_custom_theme_venv_info)\$(__omz_custom_theme_rb_py_nod_go_env_info)
+$(machine_name) \$(__omz_custom_theme_shortened_pwd) \$(git_prompt_info)\$(__omz_custom_theme_venv_info)\$(__omz_custom_theme_rb_py_nod_go_env_info)\$(__omz_custom_theme_ros_info)
 %h $(prev_command_exit_flag)  $(prompt_char) \
 "
 
