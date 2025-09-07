@@ -393,6 +393,11 @@ if [ -z "${SSH_CONNECTION}" ] && [ -z "${SSH_CLIENT}" ] && [ -z "${SSH_TTY}" ]; 
     safe_source "${ORG_DIR}/env_ssh_auth_sock" 'ssh_sock'
 fi
 
+# Ubuntu に ssh したときに Xauthority を良い感じにしたい。
+if [ "${UNAME}" = 'Linux' ]; then
+    safe_source "${ORG_DIR}/env_xauthority_over_ssh" 'xauth'
+fi
+
 # Mac iTerm2 Shell Integration
 if [ "${UNAME}" = 'Darwin' ]; then
     safe_source "${HOME}/.iterm2_shell_integration.zsh" 'iterm2'

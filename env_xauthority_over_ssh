@@ -1,0 +1,30 @@
+# If not running interactively, don't do anything
+[ -z "${PS1}" ] && return
+
+# SSH でない場合は何もしない
+if [ -z "${SSH_TTY}" ]; then
+    return
+fi
+
+# Ubuntu 系でのみ動作させる
+if [ ! -f /etc/os-release ]; then
+    return
+fi
+if ! grep 'ubuntu' /etc/os-release >/dev/null 2>&1; then
+    return
+fi
+
+# SSH 越しなので DISPLAY は基本セットされてない。まぁ大体 :0 なので明示されてなければ :0 をセット
+export DISPLAY=${DISPLAY:-:0}
+
+# GNOME on Wayland は :0 / Xwayland の cookie は /run/user/$UID にあるのでそれを探して、あればセット。
+# 見付から無くて ~/.Xauthority があればそれをセット。
+# それも無ければ諦める。
+if [ -z "${XAUTHORITY}" ]; then
+    XWAYLAND_AUTH_CANDIDATE=$(find "/run/user/$(id -u)" -maxdepth 1 -name ".mutter-Xwaylandauth.*" 2>/dev/null | head -n1)
+    if [ -n "${XWAYLAND_AUTH_CANDIDATE}" ] && [ -r "${XWAYLAND_AUTH_CANDIDATE}" ]; then
+        export XAUTHORITY="${XWAYLAND_AUTH_CANDIDATE}"
+    elif [ -r "${HOME}/.Xauthority" ]; then
+        export XAUTHORITY="${HOME}/.Xauthority"
+    fi
+fi
