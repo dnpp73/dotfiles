@@ -403,6 +403,9 @@ fi
 #     export AWS_DEFAULT_PROFILE='dnpp-org'
 # fi
 
+# AWS CDK
+export CDK_DISABLE_CLI_TELEMETRY='true'
+
 # rbenv で openssl を自前で持たないようにさせたい。
 # openssl ビルド時に binutils が BSD であることが前提のコードが入っているため
 # `export PATH=$(printenv PATH | tr ':' '\n' | grep -v binutils | tr '\n' ':' | sed -e 's/:$//')`
