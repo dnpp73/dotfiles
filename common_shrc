@@ -166,6 +166,7 @@ PATHS=(
 
     # LM Studio CLI (lms)
     "${HOME}/.cache/lm-studio/bin"
+    "${HOME}/.lm-studio/bin"
 
     # Claude Code
     "${HOME}/.claude/local/node_modules/.bin"
