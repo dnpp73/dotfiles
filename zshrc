@@ -254,7 +254,7 @@ if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
     plugins+=(zsh-autosuggestions)
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
     ZSH_AUTOSUGGEST_STRATEGY=(history completion) # 補完の方を履歴より優先度高めにする場合は順序を変える。
-    ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd .*|l|ls|l *|ls *|code *|xed *)"
+    ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd .*|l|ls|l *|ls *|code .*|xed .*)"
     ZSH_AUTOSUGGEST_COMPLETION_IGNORE="(l|ls|l *|ls *)"
 fi
 if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
