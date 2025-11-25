@@ -8,33 +8,45 @@ if [ "${PID1_NAME}" != "/sbin/init" ] && [ "${PID1_NAME}" != "/sbin/launchd" ]; 
     return
 fi
 
-AGENT_SOCK_FILE="/tmp/ssh-agent-${USER}@$(hostname)"
-SSH_AGENT_FILE="/tmp/ssh-agent-info-${USER}-$(date | md5sum | cut -d ' ' -f1)"
+_SSH_AUTH_SOCK_LOCAL="/tmp/ssh-agent-local-${USER}@$(hostname)"
+_SSH_AGENT_STDOUT="/tmp/ssh-agent-local-info-${USER}-$(date | md5sum | cut -d ' ' -f1)"
 
-printenv SSH_AUTH_SOCK >/dev/null 2>&1
-SSH_AUTH_SOCK_EXISTS=$?
-if [ ${SSH_AUTH_SOCK_EXISTS} -eq 0 ]; then
-    # 環境変数 SSH_AUTH_SOCK がある場合
-    if [ "${SSH_AUTH_SOCK}" != "${AGENT_SOCK_FILE}" ]; then
-        # 毎回変わるタイプのソケットだったらシンボリックリンクを張ってそっちに向ける。
-        ln -sf "${SSH_AUTH_SOCK}" "${AGENT_SOCK_FILE}"
-        export SSH_AUTH_SOCK="${AGENT_SOCK_FILE}"
-    fi
-else
-    # 環境変数 SSH_AUTH_SOCK が無い場合
-
-    if [ -S "${AGENT_SOCK_FILE}" ]; then
-        # ソケットっぽい感じならそれを export しちゃう
-        export SSH_AUTH_SOCK="${AGENT_SOCK_FILE}"
+# 既に SSH_AUTH_SOCK が設定されていて、きちんとソケットとして存在している場合
+if [ -n "${SSH_AUTH_SOCK}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
+    if [ -n "${SSH_CONNECTION}" ]; then
+        # 環境変数 SSH_AUTH_SOCK と SSH_CONNECTION が空文字ではなく、 SSH_AUTH_SOCK がソケットの場合、ここは SSH 先で Agent Forward されたものなので、名前を付けて保持する
+        export SSH_AUTH_SOCK_FORWARD="${SSH_AUTH_SOCK}"
     else
-        # ssh-agent を起動して /tmp 以下にとりあえず情報を保持して source で読み込む
-        ssh-agent >"${SSH_AGENT_FILE}"
-        source "${SSH_AGENT_FILE}" >/dev/null 2>&1
-
-        # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
-        ln -sf "${SSH_AUTH_SOCK}" "${AGENT_SOCK_FILE}"
-        export SSH_AUTH_SOCK="${AGENT_SOCK_FILE}"
+        # それ以外の場合はローカルの ssh-agent のものとして扱う
+        ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+        export SSH_AUTH_SOCK="${_SSH_AUTH_SOCK_LOCAL}"
+        export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
     fi
 fi
 
-unset AGENT_SOCK_FILE SSH_AGENT_FILE SSH_AUTH_SOCK_EXISTS
+if [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
+    # 既に _SSH_AUTH_SOCK_LOCAL がソケットとして存在している場合は既に起動済みとみなして export するだけ
+    export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+else
+    # まだ存在していない場合はローカル共用の ssh-agent を起動
+    ssh-agent >"${_SSH_AGENT_STDOUT}"
+    source "${_SSH_AGENT_STDOUT}" >/dev/null 2>&1 # ここで SSH_AUTH_SOCK が上書きされてしまうので注意
+
+    # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
+    ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+    export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+fi
+
+# Forward 優先で SSH_AUTH_SOCK を設定して終わり
+if [ -n "${SSH_AUTH_SOCK_FORWARD}" ]; then
+    export SSH_AUTH_SOCK="${SSH_AUTH_SOCK_FORWARD}"
+elif [ -n "${SSH_AUTH_SOCK_LOCAL}" ]; then
+    export SSH_AUTH_SOCK="${SSH_AUTH_SOCK_LOCAL}"
+
+    # # もし macOS なら keychain 経由での ssh-add をする
+    # if [ "${UNAME}" = 'Darwin' ]; then
+    #     ssh-add --apple-load-keychain >/dev/null 2>&1
+    # fi
+fi
+
+unset _SSH_AUTH_SOCK_LOCAL _SSH_AGENT_STDOUT
