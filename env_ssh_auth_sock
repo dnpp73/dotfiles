@@ -10,7 +10,7 @@ if [ "${UNAME}" = 'Darwin' ]; then
     fi
 elif [ "${UNAME}" = 'Linux' ]; then
     # それ以外の Unix 系 OS は大抵 init 系のはず。cmd で見る
-    if [ "$(ps -p 1 -o cmd=)" != "/sbin/init" ]; then
+    if [ "$(ps -p 1 -o comm=)" != "systemd" ] || [ "$(ps -p 1 -o cmd=)" != "/sbin/init" ] || [ "$(ps -p 1 -o cmd=)" != "/sbin/init splash" ]; then
         return
     fi
 fi
