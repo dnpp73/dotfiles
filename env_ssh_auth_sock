@@ -1,11 +1,18 @@
 # If not running interactively, don't do anything
 [ -z "${PS1}" ] && return
 
-PID1_NAME=$(ps -p 1 -o comm=)
 
 # If PID 1 is not 'init' or 'launchd', don't do anything
-if [ "${PID1_NAME}" != "/sbin/init" ] && [ "${PID1_NAME}" != "/sbin/launchd" ]; then
-    return
+if [ "${UNAME}" = 'Darwin' ]; then
+    # macOS は comm で見る
+    if [ "$(ps -p 1 -o comm=)" != "/sbin/launchd" ]; then
+        return
+    fi
+elif [ "${UNAME}" = 'Linux' ]; then
+    # それ以外の Unix 系 OS は大抵 init 系のはず。cmd で見る
+    if [ "$(ps -p 1 -o cmd=)" != "/sbin/init" ]; then
+        return
+    fi
 fi
 
 _SSH_AUTH_SOCK_LOCAL="/tmp/ssh-agent-local-${USER}@$(hostname)"
