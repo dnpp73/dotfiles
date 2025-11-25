@@ -388,10 +388,8 @@ elif which batcat >/dev/null 2>&1; then
     alias bathelp='batcat --plain --language=help'
 fi
 
-# ssh-agent について、あればそのまま使って、かつ、 screen 先でも困らないようにするやつ。 ssh 接続先では読まないようにする。
-if [ -z "${SSH_CONNECTION}" ] && [ -z "${SSH_CLIENT}" ] && [ -z "${SSH_TTY}" ]; then
-    safe_source "${ORG_DIR}/env_ssh_auth_sock" 'ssh_sock'
-fi
+# ssh-agent について、Forward と Local 両方を良い感じに使うやつ
+safe_source "${ORG_DIR}/env_ssh_auth_sock" 'ssh_sock'
 
 # Ubuntu に ssh したときに Xauthority を良い感じにしたい。
 if [ "${UNAME}" = 'Linux' ]; then
