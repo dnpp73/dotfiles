@@ -37,18 +37,4 @@ else
     fi
 fi
 
-test "$(uname)" = 'Darwin'
-USE_OSX_KEYCHAIN=$?
-
-# 鍵を足して終わり。perm が 600 になってるものを雑に find で探している。
-if [ -d "${HOME}/.ssh" ] && pgrep ssh-agent >/dev/null 2>&1; then
-    find "${HOME}/.ssh" -maxdepth 1 -perm 600 | while read -r KEY_FULL_PATH; do
-        if [ ${USE_OSX_KEYCHAIN} -eq 0 ]; then
-            ssh-add -K "${KEY_FULL_PATH}" >/dev/null 2>&1
-        else
-            ssh-add "${KEY_FULL_PATH}" >/dev/null 2>&1
-        fi
-    done
-fi
-
-unset AGENT_SOCK_FILE SSH_AGENT_FILE SSH_AUTH_SOCK_EXISTS USE_OSX_KEYCHAIN
+unset AGENT_SOCK_FILE SSH_AGENT_FILE SSH_AUTH_SOCK_EXISTS
