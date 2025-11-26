@@ -33,7 +33,6 @@
     # pager        = delta
     autocrlf     = input
     excludesfile = ~/.gitignore_global
-    sshCommand   = ssh -F ~/.ssh/config -i ~/.ssh/id_ed25519 -o IdentityAgent="${SSH_AUTH_SOCK_LOCAL}" -o IdentitiesOnly=yes
 
 [init]
     defaultBranch = master
