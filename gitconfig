@@ -33,6 +33,7 @@
     # pager        = delta
     autocrlf     = input
     excludesfile = ~/.gitignore_global
+    sshCommand   = ssh -F ~/.ssh/config -i ~/.ssh/github_ed25519.pub
 
 [init]
     defaultBranch = master
