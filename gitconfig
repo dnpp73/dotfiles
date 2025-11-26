@@ -6,7 +6,6 @@
     user = dnpp73
 
 [url "https://github.com/"]
-    insteadOf = git@github.com:
     insteadOf = git://github.com/
     insteadOf = http://github.com/
 
