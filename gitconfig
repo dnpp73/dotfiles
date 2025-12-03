@@ -1,6 +1,16 @@
 [user]
-    name  = Yusuke SUGAMIYA
+    name  = Yusuke Sugamiya
     email = yusuke.dnpp@gmail.com
+    signingkey = ~/.ssh/github_ed25519.pub
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
+
+[commit]
+    gpgsign = true
 
 [github]
     user = dnpp73

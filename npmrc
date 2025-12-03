@@ -1,6 +1,9 @@
-audit=false
+audit=true
+audit-level=high
 fund=false
 loglevel=error
 browser=false
 save-exact=true
 update-notifier=false
+ignore-scripts=true
+foreground-scripts=true
