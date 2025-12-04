@@ -20,28 +20,42 @@ _SSH_AGENT_STDOUT="/tmp/ssh-agent-local-info-${USER}-$(date | md5sum | cut -d ' 
 
 # 既に SSH_AUTH_SOCK が設定されていて、きちんとソケットとして存在している場合
 if [ -n "${SSH_AUTH_SOCK}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
-    if [ -n "${SSH_CONNECTION}" ]; then
-        # 環境変数 SSH_AUTH_SOCK と SSH_CONNECTION が空文字ではなく、 SSH_AUTH_SOCK がソケットの場合、ここは SSH 先で Agent Forward されたものなので、名前を付けて保持する
-        export SSH_AUTH_SOCK_FORWARD="${SSH_AUTH_SOCK}"
-    else
-        # それ以外の場合はローカルの ssh-agent のものとして扱う
-        ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
-        export SSH_AUTH_SOCK="${_SSH_AUTH_SOCK_LOCAL}"
-        export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+    if [ -n "${SSH_CONNECTION}" ]; then # SSH_CONNECTION が設定されている場合は Forward
+        if [ -z "${SSH_AUTH_SOCK_FORWARD}" ]; then
+            export SSH_AUTH_SOCK_FORWARD="${SSH_AUTH_SOCK}"
+        fi
+    else # SSH_CONNECTION が設定されていない場合は Local
+        if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ] && [ "${_SSH_AUTH_SOCK_LOCAL}" = "${SSH_AUTH_SOCK}" ]; then
+            if [ -z "${SSH_AUTH_SOCK_LOCAL}" ]; then
+                export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+            fi
+        else
+            ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+        fi
     fi
-fi
-
-if [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
-    # 既に _SSH_AUTH_SOCK_LOCAL がソケットとして存在している場合は既に起動済みとみなして export するだけ
-    export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
 else
-    # まだ存在していない場合はローカル共用の ssh-agent を起動
-    ssh-agent >"${_SSH_AGENT_STDOUT}"
-    source "${_SSH_AGENT_STDOUT}" >/dev/null 2>&1 # ここで SSH_AUTH_SOCK が上書きされてしまうので注意
+    if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
+        # 既に _SSH_AUTH_SOCK_LOCAL がソケットとして存在している場合は既に起動済みとみなして export するだけ
+        if [ -z "${SSH_AUTH_SOCK_LOCAL}" ]; then
+            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+        fi
+    else
+        # _SSH_AUTH_SOCK_LOCAL がまだ存在していない場合
+        if [ "$(pgrep ssh-agent | wc -l)" -gt 0 ]; then
+            _CURRENT_SSH_AGENT_AUTH_SOCK="$(lsof -p "$(pgrep ssh-agent | head -1)" -a -U | grep unix | tr -s ' ' | rev | cut -d ' ' -f1 | rev)"
+            ln -sf "${_CURRENT_SSH_AGENT_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+        else
+            # ローカル共用の ssh-agent を起動
+            ssh-agent >"${_SSH_AGENT_STDOUT}"
+            source "${_SSH_AGENT_STDOUT}" >/dev/null 2>&1 # ここで SSH_AUTH_SOCK が上書きされてしまうので注意
 
-    # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
-    ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
-    export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+            # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
+            ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+        fi
+    fi
 fi
 
 # Forward 優先で SSH_AUTH_SOCK を設定して終わり
