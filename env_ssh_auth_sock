@@ -34,27 +34,27 @@ if [ -n "${SSH_AUTH_SOCK}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
             export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
         fi
     fi
-else
-    if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
-        # 既に _SSH_AUTH_SOCK_LOCAL がソケットとして存在している場合は既に起動済みとみなして export するだけ
-        if [ -z "${SSH_AUTH_SOCK_LOCAL}" ]; then
-            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
-        fi
-    else
-        # _SSH_AUTH_SOCK_LOCAL がまだ存在していない場合
-        if [ "$(pgrep ssh-agent | wc -l)" -gt 0 ]; then
-            _CURRENT_SSH_AGENT_AUTH_SOCK="$(lsof -p "$(pgrep ssh-agent | head -1)" -a -U | grep unix | tr -s ' ' | rev | cut -d ' ' -f1 | rev)"
-            ln -sf "${_CURRENT_SSH_AGENT_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
-            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
-        else
-            # ローカル共用の ssh-agent を起動
-            ssh-agent >"${_SSH_AGENT_STDOUT}"
-            source "${_SSH_AGENT_STDOUT}" >/dev/null 2>&1 # ここで SSH_AUTH_SOCK が上書きされてしまうので注意
+fi
 
-            # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
-            ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
-            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
-        fi
+if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
+    # 既に _SSH_AUTH_SOCK_LOCAL がソケットとして存在している場合は既に起動済みとみなして export するだけ
+    if [ -z "${SSH_AUTH_SOCK_LOCAL}" ]; then
+        export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+    fi
+else
+    # _SSH_AUTH_SOCK_LOCAL がまだ存在していない場合
+    if [ "$(pgrep ssh-agent | wc -l)" -gt 0 ]; then
+        _CURRENT_SSH_AGENT_AUTH_SOCK="$(lsof -p "$(pgrep ssh-agent | head -1)" -a -U | grep unix | tr -s ' ' | rev | cut -d ' ' -f1 | rev)"
+        ln -sf "${_CURRENT_SSH_AGENT_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+        export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+    else
+        # ローカル共用の ssh-agent を起動
+        ssh-agent >"${_SSH_AGENT_STDOUT}"
+        source "${_SSH_AGENT_STDOUT}" >/dev/null 2>&1 # ここで SSH_AUTH_SOCK が上書きされてしまうので注意
+
+        # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
+        ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+        export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
     fi
 fi
 
