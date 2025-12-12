@@ -176,6 +176,7 @@ fi
 echo " [$(basename "$0")] --- install my dotfiles ---"
 
 DOTFILES=(
+    'profile'
     'bash_profile'
     'bashrc'
     'gitconfig'
