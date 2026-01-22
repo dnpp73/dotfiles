@@ -44,9 +44,11 @@ if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
 else
     # _SSH_AUTH_SOCK_LOCAL がまだ存在していない場合
     if [ "$(pgrep ssh-agent | wc -l)" -gt 0 ]; then
-        _CURRENT_SSH_AGENT_AUTH_SOCK="$(lsof -p "$(pgrep ssh-agent | head -1)" -a -U | grep unix | tr -s ' ' | rev | cut -d ' ' -f1 | rev)"
-        ln -sf "${_CURRENT_SSH_AGENT_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
-        export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+        _CURRENT_SSH_AGENT_AUTH_SOCK="$(lsof -p "$(pgrep ssh-agent | sort -n | head -1)" -a -U 2>/dev/null | grep unix | tr -s ' ' | rev | cut -d ' ' -f1 | rev)"
+        if [ "$(echo "${_CURRENT_SSH_AGENT_AUTH_SOCK}" | wc -l)" -eq 1 ] && [ -S "${_CURRENT_SSH_AGENT_AUTH_SOCK}" ]; then
+            ln -sf "${_CURRENT_SSH_AGENT_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
+            export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
+        fi
     else
         # ローカル共用の ssh-agent を起動
         ssh-agent >"${_SSH_AGENT_STDOUT}"
