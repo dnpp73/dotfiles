@@ -262,12 +262,14 @@ if [ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 # cmd + ← と cmd + → は iTerm2 側で 0x01 と 0x05 に設定している。他にも結構色々弄ってるかも…。
-bindkey '^[^[[C' forward-word       # iTerm2 Custom Key Bindings, Opt + ← to 0x1b 0x1b 0x5b 0x44
-bindkey '^[^[[D' backward-word      # iTerm2 Custom Key Bindings, Opt + → to 0x1b 0x1b 0x5b 0x43
+# bindkey '^[^[[C' forward-word       # iTerm2 Custom Key Bindings, Opt + ← to 0x1b 0x1b 0x5b 0x44
+# bindkey '^[^[[D' backward-word      # iTerm2 Custom Key Bindings, Opt + → to 0x1b 0x1b 0x5b 0x43
 bindkey '^[[H'   beginning-of-line  # fn + ←
 bindkey '^[[F'   end-of-line        # fn + →
 bindkey '^[^?'   backward-kill-word # Option + delete, Option as Meta key. 0x1b: esc, 0x7f: delete
 bindkey '^U'     backward-kill-line # C-u, default: kill-whole-line. iTerm2 Custom Key Bindings, Cmd + delete to 0x15 (C-u)
+
+SHELL_SESSIONS_DISABLE=1
 
 # history 関連
 export HISTFILE="${HISTRY_DIRECTORY}/zsh_history" # fc -AI でメモリからファイルに書き込むときに、 .zsh_history.new から mv みたいな挙動になってコンテナで使うときに面倒なのでディレクトリごと分けてる。
