@@ -80,33 +80,34 @@ PATHS=(
     # cuda
     /usr/local/cuda/bin
 
-    # homebrew Intel
-    '/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home/bin'
-    '/usr/local/opt/ncurses/bin'
-    '/usr/local/opt/tcl-tk/bin'
-    '/usr/local/opt/sqlite/bin'
-    '/usr/local/opt/mysql-client/bin'
-    '/usr/local/opt/mysql@5.7/bin'
-    '/usr/local/opt/mysql-client@8.0/bin'
-    '/usr/local/opt/bison/bin'
-    '/usr/local/opt/gettext/bin'
-    '/usr/local/opt/icu4c/bin'
-    '/usr/local/opt/icu4c/sbin'
-    '/usr/local/opt/gnu-getopt/bin'
-    '/usr/local/opt/openssl/bin'
-    '/usr/local/opt/openssl@1.1/bin'
-    # '/usr/local/opt/binutils/bin' # /usr/bin 以下のものを優先的に使いたいことの方が多かった…。 rbenv でビルドが毎回コケる。
-    '/usr/local/opt/findutils/libexec/gnubin'
-    '/usr/local/opt/coreutils/libexec/gnubin'
-    '/usr/local/opt/gnu-sed/libexec/gnubin'
-    '/usr/local/opt/gawk/libexec/gnubin'
-    '/usr/local/opt/gnu-tar/libexec/gnubin'
-    '/usr/local/opt/grep/libexec/gnubin'
-    '/usr/local/sbin'
-    '/usr/local/bin'
-    '/usr/local/go/bin'
+    # # homebrew Intel
+    # '/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home/bin'
+    # '/usr/local/opt/ncurses/bin'
+    # '/usr/local/opt/tcl-tk/bin'
+    # '/usr/local/opt/sqlite/bin'
+    # '/usr/local/opt/mysql-client/bin'
+    # '/usr/local/opt/mysql@5.7/bin'
+    # '/usr/local/opt/mysql-client@8.0/bin'
+    # '/usr/local/opt/bison/bin'
+    # '/usr/local/opt/gettext/bin'
+    # '/usr/local/opt/icu4c/bin'
+    # '/usr/local/opt/icu4c/sbin'
+    # '/usr/local/opt/gnu-getopt/bin'
+    # '/usr/local/opt/openssl/bin'
+    # '/usr/local/opt/openssl@1.1/bin'
+    # # '/usr/local/opt/binutils/bin' # /usr/bin 以下のものを優先的に使いたいことの方が多かった…。 rbenv でビルドが毎回コケる。
+    # '/usr/local/opt/findutils/libexec/gnubin'
+    # '/usr/local/opt/coreutils/libexec/gnubin'
+    # '/usr/local/opt/gnu-sed/libexec/gnubin'
+    # '/usr/local/opt/gawk/libexec/gnubin'
+    # '/usr/local/opt/gnu-tar/libexec/gnubin'
+    # '/usr/local/opt/grep/libexec/gnubin'
+    # '/usr/local/sbin'
+    # '/usr/local/bin'
+    # '/usr/local/go/bin'
 
     # homebrew Apple M1
+    '/opt/homebrew/opt/llvm/bin' # macOS 標準の clang や llvm は /usr/bin 以下に入っている。不具合がでたら使うのをやめる。
     '/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home/bin'
     '/opt/homebrew/opt/ncurses/bin'
     '/opt/homebrew/opt/tcl-tk/bin'
@@ -206,24 +207,25 @@ fi
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
 LDFLAGS=''
 LDFLAGS_LIST=(
-    # homebrew Intel
-    '/usr/local/opt/readline/lib'
-    '/usr/local/opt/libffi/lib'
-    '/usr/local/opt/openssl@1.1/lib'
-    '/usr/local/opt/openssl@3/lib'
-    '/usr/local/opt/mysql@5.7/lib'
-    '/usr/local/opt/mysql-client@8.0/lib'
-    '/usr/local/opt/sqlite/lib'
-    '/usr/local/opt/icu4c/lib'
-    '/usr/local/opt/ncurses/lib'
-    '/usr/local/opt/tcl-tk/lib'
-    '/usr/local/opt/tcl-tk@8/lib'
-    '/usr/local/opt/binutils/lib'
-    '/usr/local/opt/zlib/lib'
-    '/usr/local/opt/bzip2/lib'
-    '/usr/local/opt/openblas/lib'
+    # # homebrew Intel
+    # '/usr/local/opt/readline/lib'
+    # '/usr/local/opt/libffi/lib'
+    # '/usr/local/opt/openssl@1.1/lib'
+    # '/usr/local/opt/openssl@3/lib'
+    # '/usr/local/opt/mysql@5.7/lib'
+    # '/usr/local/opt/mysql-client@8.0/lib'
+    # '/usr/local/opt/sqlite/lib'
+    # '/usr/local/opt/icu4c/lib'
+    # '/usr/local/opt/ncurses/lib'
+    # '/usr/local/opt/tcl-tk/lib'
+    # '/usr/local/opt/tcl-tk@8/lib'
+    # '/usr/local/opt/binutils/lib'
+    # '/usr/local/opt/zlib/lib'
+    # '/usr/local/opt/bzip2/lib'
+    # '/usr/local/opt/openblas/lib'
 
     # homebrew Apple M1
+    '/opt/homebrew/opt/llvm/lib'
     '/opt/homebrew/opt/readline/lib'
     '/opt/homebrew/opt/libffi/lib'
     '/opt/homebrew/opt/openssl@1.1/lib'
@@ -245,30 +247,34 @@ for l in "${LDFLAGS_LIST[@]}"; do
 done
 # shellcheck disable=SC2001
 LDFLAGS=$(echo "${LDFLAGS}" | sed -e 's/ $//')
+if [ -d '/opt/homebrew/opt/llvm/lib/c++' ] && [ -d '/opt/homebrew/opt/llvm/lib/unwind' ]; then
+    LDFLAGS="${LDFLAGS} -L/opt/homebrew/opt/llvm/lib/c++ -L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
+fi
 export LDFLAGS
 
 # INCLUDES
 # 上の方が優先度が低い。ディレクトリがあれば追加していく。
 INCLUDES=''
 INCLUDE_LIST=(
-    # homebrew Intel
-    '/usr/local/opt/readline/include'
-    '/usr/local/opt/libffi/include'
-    '/usr/local/opt/openssl@1.1/include'
-    '/usr/local/opt/openssl@3/include'
-    '/usr/local/opt/mysql@5.7/include'
-    '/usr/local/opt/mysql-client@8.0/include'
-    '/usr/local/opt/sqlite/include'
-    '/usr/local/opt/icu4c/include'
-    '/usr/local/opt/ncurses/include'
-    '/usr/local/opt/tcl-tk/include'
-    '/usr/local/opt/tcl-tk@8/include'
-    '/usr/local/opt/binutils/include'
-    '/usr/local/opt/zlib/include'
-    '/usr/local/opt/bzip2/include'
-    '/usr/local/opt/openblas/include'
+    # # homebrew Intel
+    # '/usr/local/opt/readline/include'
+    # '/usr/local/opt/libffi/include'
+    # '/usr/local/opt/openssl@1.1/include'
+    # '/usr/local/opt/openssl@3/include'
+    # '/usr/local/opt/mysql@5.7/include'
+    # '/usr/local/opt/mysql-client@8.0/include'
+    # '/usr/local/opt/sqlite/include'
+    # '/usr/local/opt/icu4c/include'
+    # '/usr/local/opt/ncurses/include'
+    # '/usr/local/opt/tcl-tk/include'
+    # '/usr/local/opt/tcl-tk@8/include'
+    # '/usr/local/opt/binutils/include'
+    # '/usr/local/opt/zlib/include'
+    # '/usr/local/opt/bzip2/include'
+    # '/usr/local/opt/openblas/include'
 
     # homebrew Apple M1
+    '/opt/homebrew/opt/llvm/include'
     '/opt/homebrew/opt/readline/include'
     '/opt/homebrew/opt/libffi/include'
     '/opt/homebrew/opt/openssl@1.1/include'
@@ -355,6 +361,10 @@ done
 # shellcheck disable=SC2001
 LD_LIBRARY_PATH=$(echo "${LD_LIBRARY_PATH}" | sed -e 's/:$//')
 export LD_LIBRARY_PATH
+
+if [ -d '/opt/homebrew/opt/llvm' ]; then
+    export CMAKE_PREFIX_PATH='/opt/homebrew/opt/llvm'
+fi
 
 # EDITOR
 EDITOR=$(which vim)
