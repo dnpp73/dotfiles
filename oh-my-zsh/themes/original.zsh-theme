@@ -20,7 +20,12 @@ function bold-colorize {
 }
 
 function box_name {
-    [ -f ~/.box-name ] && cat ~/.box-name || hostname
+    if [ -f ~/.box-name ]; then
+        cat ~/.box-name
+    else
+        local name="$(hostname)"
+        echo -n "${name%.local}"
+    fi
 }
 
 function prev_command_exit_flag {
@@ -108,6 +113,13 @@ function __omz_custom_theme_ros_info {
     fi
 }
 
+function __omz_custom_theme_tmux_info {
+    if [ -n "${TMUX}" ]; then
+        colorize 'gray' '|'
+        bold-colorize 'blue' 'tmux'
+    fi
+}
+
 function __omz_custom_theme_remove_ansi_escape {
     sed 's/\x1B\[[0-9;]*[a-zA-Z]//g'
 }
@@ -123,10 +135,11 @@ function __omz_custom_theme_shortened_pwd {
     local git_prompt_info_length="$(git_prompt_info | __omz_custom_theme_remove_ansi_escape | __omz_custom_theme_remove_zsh_escape | wc -m)"
     local venv_info_length="$(__omz_custom_theme_venv_info | __omz_custom_theme_remove_ansi_escape | __omz_custom_theme_remove_zsh_escape | wc -m)"
     local rb_py_nod_go_env_info_length="$(__omz_custom_theme_rb_py_nod_go_env_info | __omz_custom_theme_remove_ansi_escape | __omz_custom_theme_remove_zsh_escape | wc -m)"
+    local tmux_info_length="$(__omz_custom_theme_tmux_info | __omz_custom_theme_remove_ansi_escape | __omz_custom_theme_remove_zsh_escape | wc -m)"
 
     # ターミナルに表示する都合で、この文字数を超えたら省略する。
-    # 'user@host [ここ] [git:master(✔)][venv:.][rbenv:g:3.2.2 pyenv:l:3.12.5]' みたいになって、 user@host と余裕を見て 25 文字くらい引いておく。
-    local num_limit=$((cols - git_prompt_info_length - venv_info_length - rb_py_nod_go_env_info_length - 25))
+    # 'user@host|tmux [ここ] [git:master(✔)][venv:.][rbenv:g:3.2.2 pyenv:l:3.12.5]' みたいになって、 user@host と余裕を見て 25 文字くらい引いておく。
+    local num_limit=$((cols - git_prompt_info_length - venv_info_length - rb_py_nod_go_env_info_length - tmux_info_length - 25))
 
     local num_truncation_str_length=5 # '[...]' の文字数
 
@@ -166,7 +179,7 @@ ZSH_THEME_GIT_PROMPT_CLEAN="$(colorize 'gray' '(')$(colorize 'green' '✔')$(col
 
 # Prompt format
 PROMPT="\
-$(machine_name) \$(__omz_custom_theme_shortened_pwd) \$(git_prompt_info)\$(__omz_custom_theme_venv_info)\$(__omz_custom_theme_rb_py_nod_go_env_info)\$(__omz_custom_theme_ros_info)
+$(machine_name)\$(__omz_custom_theme_tmux_info) \$(__omz_custom_theme_shortened_pwd) \$(git_prompt_info)\$(__omz_custom_theme_venv_info)\$(__omz_custom_theme_rb_py_nod_go_env_info)\$(__omz_custom_theme_ros_info)
 %h $(prev_command_exit_flag)  $(prompt_char) \
 "
 
