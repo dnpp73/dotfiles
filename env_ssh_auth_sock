@@ -16,14 +16,16 @@ elif [ "${UNAME}" = 'Linux' ]; then
 fi
 
 _SSH_AUTH_SOCK_LOCAL="/tmp/ssh-agent-local-${USER}@$(hostname)"
-_SSH_AGENT_STDOUT="/tmp/ssh-agent-local-info-${USER}-$(date | md5sum | cut -d ' ' -f1)"
+_SSH_AUTH_SOCK_FORWARD="/tmp/ssh-agent-forward-${USER}@$(hostname)"
 
 # 既に SSH_AUTH_SOCK が設定されていて、きちんとソケットとして存在している場合
 if [ -n "${SSH_AUTH_SOCK}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
     if [ -n "${SSH_CONNECTION}" ]; then # SSH_CONNECTION が設定されている場合は Forward
-        if [ -z "${SSH_AUTH_SOCK_FORWARD}" ]; then
-            export SSH_AUTH_SOCK_FORWARD="${SSH_AUTH_SOCK}"
+        # SSH 接続のたびにシンボリックリンクを更新する (tmux 内の既存シェルでも新しいソケットが使えるように)
+        if [ "${SSH_AUTH_SOCK}" != "${_SSH_AUTH_SOCK_FORWARD}" ]; then
+            ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_FORWARD}"
         fi
+        export SSH_AUTH_SOCK_FORWARD="${_SSH_AUTH_SOCK_FORWARD}"
     else # SSH_CONNECTION が設定されていない場合は Local
         if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ] && [ "${_SSH_AUTH_SOCK_LOCAL}" = "${SSH_AUTH_SOCK}" ]; then
             if [ -z "${SSH_AUTH_SOCK_LOCAL}" ]; then
@@ -36,6 +38,13 @@ if [ -n "${SSH_AUTH_SOCK}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
     fi
 fi
 
+# Forward 用のシンボリックリンクが有効な場合は export する
+if [ -L "${_SSH_AUTH_SOCK_FORWARD}" ] && [ -S "${_SSH_AUTH_SOCK_FORWARD}" ]; then
+    if [ -z "${SSH_AUTH_SOCK_FORWARD}" ]; then
+        export SSH_AUTH_SOCK_FORWARD="${_SSH_AUTH_SOCK_FORWARD}"
+    fi
+fi
+
 if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
     # 既に _SSH_AUTH_SOCK_LOCAL がソケットとして存在している場合は既に起動済みとみなして export するだけ
     if [ -z "${SSH_AUTH_SOCK_LOCAL}" ]; then
@@ -43,16 +52,28 @@ if [ -L "${_SSH_AUTH_SOCK_LOCAL}" ] && [ -S "${_SSH_AUTH_SOCK_LOCAL}" ]; then
     fi
 else
     # _SSH_AUTH_SOCK_LOCAL がまだ存在していない場合
-    if [ "$(pgrep ssh-agent | wc -l)" -gt 0 ]; then
-        _CURRENT_SSH_AGENT_AUTH_SOCK="$(lsof -p "$(pgrep ssh-agent | sort -n | head -1)" -a -U 2>/dev/null | grep unix | tr -s ' ' | rev | cut -d ' ' -f1 | rev)"
-        if [ "$(echo "${_CURRENT_SSH_AGENT_AUTH_SOCK}" | wc -l)" -eq 1 ] && [ -S "${_CURRENT_SSH_AGENT_AUTH_SOCK}" ]; then
+    if pgrep -u "${USER}" ssh-agent >/dev/null 2>&1; then
+        # 既存の ssh-agent のソケットを lsof で探す (ソケットの場所が /tmp/ssh-* とは限らないため)
+        # 複数見つかる場合は ssh-add -l で実際に使えるものを選ぶ
+        _CURRENT_SSH_AGENT_AUTH_SOCK=""
+        while IFS= read -r _SOCK_PATH; do
+            if SSH_AUTH_SOCK="${_SOCK_PATH}" ssh-add -l >/dev/null 2>&1 || [ $? -eq 1 ]; then
+                _CURRENT_SSH_AGENT_AUTH_SOCK="${_SOCK_PATH}"
+                break
+            fi
+        done <<EOF
+$(lsof -a -U -p "$(pgrep -u "${USER}" ssh-agent | paste -s -d ,)" -F n 2>/dev/null | grep '^n/' | cut -c2-)
+EOF
+        if [ -n "${_CURRENT_SSH_AGENT_AUTH_SOCK}" ]; then
             ln -sf "${_CURRENT_SSH_AGENT_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
             export SSH_AUTH_SOCK_LOCAL="${_SSH_AUTH_SOCK_LOCAL}"
         fi
     else
         # ローカル共用の ssh-agent を起動
+        _SSH_AGENT_STDOUT="/tmp/ssh-agent-local-info-${USER}-$(date +%s)-$$"
         ssh-agent >"${_SSH_AGENT_STDOUT}"
         source "${_SSH_AGENT_STDOUT}" >/dev/null 2>&1 # ここで SSH_AUTH_SOCK が上書きされてしまうので注意
+        rm -f "${_SSH_AGENT_STDOUT}"
 
         # んで、 SSH_AUTH_SOCK をシンボリックリンクにして、そっちに向ける
         ln -sf "${SSH_AUTH_SOCK}" "${_SSH_AUTH_SOCK_LOCAL}"
@@ -72,4 +93,4 @@ elif [ -n "${SSH_AUTH_SOCK_LOCAL}" ]; then
     # fi
 fi
 
-unset _SSH_AUTH_SOCK_LOCAL _SSH_AGENT_STDOUT
+unset _SSH_AUTH_SOCK_LOCAL _SSH_AUTH_SOCK_FORWARD _SSH_AGENT_STDOUT _CURRENT_SSH_AGENT_AUTH_SOCK _SOCK_PATH
