@@ -1,3 +1,4 @@
 :verbose: true
+:trust_policy: MediumSecurity
 install: --no-document
 update: --no-document

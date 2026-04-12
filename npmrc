@@ -7,3 +7,4 @@ save-exact=true
 update-notifier=false
 ignore-scripts=true
 foreground-scripts=true
+min-release-age=7
