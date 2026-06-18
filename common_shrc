@@ -172,6 +172,9 @@ PATHS=(
 
     # Claude Code
     "${HOME}/.claude/local/node_modules/.bin"
+
+    # opencode
+    "${HOME}/.opencode/bin"
 )
 # OLD_PATHS の内容を PATHS に追加（重複を避ける）
 for oldpath in "${OLD_PATHS[@]}"; do
